@@ -5,6 +5,7 @@ import (
 	"github.com/0B1t322/Documents-Service/document/internal/core/events"
 	"github.com/0B1t322/Documents-Service/document/internal/core/models"
 	dto "github.com/0B1t322/Documents-Service/document/internal/dto/documents"
+	repository "github.com/0B1t322/Documents-Service/document/internal/repository/documents"
 	"github.com/0B1t322/Documents-Service/internal/core/utils/cursor"
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
