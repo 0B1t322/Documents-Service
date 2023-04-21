@@ -87,6 +87,6 @@ func (mapper) UpdateDocumentReq(
 func (mapper) GetDocumentsReq(params documents.DocumentsGetParams) dto.GetDocumentsDto {
 	return dto.GetDocumentsDto{
 		Cursor: params.Cursor.Value,
-		Limit:  uint64(params.Limit.Value),
+		Limit:  uint64(params.Limit.Or(10)),
 	}
 }

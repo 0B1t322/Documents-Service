@@ -17,6 +17,16 @@ func DocumentNotFound(givenId uuid.UUID) (*documents.ErrorStatusCode, error) {
 	}, nil
 }
 
+func BadRequest(err error) (*documents.ErrorStatusCode, error) {
+	return &documents.ErrorStatusCode{
+		StatusCode: http.StatusBadRequest,
+		Response: documents.Error{
+			Status:  http.StatusBadRequest,
+			Message: err.Error(),
+		},
+	}, nil
+}
+
 func FailedToGetDocument() (*documents.ErrorStatusCode, error) {
 	return &documents.ErrorStatusCode{
 		StatusCode: http.StatusInternalServerError,

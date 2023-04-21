@@ -2,7 +2,7 @@ package oas
 
 import (
 	"context"
-	documents2 "github.com/0B1t322/Online-Document-Redactor/document/internal/dto/documents"
+	dto "github.com/0B1t322/Online-Document-Redactor/document/internal/dto/documents"
 
 	"github.com/0B1t322/Online-Document-Redactor/document/internal/core/models"
 	"github.com/0B1t322/Online-Document-Redactor/pkg/gen/open-api/documents"
@@ -12,16 +12,18 @@ import (
 type documentsService interface {
 	CreateDocument(
 		ctx context.Context,
-		req documents2.CreateDocumentDto,
+		req dto.CreateDocumentDto,
 	) (models.Document, error)
 
 	GetDocument(ctx context.Context, documentId uuid.UUID) (models.Document, error)
 
-	UpdateDocument(ctx context.Context, req documents2.UpdateDocumentDto) (models.Document, error)
+	UpdateDocument(ctx context.Context, req dto.UpdateDocumentDto) (models.Document, error)
 
-	GetDocuments(ctx context.Context, req documents2.GetDocumentsDto) (documents2.GetDocumentsResponse, error)
+	GetDocuments(ctx context.Context, req dto.GetDocumentsDto) (dto.GetDocumentsResponse, error)
 
 	IsNotFound(err error) bool
+
+	IsParametersNotValid(err error) bool
 }
 
 type DocumentsController struct {
@@ -53,7 +55,9 @@ func (d DocumentsController) DocumentsGet(
 	params documents.DocumentsGetParams,
 ) (documents.DocumentsGetRes, error) {
 	res, err := d.service.GetDocuments(ctx, d.mapper.GetDocumentsReq(params))
-	if err != nil {
+	if d.service.IsParametersNotValid(err) {
+		return BadRequest(err)
+	} else if err != nil {
 		return FailedToGetDocuments()
 	}
 
