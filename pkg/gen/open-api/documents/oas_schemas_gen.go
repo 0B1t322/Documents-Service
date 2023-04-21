@@ -922,52 +922,6 @@ func (o OptString) Or(d string) string {
 	return d
 }
 
-// NewOptTextStyle returns new OptTextStyle with value set to v.
-func NewOptTextStyle(v TextStyle) OptTextStyle {
-	return OptTextStyle{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptTextStyle is optional TextStyle.
-type OptTextStyle struct {
-	Value TextStyle
-	Set   bool
-}
-
-// IsSet returns true if OptTextStyle was set.
-func (o OptTextStyle) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptTextStyle) Reset() {
-	var v TextStyle
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptTextStyle) SetTo(v TextStyle) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptTextStyle) Get() (v TextStyle, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptTextStyle) Or(d TextStyle) TextStyle {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptUint returns new OptUint with value set to v.
 func NewOptUint(v uint) OptUint {
 	return OptUint{
@@ -1593,7 +1547,7 @@ type Style struct {
 	// Unique name of style.
 	Name           string         `json:"name"`
 	ParagraphStyle ParagraphStyle `json:"paragraphStyle"`
-	TextStyle      OptTextStyle   `json:"textStyle"`
+	TextStyle      TextStyle      `json:"textStyle"`
 }
 
 // GetID returns the value of ID.
@@ -1612,7 +1566,7 @@ func (s *Style) GetParagraphStyle() ParagraphStyle {
 }
 
 // GetTextStyle returns the value of TextStyle.
-func (s *Style) GetTextStyle() OptTextStyle {
+func (s *Style) GetTextStyle() TextStyle {
 	return s.TextStyle
 }
 
@@ -1632,7 +1586,7 @@ func (s *Style) SetParagraphStyle(val ParagraphStyle) {
 }
 
 // SetTextStyle sets the value of TextStyle.
-func (s *Style) SetTextStyle(val OptTextStyle) {
+func (s *Style) SetTextStyle(val TextStyle) {
 	s.TextStyle = val
 }
 

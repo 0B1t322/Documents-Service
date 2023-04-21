@@ -305,7 +305,6 @@ func (s DocumentsIDStylesGetOKApplicationJSON) Validate() error {
 	}
 	return nil
 }
-
 func (s *PaginatedDocuments) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -447,15 +446,8 @@ func (s *Style) Validate() error {
 		})
 	}
 	if err := func() error {
-		if s.TextStyle.Set {
-			if err := func() error {
-				if err := s.TextStyle.Value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
+		if err := s.TextStyle.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {
