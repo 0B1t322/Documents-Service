@@ -1,0 +1,106 @@
+openapi: 3.0.8
+info:
+  title: Document service API
+  description: Document service API
+  version: 1.0.0
+paths:
+  /documents:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+             $ref: "#/components/schemas/CreateUpdateDocumentView"
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Document"
+      tags:
+        - documents
+      summary: "Create document"
+  /documents/{id}:
+    get:
+      tags:
+        - documents
+      parameters:
+        - $ref: "/parameters/documentId.yml#/components/parameters/DocumentId"
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Document"
+    put:
+      tags:
+        - documents
+      parameters:
+        - $ref: "/parameters/documentId.yml#/components/parameters/DocumentId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUpdateDocumentView"
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Document"
+components:
+  schemas:
+    Document:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        body:
+          type: object
+          $ref: "#/components/schemas/Body"
+        style:
+          $ref: "#/components/schemas/DocumentStyle"
+    Body:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+    DocumentStyle:
+      type: object
+      properties:
+        id:
+          type: integer
+        size:
+          $ref: "./../shared/shared.yaml#/components/schemas/Size"
+    CreateUpdateDocumentView:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        size:
+          $ref: "../shared/shared.yaml#/components/schemas/Size"
+      required:
+        - title
+        - size
+      example:
+        title: "new document"
+        size:
+          height:
+            magnitude: 841.8897637795277
+            unit: "PT"
+          width:
+            magnitude: 595.27559055118115
+            unit: "PT"
+    CompactDocument:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string

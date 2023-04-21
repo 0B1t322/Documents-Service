@@ -1,0 +1,17 @@
+openapi: 3.0.8
+components:
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      description: limit
+      required: false
+      schema:
+        type: integer
+    Cursor:
+      name: cursor
+      in: query
+      description: cursor
+      required: false
+      schema:
+        type: string
