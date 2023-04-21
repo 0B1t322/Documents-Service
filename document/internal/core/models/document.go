@@ -1,10 +1,10 @@
-package model
+package models
 
 import "github.com/google/uuid"
 
 type Document struct {
 	ID    uuid.UUID
 	Title string
-	Style DocumentStyle
 	Body  Body
+	Style DocumentStyle
 }

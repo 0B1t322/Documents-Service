@@ -1,4 +1,4 @@
-package model
+package models
 
 type DocumentStyle struct {
 	ID       int

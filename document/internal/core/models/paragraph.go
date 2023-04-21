@@ -1,6 +1,7 @@
-package model
+package models
 
 type Paragraph struct {
-	ID       int
-	Elements []ParagraphElement
+	ID               int
+	ParagraphStyleId int
+	Elements         []ParagraphElement
 }

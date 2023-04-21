@@ -1,8 +1,9 @@
-package model
+package models
 
 import "github.com/google/uuid"
 
 type Body struct {
-	ID       uuid.UUID
+	ID uuid.UUID
+
 	Elements []StructuralElement
 }

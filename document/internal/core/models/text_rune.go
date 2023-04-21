@@ -1,6 +1,7 @@
-package model
+package models
 
 type TextRune struct {
-	ID      int
-	Content string
+	ID          int
+	Content     string
+	TextStyleID int
 }
