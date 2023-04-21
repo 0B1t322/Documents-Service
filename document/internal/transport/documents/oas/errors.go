@@ -2,7 +2,7 @@ package oas
 
 import (
 	"fmt"
-	"github.com/0B1t322/Online-Document-Redactor/pkg/gen/open-api/documents"
+	"github.com/0B1t322/Documents-Service/pkg/gen/open-api/documents"
 	"github.com/google/uuid"
 	"net/http"
 )

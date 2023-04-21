@@ -2,11 +2,11 @@ package app
 
 import (
 	"context"
-	"github.com/0B1t322/Online-Document-Redactor/document/internal/config"
-	"github.com/0B1t322/Online-Document-Redactor/document/internal/core/events"
-	documentsPgql "github.com/0B1t322/Online-Document-Redactor/document/internal/repository/documents/postgresql"
-	elementsPgql "github.com/0B1t322/Online-Document-Redactor/document/internal/repository/elements/pgql"
-	"github.com/0B1t322/Online-Document-Redactor/internal/database/pgql"
+	"github.com/0B1t322/Documents-Service/document/internal/config"
+	"github.com/0B1t322/Documents-Service/document/internal/core/events"
+	documentsPgql "github.com/0B1t322/Documents-Service/document/internal/repository/documents/postgresql"
+	elementsPgql "github.com/0B1t322/Documents-Service/document/internal/repository/elements/pgql"
+	"github.com/0B1t322/Documents-Service/internal/database/pgql"
 	zapLog "github.com/go-kit/kit/log/zap"
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"

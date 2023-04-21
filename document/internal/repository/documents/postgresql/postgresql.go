@@ -2,8 +2,7 @@ package postgresql
 
 import (
 	"context"
-	"github.com/0B1t322/Online-Document-Redactor/document/internal/core/models"
-	"github.com/0B1t322/Online-Document-Redactor/document/internal/repository/documents"
+	"github.com/0B1t322/Documents-Service/document/internal/core/models"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"

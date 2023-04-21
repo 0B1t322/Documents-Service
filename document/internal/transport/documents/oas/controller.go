@@ -2,10 +2,10 @@ package oas
 
 import (
 	"context"
-	dto "github.com/0B1t322/Online-Document-Redactor/document/internal/dto/documents"
+	dto "github.com/0B1t322/Documents-Service/document/internal/dto/documents"
 
-	"github.com/0B1t322/Online-Document-Redactor/document/internal/core/models"
-	"github.com/0B1t322/Online-Document-Redactor/pkg/gen/open-api/documents"
+	"github.com/0B1t322/Documents-Service/document/internal/core/models"
+	"github.com/0B1t322/Documents-Service/pkg/gen/open-api/documents"
 	"github.com/google/uuid"
 )
 

@@ -2,11 +2,10 @@ package services
 
 import (
 	"context"
-	"github.com/0B1t322/Online-Document-Redactor/document/internal/core/events"
-	"github.com/0B1t322/Online-Document-Redactor/document/internal/core/models"
-	dto "github.com/0B1t322/Online-Document-Redactor/document/internal/dto/documents"
-	"github.com/0B1t322/Online-Document-Redactor/document/internal/repository/documents"
-	"github.com/0B1t322/Online-Document-Redactor/internal/core/utils/cursor"
+	"github.com/0B1t322/Documents-Service/document/internal/core/events"
+	"github.com/0B1t322/Documents-Service/document/internal/core/models"
+	dto "github.com/0B1t322/Documents-Service/document/internal/dto/documents"
+	"github.com/0B1t322/Documents-Service/internal/core/utils/cursor"
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
 	"github.com/google/uuid"

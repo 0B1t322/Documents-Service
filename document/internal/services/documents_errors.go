@@ -1,7 +1,7 @@
 package services
 
 import (
-	"github.com/0B1t322/Online-Document-Redactor/internal/core/utils/cursor"
+	"github.com/0B1t322/Documents-Service/internal/core/utils/cursor"
 	"github.com/go-faster/errors"
 )
 

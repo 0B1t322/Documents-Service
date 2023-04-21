@@ -1,9 +1,9 @@
 package documents
 
 import (
-	"github.com/0B1t322/Online-Document-Redactor/document/internal/core/events"
-	repository "github.com/0B1t322/Online-Document-Redactor/document/internal/repository/documents"
-	"github.com/0B1t322/Online-Document-Redactor/document/internal/services"
+	"github.com/0B1t322/Documents-Service/document/internal/core/events"
+	repository "github.com/0B1t322/Documents-Service/document/internal/repository/documents"
+	"github.com/0B1t322/Documents-Service/document/internal/services"
 	"github.com/go-kit/log"
 )
 

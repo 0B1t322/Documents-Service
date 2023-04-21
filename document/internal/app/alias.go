@@ -1,9 +1,9 @@
 package app
 
 import (
-	documentApp "github.com/0B1t322/Online-Document-Redactor/document/internal/app/documents"
-	elementsApp "github.com/0B1t322/Online-Document-Redactor/document/internal/app/elements"
-	stylesApp "github.com/0B1t322/Online-Document-Redactor/document/internal/app/styles"
+	documentApp "github.com/0B1t322/Documents-Service/document/internal/app/documents"
+	elementsApp "github.com/0B1t322/Documents-Service/document/internal/app/elements"
+	stylesApp "github.com/0B1t322/Documents-Service/document/internal/app/styles"
 )
 
 // Alias apps

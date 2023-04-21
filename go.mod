@@ -1,4 +1,4 @@
-module github.com/0B1t322/Online-Document-Redactor
+module github.com/0B1t322/Documents-Service
 
 go 1.20
 

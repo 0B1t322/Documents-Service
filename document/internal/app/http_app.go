@@ -1,11 +1,11 @@
 package app
 
 import (
-	"github.com/0B1t322/Online-Document-Redactor/document/internal/config"
-	documentsOas "github.com/0B1t322/Online-Document-Redactor/document/internal/transport/documents/oas"
-	elementsOas "github.com/0B1t322/Online-Document-Redactor/document/internal/transport/elements/oas"
-	stylesOas "github.com/0B1t322/Online-Document-Redactor/document/internal/transport/styles/oas"
-	"github.com/0B1t322/Online-Document-Redactor/pkg/gen/open-api/documents"
+	"github.com/0B1t322/Documents-Service/document/internal/config"
+	documentsOas "github.com/0B1t322/Documents-Service/document/internal/transport/documents/oas"
+	elementsOas "github.com/0B1t322/Documents-Service/document/internal/transport/elements/oas"
+	stylesOas "github.com/0B1t322/Documents-Service/document/internal/transport/styles/oas"
+	"github.com/0B1t322/Documents-Service/pkg/gen/open-api/documents"
 	"net/http"
 )
 

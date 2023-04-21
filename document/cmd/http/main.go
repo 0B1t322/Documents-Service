@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/0B1t322/Online-Document-Redactor/document/internal/app"
-	"github.com/0B1t322/Online-Document-Redactor/document/internal/config"
+	"github.com/0B1t322/Documents-Service/document/internal/app"
+	"github.com/0B1t322/Documents-Service/document/internal/config"
 	"github.com/gin-gonic/gin"
 )
 
