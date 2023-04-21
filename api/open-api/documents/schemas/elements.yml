@@ -1,0 +1,126 @@
+openapi: 3.0.3
+info:
+paths:
+components:
+  schemas:
+    StructuralElementType:
+      type: string
+      enum:
+        - paragraph
+        - sectionBreak
+    StructuralElement:
+      type: object
+      properties:
+        id:
+          type: integer
+        index:
+          type: integer
+        element:
+          type: object
+          discriminator:
+            propertyName: elementType
+            mapping:
+              paragraph: "#/components/schemas/Paragraph"
+              sectionBreak: "#/components/schemas/SectionBreak"
+          oneOf:
+            - $ref: "#/components/schemas/Paragraph"
+            - $ref: "#/components/schemas/SectionBreak"
+      required:
+        - id
+        - element
+        - index
+    Paragraph:
+      type: object
+      properties:
+        id:
+          type: integer
+        elementType:
+          type: string
+          $ref: "#/components/schemas/StructuralElementType"
+        paragraphStyleId:
+          type: integer
+      required:
+        - id
+        - elementType
+    SectionBreak:
+      type: object
+      properties:
+        id:
+          type: integer
+        elementType:
+          type: string
+          $ref: "#/components/schemas/StructuralElementType"
+        sectionBreakStyleId:
+          type: integer
+      required:
+        - id
+        - elementType
+    CreateUpdateStructuralElement:
+      type: object
+      properties:
+        index:
+          type: integer
+        element:
+          type: object
+          discriminator:
+            propertyName: elementType
+            mapping:
+              paragraph: "#/components/schemas/CreateUpdateParagraph"
+              sectionBreak: "#/components/schemas/CreateUpdateSectionBreak"
+          oneOf:
+            - $ref: "#/components/schemas/CreateUpdateParagraph"
+            - $ref: "#/components/schemas/CreateUpdateSectionBreak"
+      required:
+        - index
+        - element
+    UpdateStyleOfStructuralElement:
+      type: object
+      properties:
+        element:
+          type: object
+          discriminator:
+            propertyName: elementType
+            mapping:
+              paragraph: "#/components/schemas/CreateUpdateParagraph"
+              sectionBreak: "#/components/schemas/CreateUpdateSectionBreak"
+          oneOf:
+            - $ref: "#/components/schemas/CreateUpdateParagraph"
+            - $ref: "#/components/schemas/CreateUpdateSectionBreak"
+      required:
+        - element
+    CreateUpdateParagraph:
+      type: object
+      properties:
+        elementType:
+          type: string
+          $ref: "#/components/schemas/StructuralElementType"
+        paragraphStyleId:
+          type: integer
+          nullable: true
+      required:
+        - paragraphStyleId
+        - elementType
+    CreateUpdateSectionBreak:
+      type: object
+      properties:
+        elementType:
+          type: string
+          $ref: "#/components/schemas/StructuralElementType"
+        sectionBreakStyleId:
+          type: integer
+          nullable: true
+      required:
+        - sectionBreakStyleId
+        - elementType
+    PaginatedStructuralElements:
+      type: object
+      properties:
+        elements:
+          type: array
+          items:
+            $ref: "#/components/schemas/StructuralElement"
+        cursor:
+          type: string
+      required:
+        - items
+        - cursor

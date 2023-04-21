@@ -1,0 +1,17 @@
+openapi: 3.0.8
+components:
+  parameters:
+    StructuralElementId:
+      name: seId
+      in: path
+      description: StructuralElement id
+      required: true
+      schema:
+        type: integer
+    ParagraphElementId:
+      name: elementId
+      in: path
+      description: ParagraphElement id
+      required: true
+      schema:
+        type: integer

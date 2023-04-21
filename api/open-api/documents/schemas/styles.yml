@@ -1,0 +1,129 @@
+openapi: 3.0.8
+info:
+paths:
+components:
+  schemas:
+    Style:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          description: unique name of style
+        paragraphStyle:
+          type: object
+          $ref: "#/components/schemas/ParagraphStyle"
+        textStyle:
+          type: object
+          $ref: "#/components/schemas/TextStyle"
+      required:
+        - id
+        - name
+        - paragraphStyle
+    ParagraphStyle:
+      type: object
+      properties:
+        id:
+          type: integer
+        alignment:
+          type: string
+          $ref: "./shared.yml#/components/schemas/Alignment"
+        lineSpacing:
+          type: integer
+          minimum: 6
+          maximum: 10000
+      required:
+        - id
+        - alignment
+        - lineSpacing
+    TextStyle:
+      type: object
+      properties:
+        id:
+          type: integer
+        fontFamily:
+          type: string
+        fontWeight:
+          type: integer
+          minimum: 100
+          maximum: 900
+        bold:
+          type: boolean
+        underline:
+          type: boolean
+        italic:
+          type: boolean
+        backgroundColor:
+          type: object
+          $ref: "./shared.yml#/components/schemas/Color"
+        foregroundColor:
+          type: object
+          $ref: "./shared.yml#/components/schemas/Color"
+      required:
+        - id
+        - fontFamily
+        - fontWeight
+        - bold
+        - underline
+        - italic
+        - backgroundColor
+        - foregroundColor
+    CreateUpdateStyle:
+      type: object
+      properties:
+        name:
+          type: string
+        paragraphStyle:
+          type: object
+          $ref: "#/components/schemas/CreateUpdateParagraphStyle"
+        textStyle:
+          type: object
+          $ref: "#/components/schemas/CreateUpdateTextStyle"
+      required:
+        - name
+        - paragraphStyle
+        - textStyle
+    CreateUpdateParagraphStyle:
+      type: object
+      properties:
+        alignment:
+          type: string
+          $ref: "./shared.yml#/components/schemas/Alignment"
+        lineSpacing:
+          type: integer
+          minimum: 6
+          maximum: 10000
+      required:
+        - alignment
+        - lineSpacing
+    CreateUpdateTextStyle:
+      type: object
+      properties:
+        fontFamily:
+          type: string
+        fontWeight:
+          type: integer
+          minimum: 100
+          maximum: 900
+        bold:
+          type: boolean
+        underline:
+          type: boolean
+        italic:
+          type: boolean
+        backgroundColor:
+          type: object
+          $ref: "./shared.yml#/components/schemas/Color"
+        foregroundColor:
+          type: object
+          $ref: "./shared.yml#/components/schemas/Color"
+      required:
+        - fontFamily
+        - fontWeight
+        - bold
+        - underline
+        - italic
+        - backgroundColor
+        - foregroundColor

@@ -1,0 +1,156 @@
+openapi: 3.0.8
+info:
+paths:
+components:
+  schemas:
+    ParagraphElementType:
+      type: string
+      enum:
+        - textRun
+        - pageBreak
+        - equation
+        - inlineObjectElement
+    ParagraphElement:
+      type: object
+      properties:
+        id:
+          type: integer
+        index:
+          type: integer
+        element:
+          type: object
+          discriminator:
+            propertyName: paragraphElementType
+            mapping:
+              textRun: "#/components/schemas/TextRun"
+              pageBreak: "#/components/schemas/PageBreak"
+              equation: "#/components/schemas/Equation"
+              inlineObjectElement: "#/components/schemas/InlineObjectElement"
+          oneOf:
+            - $ref: "#/components/schemas/TextRun"
+            - $ref: "#/components/schemas/PageBreak"
+            - $ref: "#/components/schemas/Equation"
+            - $ref: "#/components/schemas/InlineObjectElement"
+      required:
+        - id
+        - index
+        - element
+    TextRun:
+      type: object
+      properties:
+        paragraphElementType:
+          type: string
+          $ref: "#/components/schemas/ParagraphElementType"
+        id:
+          type: integer
+        content:
+          type: string
+        textStyleId:
+          type: integer
+      required:
+        - id
+        - content
+        - textStyleId
+        - paragraphElementType
+    PageBreak:
+      type: object
+      properties:
+        id:
+          type: integer
+        paragraphElementType:
+          type: string
+          $ref: "#/components/schemas/ParagraphElementType"
+        textStyleId:
+          type: integer
+      required:
+        - id
+        - textStyleId
+        - paragraphElementType
+    Equation:
+      type: object
+      properties:
+        id:
+          type: integer
+        paragraphElementType:
+          type: string
+          $ref: "#/components/schemas/ParagraphElementType"
+        content:
+          type: string
+        textStyleId:
+          type: integer
+      required:
+        - id
+        - content
+        - textStyleId
+        - paragraphElementType
+    InlineObjectElement:
+      type: object
+      properties:
+        id:
+          type: integer
+        paragraphElementType:
+          type: string
+          $ref: "#/components/schemas/ParagraphElementType"
+        inlineObjectId:
+          type: string
+          format: uuid
+        textStyleId:
+          type: integer
+      required:
+        - id
+        - inlineObjectId
+        - textStyleId
+        - paragraphElementType
+    CreateUpdateParagraphElement:
+      type: object
+      properties:
+        element:
+          discriminator:
+            propertyName: paragraphElementType
+            mapping:
+              textRun: "#/components/schemas/CreateUpdateTextRun"
+          oneOf:
+            - $ref: "#/components/schemas/CreateUpdateTextRun"
+        index:
+          type: integer
+      required:
+        - element
+        - index
+    UpdateParagraphElement:
+      type: object
+      properties:
+        element:
+          discriminator:
+            propertyName: paragraphElementType
+            mapping:
+              textRun: "#/components/schemas/CreateUpdateTextRun"
+          oneOf:
+            - $ref: "#/components/schemas/CreateUpdateTextRun"
+      required:
+        - element
+    CreateUpdateTextRun:
+      type: object
+      properties:
+        paragraphElementType:
+          type: string
+          $ref: "#/components/schemas/ParagraphElementType"
+        content:
+          type: string
+        textStyleId:
+          type: integer
+      required:
+        - content
+        - textStyleId
+        - paragraphElementType
+    PaginatedParagrahElements:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ParagraphElement"
+        cursor:
+          type: string
+      required:
+        - items
+        - cursor

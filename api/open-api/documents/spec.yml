@@ -3,104 +3,354 @@ info:
   title: Document service API
   description: Document service API
   version: 1.0.0
+servers:
+  - url: http://localhost:8080/api/documents/v1
 paths:
   /documents:
     post:
+      operationId: createDocument
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-             $ref: "#/components/schemas/CreateUpdateDocumentView"
+             $ref: "./schemas/documents.yml#/components/schemas/CreateUpdateDocumentView"
       responses:
         '201':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Document"
+                $ref: "./schemas/documents.yml#/components/schemas/Document"
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
       tags:
         - documents
       summary: "Create document"
-  /documents/{id}:
     get:
+      summary: Get documents
+      description: Return paginated dto
       tags:
         - documents
       parameters:
-        - $ref: "/parameters/documentId.yml#/components/parameters/DocumentId"
+        - $ref: "./parameters/shared.yml#/components/parameters/Cursor"
+        - $ref: "./parameters/shared.yml#/components/parameters/Limit"
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Document"
-    put:
+                $ref: "./schemas/documents.yml#/components/schemas/PaginatedDocuments"
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
+  /documents/{id}:
+    get:
+      summary: Get document by id
+      operationId: getDocumentById
       tags:
         - documents
       parameters:
-        - $ref: "/parameters/documentId.yml#/components/parameters/DocumentId"
+        - $ref: "./parameters/documents.yml#/components/parameters/DocumentId"
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/documents.yml#/components/schemas/Document"
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
+    put:
+      summary: Update document by id
+      operationId: updateDocumentById
+      tags:
+        - documents
+      parameters:
+        - $ref: "./parameters/documents.yml#/components/parameters/DocumentId"
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateUpdateDocumentView"
+              $ref: "./schemas/documents.yml#/components/schemas/CreateUpdateDocumentView"
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Document"
-components:
-  schemas:
-    Document:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        title:
-          type: string
-        body:
-          type: object
-          $ref: "#/components/schemas/Body"
-        style:
-          $ref: "#/components/schemas/DocumentStyle"
-    Body:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-    DocumentStyle:
-      type: object
-      properties:
-        id:
-          type: integer
-        size:
-          $ref: "./../shared/shared.yaml#/components/schemas/Size"
-    CreateUpdateDocumentView:
-      type: object
-      properties:
-        title:
-          type: string
-          minLength: 1
-        size:
-          $ref: "../shared/shared.yaml#/components/schemas/Size"
-      required:
-        - title
-        - size
-      example:
-        title: "new document"
-        size:
-          height:
-            magnitude: 841.8897637795277
-            unit: "PT"
-          width:
-            magnitude: 595.27559055118115
-            unit: "PT"
-    CompactDocument:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        title:
-          type: string
+                $ref: "./schemas/documents.yml#/components/schemas/Document"
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
+  /documents/{id}/elements:
+    post:
+      summary: Create structural element in document
+      operationId: createElement
+      tags:
+        - elements
+      parameters:
+        - $ref: "./parameters/documents.yml#/components/parameters/DocumentId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/elements.yml#/components/schemas/CreateUpdateStructuralElement"
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/elements.yml#/components/schemas/StructuralElement"
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
+    get:
+      summary: Get structural elements in document
+      operationId: getElements
+      tags:
+        - elements
+      parameters:
+        - $ref: "./parameters/documents.yml#/components/parameters/DocumentId"
+        - $ref: "./parameters/shared.yml#/components/parameters/Limit"
+        - $ref: "./parameters/shared.yml#/components/parameters/Cursor"
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/elements.yml#/components/schemas/PaginatedStructuralElements"
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
+  /documents/{id}/elements/{seId}:
+    delete:
+      summary: Delete structural element
+      operationId: deleteStructuralElementByID
+      tags:
+        - elements
+      parameters:
+        - $ref: "./parameters/documents.yml#/components/parameters/DocumentId"
+        - $ref: "./parameters/elements.yml#/components/parameters/StructuralElementId"
+      responses:
+        '204':
+          description: Successful deleted
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
+    put:
+      summary: Update structural element
+      operationId: updateStructuralElement
+      tags:
+        - elements
+      parameters:
+        - $ref: "./parameters/documents.yml#/components/parameters/DocumentId"
+        - $ref: "./parameters/elements.yml#/components/parameters/StructuralElementId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/elements.yml#/components/schemas/UpdateStyleOfStructuralElement"
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/elements.yml#/components/schemas/StructuralElement"
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
+    get:
+      summary: Get elements
+      tags:
+        - elements
+      parameters:
+        - $ref: "./parameters/documents.yml#/components/parameters/DocumentId"
+        - $ref: "./parameters/elements.yml#/components/parameters/StructuralElementId"
+        - $ref: "./parameters/shared.yml#/components/parameters/Limit"
+        - $ref: "./parameters/shared.yml#/components/parameters/Cursor"
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/paragraph.yml#/components/schemas/PaginatedParagrahElements"
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
+  /documents/{id}/elements/{seId}/element/paragraphs:
+    post:
+      operationId: createParagraphElement
+      summary: Create paragraph element
+      tags:
+        - elements
+      parameters:
+        - $ref: "./parameters/documents.yml#/components/parameters/DocumentId"
+        - $ref: "./parameters/elements.yml#/components/parameters/StructuralElementId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/paragraph.yml#/components/schemas/CreateUpdateParagraphElement"
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/paragraph.yml#/components/schemas/ParagraphElement"
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
+  /documents/{id}/elements/{seId}/element/paragraphs/{elementId}:
+    put:
+      operationId: updateParagraphElement
+      summary: Update paragraph element
+      tags:
+        - elements
+      parameters:
+        - $ref: "./parameters/documents.yml#/components/parameters/DocumentId"
+        - $ref: "./parameters/elements.yml#/components/parameters/StructuralElementId"
+        - $ref: "./parameters/elements.yml#/components/parameters/ParagraphElementId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/paragraph.yml#/components/schemas/UpdateParagraphElement"
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/paragraph.yml#/components/schemas/ParagraphElement"
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
+    delete:
+      operationId: deleteParagraphElement
+      summary: Delete paragraph element
+      tags:
+        - elements
+      parameters:
+        - $ref: "./parameters/documents.yml#/components/parameters/DocumentId"
+        - $ref: "./parameters/elements.yml#/components/parameters/StructuralElementId"
+        - $ref: "./parameters/elements.yml#/components/parameters/ParagraphElementId"
+      responses:
+        '204':
+          description: Delete successful
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
+  /documents/{id}/styles:
+    get:
+      summary: Get document styles
+      tags:
+        - styles
+      parameters:
+        - $ref: "./parameters/documents.yml#/components/parameters/DocumentId"
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "./schemas/styles.yml#/components/schemas/Style"
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
+    post:
+      summary: Create document style
+      operationId: createDocumentStyle
+      tags:
+        - styles
+      parameters:
+        - $ref: "./parameters/documents.yml#/components/parameters/DocumentId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/styles.yml#/components/schemas/CreateUpdateStyle"
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/styles.yml#/components/schemas/Style"
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
+  /documents/{id}/styles/{styleId}:
+    put:
+      summary: Update style by id
+      operationId: updateStyleById
+      parameters:
+        - $ref: "./parameters/documents.yml#/components/parameters/DocumentId"
+        - $ref: "./parameters/styles.yml#/components/parameters/StyleId"
+      tags:
+        - styles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/styles.yml#/components/schemas/CreateUpdateStyle"
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/styles.yml#/components/schemas/Style"
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
+    delete:
+      summary: Delete style by id
+      operationId: deleteStyleById
+      parameters:
+        - $ref: "./parameters/documents.yml#/components/parameters/DocumentId"
+        - $ref: "./parameters/styles.yml#/components/parameters/StyleId"
+      tags:
+        - styles
+      responses:
+        '204':
+          description: Delete successfully
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"

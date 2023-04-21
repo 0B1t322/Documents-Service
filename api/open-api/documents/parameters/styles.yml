@@ -1,0 +1,13 @@
+openapi: 3.0.3
+info:
+servers:
+components:
+  parameters:
+    StyleId:
+      name: styleId
+      in: path
+      description: Style id
+      required: true
+      schema:
+        type: string
+        format: uuid

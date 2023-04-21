@@ -1,0 +1,11 @@
+openapi: 3.0.8
+components:
+  parameters:
+    DocumentId:
+      name: id
+      in: path
+      description: Document id
+      required: true
+      schema:
+        type: string
+        format: uuid

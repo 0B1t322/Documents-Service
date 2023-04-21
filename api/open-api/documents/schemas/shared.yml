@@ -1,1 +1,60 @@
-openapi: 3.0.3
+openapi: 3.0.8
+components:
+  schemas:
+    Unit:
+      type: string
+      enum:
+        - PT
+        - UNIT_UNSPECIFED
+    Dimension:
+      type: object
+      properties:
+        magnitude:
+          type: number
+        unit:
+          $ref: "#/components/schemas/Unit"
+      required:
+        - magnitude
+        - unit
+    Size:
+      type: object
+      properties:
+        height:
+          $ref: "#/components/schemas/Dimension"
+        width:
+          $ref: "#/components/schemas/Dimension"
+      required:
+        - height
+        - width
+    Alignment:
+      type: string
+      enum:
+        - start
+        - center
+        - end
+        - justified
+    Color:
+      type: object
+      properties:
+        red:
+          type: number
+        blue:
+          type: number
+        green:
+          type: number
+      required:
+        - red
+        - blue
+        - green
+    Error:
+      type: object
+      properties:
+        status:
+          description: HTTP status code
+          type: integer
+        message:
+          description: string message
+          type: string
+      required:
+        - status
+        - message

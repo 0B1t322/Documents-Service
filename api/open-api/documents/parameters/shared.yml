@@ -4,10 +4,12 @@ components:
     Limit:
       name: limit
       in: query
-      description: limit
+      description: "limit if equal 0 mean all elements"
       required: false
       schema:
         type: integer
+        format: uint
+        default: 10
     Cursor:
       name: cursor
       in: query
