@@ -2,29 +2,63 @@ package app
 
 import (
 	"github.com/0B1t322/Online-Document-Redactor/document/internal/config"
+	documentsOas "github.com/0B1t322/Online-Document-Redactor/document/internal/transport/documents/oas"
+	elementsOas "github.com/0B1t322/Online-Document-Redactor/document/internal/transport/elements/oas"
+	stylesOas "github.com/0B1t322/Online-Document-Redactor/document/internal/transport/styles/oas"
+	"github.com/0B1t322/Online-Document-Redactor/pkg/gen/open-api/documents"
 	"net/http"
 )
 
-type closer interface {
-	Close()
+// Alias HTTP Controller
+type (
+	DocumentsHttpController = documentsOas.DocumentsController
+	ElementsHttpController  = elementsOas.ElementsController
+	StylesHttpController    = stylesOas.StylesController
+)
+
+var (
+	NewDocumentHttpController = documentsOas.NewDocumentController
+	NewElementsHttpController = elementsOas.NewElementsController
+	NewStylesHttpController   = stylesOas.NewStylesController
+)
+
+type HTTPApp struct {
+	app *App
+
+	HTTPController
 }
 
-type OASApp struct {
-	app     *App
-	handler http.Handler
+type HTTPController struct {
+	*DocumentsHttpController
+	*ElementsHttpController
+	*StylesHttpController
 }
 
-func NewOASAppFromConfig(cfg config.Config) (*OASApp, error) {
+func NewHTTPAppFromConfig(cfg config.Config) (*HTTPApp, error) {
 	app, err := NewAppFromConfig(cfg)
 	if err != nil {
 		return nil, err
 	}
 
-	return &OASApp{
+	return &HTTPApp{
 		app: app,
+		HTTPController: HTTPController{
+			DocumentsHttpController: NewDocumentHttpController(app.Documents),
+			ElementsHttpController:  NewElementsHttpController(app.Elements, app.Documents),
+			StylesHttpController:    NewStylesHttpController(),
+		},
 	}, nil
 }
 
-func (a OASApp) Shutdown() {
+func (a *HTTPApp) ToHandler(basePath string) (http.Handler, error) {
+	s, err := documents.NewServer(a, documents.WithPathPrefix(basePath))
+	if err != nil {
+		return nil, err
+	}
+
+	return s, nil
+}
+
+func (a HTTPApp) Shutdown() {
 	a.app.dbCloser.Close()
 }
