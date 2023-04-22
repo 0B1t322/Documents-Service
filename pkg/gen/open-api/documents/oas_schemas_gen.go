@@ -438,13 +438,14 @@ func (s *CreateUpdateTextRun) SetTextStyleId(val int) {
 
 // Ref: #/components/schemas/CreateUpdateTextStyle
 type CreateUpdateTextStyle struct {
-	FontFamily      string `json:"fontFamily"`
-	FontWeight      int    `json:"fontWeight"`
-	Bold            bool   `json:"bold"`
-	Underline       bool   `json:"underline"`
-	Italic          bool   `json:"italic"`
-	BackgroundColor Color  `json:"backgroundColor"`
-	ForegroundColor Color  `json:"foregroundColor"`
+	FontFamily      string    `json:"fontFamily"`
+	FontWeight      int       `json:"fontWeight"`
+	FontSize        Dimension `json:"fontSize"`
+	Bold            bool      `json:"bold"`
+	Underline       bool      `json:"underline"`
+	Italic          bool      `json:"italic"`
+	BackgroundColor Color     `json:"backgroundColor"`
+	ForegroundColor Color     `json:"foregroundColor"`
 }
 
 // GetFontFamily returns the value of FontFamily.
@@ -455,6 +456,11 @@ func (s *CreateUpdateTextStyle) GetFontFamily() string {
 // GetFontWeight returns the value of FontWeight.
 func (s *CreateUpdateTextStyle) GetFontWeight() int {
 	return s.FontWeight
+}
+
+// GetFontSize returns the value of FontSize.
+func (s *CreateUpdateTextStyle) GetFontSize() Dimension {
+	return s.FontSize
 }
 
 // GetBold returns the value of Bold.
@@ -490,6 +496,11 @@ func (s *CreateUpdateTextStyle) SetFontFamily(val string) {
 // SetFontWeight sets the value of FontWeight.
 func (s *CreateUpdateTextStyle) SetFontWeight(val int) {
 	s.FontWeight = val
+}
+
+// SetFontSize sets the value of FontSize.
+func (s *CreateUpdateTextStyle) SetFontSize(val Dimension) {
+	s.FontSize = val
 }
 
 // SetBold sets the value of Bold.
@@ -1632,14 +1643,15 @@ func (s *TextRun) SetTextStyleId(val int) {
 
 // Ref: #/components/schemas/TextStyle
 type TextStyle struct {
-	ID              int    `json:"id"`
-	FontFamily      string `json:"fontFamily"`
-	FontWeight      int    `json:"fontWeight"`
-	Bold            bool   `json:"bold"`
-	Underline       bool   `json:"underline"`
-	Italic          bool   `json:"italic"`
-	BackgroundColor Color  `json:"backgroundColor"`
-	ForegroundColor Color  `json:"foregroundColor"`
+	ID              int       `json:"id"`
+	FontFamily      string    `json:"fontFamily"`
+	FontWeight      int       `json:"fontWeight"`
+	FontSize        Dimension `json:"fontSize"`
+	Bold            bool      `json:"bold"`
+	Underline       bool      `json:"underline"`
+	Italic          bool      `json:"italic"`
+	BackgroundColor Color     `json:"backgroundColor"`
+	ForegroundColor Color     `json:"foregroundColor"`
 }
 
 // GetID returns the value of ID.
@@ -1655,6 +1667,11 @@ func (s *TextStyle) GetFontFamily() string {
 // GetFontWeight returns the value of FontWeight.
 func (s *TextStyle) GetFontWeight() int {
 	return s.FontWeight
+}
+
+// GetFontSize returns the value of FontSize.
+func (s *TextStyle) GetFontSize() Dimension {
+	return s.FontSize
 }
 
 // GetBold returns the value of Bold.
@@ -1695,6 +1712,11 @@ func (s *TextStyle) SetFontFamily(val string) {
 // SetFontWeight sets the value of FontWeight.
 func (s *TextStyle) SetFontWeight(val int) {
 	s.FontWeight = val
+}
+
+// SetFontSize sets the value of FontSize.
+func (s *TextStyle) SetFontSize(val Dimension) {
+	s.FontSize = val
 }
 
 // SetBold sets the value of Bold.

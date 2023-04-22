@@ -191,6 +191,17 @@ func (s *CreateUpdateTextStyle) Validate() error {
 		})
 	}
 	if err := func() error {
+		if err := s.FontSize.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "fontSize",
+			Error: err,
+		})
+	}
+	if err := func() error {
 		if err := s.BackgroundColor.Validate(); err != nil {
 			return err
 		}
@@ -480,6 +491,17 @@ func (s *TextStyle) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "fontWeight",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.FontSize.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "fontSize",
 			Error: err,
 		})
 	}

@@ -1472,6 +1472,11 @@ func (s *CreateUpdateTextStyle) encodeFields(e *jx.Encoder) {
 	}
 	{
 
+		e.FieldStart("fontSize")
+		s.FontSize.Encode(e)
+	}
+	{
+
 		e.FieldStart("bold")
 		e.Bool(s.Bold)
 	}
@@ -1497,14 +1502,15 @@ func (s *CreateUpdateTextStyle) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfCreateUpdateTextStyle = [7]string{
+var jsonFieldsNameOfCreateUpdateTextStyle = [8]string{
 	0: "fontFamily",
 	1: "fontWeight",
-	2: "bold",
-	3: "underline",
-	4: "italic",
-	5: "backgroundColor",
-	6: "foregroundColor",
+	2: "fontSize",
+	3: "bold",
+	4: "underline",
+	5: "italic",
+	6: "backgroundColor",
+	7: "foregroundColor",
 }
 
 // Decode decodes CreateUpdateTextStyle from json.
@@ -1540,8 +1546,18 @@ func (s *CreateUpdateTextStyle) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"fontWeight\"")
 			}
-		case "bold":
+		case "fontSize":
 			requiredBitSet[0] |= 1 << 2
+			if err := func() error {
+				if err := s.FontSize.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"fontSize\"")
+			}
+		case "bold":
+			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
 				v, err := d.Bool()
 				s.Bold = bool(v)
@@ -1553,7 +1569,7 @@ func (s *CreateUpdateTextStyle) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"bold\"")
 			}
 		case "underline":
-			requiredBitSet[0] |= 1 << 3
+			requiredBitSet[0] |= 1 << 4
 			if err := func() error {
 				v, err := d.Bool()
 				s.Underline = bool(v)
@@ -1565,7 +1581,7 @@ func (s *CreateUpdateTextStyle) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"underline\"")
 			}
 		case "italic":
-			requiredBitSet[0] |= 1 << 4
+			requiredBitSet[0] |= 1 << 5
 			if err := func() error {
 				v, err := d.Bool()
 				s.Italic = bool(v)
@@ -1577,7 +1593,7 @@ func (s *CreateUpdateTextStyle) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"italic\"")
 			}
 		case "backgroundColor":
-			requiredBitSet[0] |= 1 << 5
+			requiredBitSet[0] |= 1 << 6
 			if err := func() error {
 				if err := s.BackgroundColor.Decode(d); err != nil {
 					return err
@@ -1587,7 +1603,7 @@ func (s *CreateUpdateTextStyle) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"backgroundColor\"")
 			}
 		case "foregroundColor":
-			requiredBitSet[0] |= 1 << 6
+			requiredBitSet[0] |= 1 << 7
 			if err := func() error {
 				if err := s.ForegroundColor.Decode(d); err != nil {
 					return err
@@ -1606,7 +1622,7 @@ func (s *CreateUpdateTextStyle) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b01111111,
+		0b11111111,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -4267,6 +4283,11 @@ func (s *TextStyle) encodeFields(e *jx.Encoder) {
 	}
 	{
 
+		e.FieldStart("fontSize")
+		s.FontSize.Encode(e)
+	}
+	{
+
 		e.FieldStart("bold")
 		e.Bool(s.Bold)
 	}
@@ -4292,15 +4313,16 @@ func (s *TextStyle) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfTextStyle = [8]string{
+var jsonFieldsNameOfTextStyle = [9]string{
 	0: "id",
 	1: "fontFamily",
 	2: "fontWeight",
-	3: "bold",
-	4: "underline",
-	5: "italic",
-	6: "backgroundColor",
-	7: "foregroundColor",
+	3: "fontSize",
+	4: "bold",
+	5: "underline",
+	6: "italic",
+	7: "backgroundColor",
+	8: "foregroundColor",
 }
 
 // Decode decodes TextStyle from json.
@@ -4308,7 +4330,7 @@ func (s *TextStyle) Decode(d *jx.Decoder) error {
 	if s == nil {
 		return errors.New("invalid: unable to decode TextStyle to nil")
 	}
-	var requiredBitSet [1]uint8
+	var requiredBitSet [2]uint8
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -4348,8 +4370,18 @@ func (s *TextStyle) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"fontWeight\"")
 			}
-		case "bold":
+		case "fontSize":
 			requiredBitSet[0] |= 1 << 3
+			if err := func() error {
+				if err := s.FontSize.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"fontSize\"")
+			}
+		case "bold":
+			requiredBitSet[0] |= 1 << 4
 			if err := func() error {
 				v, err := d.Bool()
 				s.Bold = bool(v)
@@ -4361,7 +4393,7 @@ func (s *TextStyle) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"bold\"")
 			}
 		case "underline":
-			requiredBitSet[0] |= 1 << 4
+			requiredBitSet[0] |= 1 << 5
 			if err := func() error {
 				v, err := d.Bool()
 				s.Underline = bool(v)
@@ -4373,7 +4405,7 @@ func (s *TextStyle) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"underline\"")
 			}
 		case "italic":
-			requiredBitSet[0] |= 1 << 5
+			requiredBitSet[0] |= 1 << 6
 			if err := func() error {
 				v, err := d.Bool()
 				s.Italic = bool(v)
@@ -4385,7 +4417,7 @@ func (s *TextStyle) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"italic\"")
 			}
 		case "backgroundColor":
-			requiredBitSet[0] |= 1 << 6
+			requiredBitSet[0] |= 1 << 7
 			if err := func() error {
 				if err := s.BackgroundColor.Decode(d); err != nil {
 					return err
@@ -4395,7 +4427,7 @@ func (s *TextStyle) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"backgroundColor\"")
 			}
 		case "foregroundColor":
-			requiredBitSet[0] |= 1 << 7
+			requiredBitSet[1] |= 1 << 0
 			if err := func() error {
 				if err := s.ForegroundColor.Decode(d); err != nil {
 					return err
@@ -4413,8 +4445,9 @@ func (s *TextStyle) Decode(d *jx.Decoder) error {
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
+	for i, mask := range [2]uint8{
 		0b11111111,
+		0b00000001,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
