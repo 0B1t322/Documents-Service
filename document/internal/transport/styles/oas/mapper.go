@@ -23,6 +23,10 @@ func (m mapper) CreateUpdateStyleInDocument(req *documents.CreateUpdateStyle) dt
 			Bold:       req.TextStyle.Bold,
 			Underline:  req.TextStyle.Underline,
 			Italic:     req.TextStyle.Italic,
+			FontSize: models.Dimension{
+				Magnitude: req.TextStyle.FontSize.Magnitude,
+				Unit:      models.Unit(req.TextStyle.FontSize.Unit),
+			},
 			BackgroundColor: dto.Color{
 				Red:   req.TextStyle.BackgroundColor.Red,
 				Blue:  req.TextStyle.BackgroundColor.Blue,
@@ -98,9 +102,13 @@ func (m mapper) Alignment(alignment models.Alignment) documents.Alignment {
 
 func (m mapper) TextStyle(style models.TextStyle) documents.TextStyle {
 	return documents.TextStyle{
-		ID:              style.ID,
-		FontFamily:      style.FontFamily,
-		FontWeight:      style.FontWeight,
+		ID:         style.ID,
+		FontFamily: style.FontFamily,
+		FontWeight: style.FontWeight,
+		FontSize: documents.Dimension{
+			Magnitude: style.FontSize.Magnitude,
+			Unit:      documents.Unit(style.FontSize.Unit),
+		},
 		Bold:            style.Bold,
 		Underline:       style.Underline,
 		Italic:          style.Italic,

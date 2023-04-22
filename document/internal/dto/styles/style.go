@@ -1,5 +1,7 @@
 package dto
 
+import "github.com/0B1t322/Documents-Service/document/internal/core/models"
+
 type (
 	StyleDto struct {
 		Name           string
@@ -15,6 +17,7 @@ type (
 	TextStyleDto struct {
 		FontFamily      string
 		FontWeight      int
+		FontSize        models.Dimension
 		Bold            bool
 		Underline       bool
 		Italic          bool
