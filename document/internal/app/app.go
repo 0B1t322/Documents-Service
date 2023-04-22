@@ -6,6 +6,7 @@ import (
 	"github.com/0B1t322/Documents-Service/document/internal/core/events"
 	documentsPgql "github.com/0B1t322/Documents-Service/document/internal/repository/documents/postgresql"
 	elementsPgql "github.com/0B1t322/Documents-Service/document/internal/repository/elements/pgql"
+	stylesPgql "github.com/0B1t322/Documents-Service/document/internal/repository/styles/pgql"
 	"github.com/0B1t322/Documents-Service/internal/database/pgql"
 	zapLog "github.com/go-kit/kit/log/zap"
 	"github.com/go-kit/log"
@@ -27,6 +28,7 @@ type App struct {
 
 	documentsRepository DocumentsRepository
 	elementsRepository  ElementsRepository
+	stylesRepository    StylesRepository
 
 	*Documents
 	*Elements
@@ -92,6 +94,7 @@ func (a *App) initRepository() error {
 
 	a.documentsRepository = documentsPgql.New(pool)
 	a.elementsRepository = elementsPgql.New(pool)
+	a.stylesRepository = stylesPgql.New(pool)
 
 	return nil
 }
@@ -111,7 +114,7 @@ func (a *App) initApps() error {
 
 	a.Documents = NewDocumentApp(a.documentsRepository, a.logger, a.eventsPublisher)
 	a.Elements = NewElementsApp(a.elementsRepository, a.logger, a.eventsPublisher)
-	a.Styles = NewStylesApp()
+	a.Styles = NewStylesApp(a.stylesRepository, a.logger, a.eventsPublisher)
 
 	return nil
 }

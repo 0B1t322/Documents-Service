@@ -24,4 +24,5 @@ var (
 type (
 	DocumentsRepository = documentApp.Repository
 	ElementsRepository  = elementsApp.Repository
+	StylesRepository    = stylesApp.Repository
 )

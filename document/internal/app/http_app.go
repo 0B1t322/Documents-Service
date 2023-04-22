@@ -45,7 +45,7 @@ func NewHTTPAppFromConfig(cfg config.Config) (*HTTPApp, error) {
 		HTTPController: HTTPController{
 			DocumentsHttpController: NewDocumentHttpController(app.Documents),
 			ElementsHttpController:  NewElementsHttpController(app.Elements, app.Documents),
-			StylesHttpController:    NewStylesHttpController(),
+			StylesHttpController:    NewStylesHttpController(app.Styles),
 		},
 	}, nil
 }
