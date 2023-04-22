@@ -17,6 +17,8 @@ var typesArray = []string{
 	"size",
 	// Alignment enum
 	"alignment",
+	// Coor type
+	"color",
 }
 
 var pgsqlTypes []*pgtype.Type
