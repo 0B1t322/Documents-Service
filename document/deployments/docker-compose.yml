@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  documents-app:
+    build:
+      context: ${DOCUMENTS_SERVICE_CONTEXT_DOCUMENT-../..}
+      dockerfile: document/build/package/Dockerfile
+    environment:
+      - DOCUMENTS_DATABASE_URL=${DOCUMENTS_DATABASE_URL-postgres://postgres:password@postgres-db:5432/Documents}
+      - DOCUMENTS_APP_PORT=${DOCUMENTS_APP_PORT-8080}
+      - DOCUMENTS_DEVELOPMENT=${DOCUMENTS_DEVELOPMENT-true}
+    ports:
+      - ${DOCUMENTS_APP_PORT-8080}:${DOCUMENTS_APP_PORT-8080}
+    restart: unless-stopped
+  documents-app-migrate:
+    build:
+      context: ${DOCUMENTS_SERVICE_CONTEXT_DOCUMENT-../..}
+      dockerfile: document/build/package/Dockerfile
+    environment:
+      - DOCUMENTS_DATABASE_URL=${DOCUMENTS_DATABASE_URL-postgres://postgres:password@postgres-db:5432/Documents?sslmode=disable}
+    command: "./migrate"
+    restart: on-failure

@@ -4,10 +4,18 @@ services:
     image: postgres:latest
     volumes:
       - ./docker/postgres:/var/lib/postgresql/data
-#      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: Documents
+    restart: unless-stopped
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - ./docker/redis:/data
+    ports:
+      - "6379:6379"
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${DOCUMENTS_REDIS_PWD-password}
+    restart: unless-stopped
