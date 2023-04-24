@@ -113,6 +113,7 @@ func (d DocumentService) GetDocuments(
 
 	documents, nextCursor, err := d.documentRepository.Get(ctx, cur, limit)
 	if err != nil {
+		level.Error(d.logger).Log("err", err)
 		return dto.GetDocumentsResponse{}, err
 	}
 

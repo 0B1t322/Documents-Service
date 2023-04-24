@@ -31,5 +31,14 @@ func NewConnectionPool(ctx context.Context, url string, opts ...ConnectionPoolOp
 		return nil
 	}
 
-	return pgxpool.NewWithConfig(ctx, config)
+	pool, err := pgxpool.NewWithConfig(ctx, config)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := pool.Ping(ctx); err != nil {
+		return nil, err
+	}
+
+	return pool, nil
 }

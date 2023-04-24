@@ -18,7 +18,7 @@ var (
 
 func init() {
 	GlobalConfig = Config{
-		DatabaseURL: "postgres://postgres:password@localhost:5432/Documents",
+		DatabaseURL: "postgres://postgres:password@localhost:5432/Documents?sslmode=disable",
 		AppPort:     "8080",
 		Development: true,
 	}
