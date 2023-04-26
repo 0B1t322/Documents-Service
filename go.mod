@@ -14,6 +14,7 @@ require (
 	github.com/jackc/pgx/v5 v5.3.1
 	github.com/ogen-go/ogen v0.62.0
 	github.com/samber/lo v1.38.1
+	github.com/streadway/amqp v1.0.0
 	github.com/stretchr/testify v1.8.2
 	go.opentelemetry.io/otel v1.14.0
 	go.opentelemetry.io/otel/metric v0.37.0
@@ -56,6 +57,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.7 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/rabbitmq/amqp091-go v1.8.0 // indirect
 	github.com/rogpeppe/go-internal v1.10.0 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
