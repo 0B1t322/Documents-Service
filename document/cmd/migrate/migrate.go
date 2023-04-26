@@ -13,7 +13,7 @@ func main() {
 	log.Println("Start database migrations")
 
 	if err := config.FromEnv(); err != nil {
-		log.Fatalf("Failed to parse configs: %s", err)
+		log.Fatal("Failed to parse configs:", err)
 	}
 
 	source, ok := os.LookupEnv("DOCUMENTS_APP_MIGRATIONS_DIR")
@@ -26,14 +26,14 @@ func main() {
 		config.GlobalConfig.DatabaseURL,
 	)
 	if err != nil {
-		log.Fatalf("Failed create migrations: %s", err)
+		log.Fatal("Failed create migrations:", err)
 	}
 	defer m.Close()
 
-	if err := m.Up(); err == migrate.ErrNoChange {
+	if err := m.Run(); err == migrate.ErrNoChange {
 		return
-	} else {
-		log.Fatalf("Failed to run migrations: %s", err)
+	} else if err != nil {
+		log.Fatal("Failed to run migrations", err)
 	}
 
 }

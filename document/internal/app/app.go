@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"errors"
 	"github.com/0B1t322/Documents-Service/document/internal/config"
 	"github.com/0B1t322/Documents-Service/document/internal/core/events"
 	documentsPgql "github.com/0B1t322/Documents-Service/document/internal/repository/documents/postgresql"
@@ -12,16 +13,24 @@ import (
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
 	"github.com/ogen-go/ogen/json"
+	"github.com/streadway/amqp"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"io"
 )
 
 type closer interface {
 	Close()
 }
 
+type closerFunc func() error
+
+func (c closerFunc) Close() error {
+	return c()
+}
+
 type App struct {
-	dbCloser        closer
+	closers         []io.Closer
 	cfg             config.Config
 	logger          log.Logger
 	eventsPublisher events.EventPublisher
@@ -41,6 +50,10 @@ func NewAppFromConfig(cfg config.Config) (*App, error) {
 	}
 
 	if err := app.initLogger(); err != nil {
+		return nil, err
+	}
+
+	if err := app.initEventPublisher(); err != nil {
 		return nil, err
 	}
 
@@ -89,12 +102,34 @@ func (a *App) initRepository() error {
 	if err != nil {
 		return err
 	}
-
-	a.dbCloser = pool
+	a.closers = append(a.closers, closerFunc(func() error { pool.Close(); return nil }))
 
 	a.documentsRepository = documentsPgql.New(pool)
 	a.elementsRepository = elementsPgql.New(pool)
 	a.stylesRepository = stylesPgql.New(pool)
+
+	return nil
+}
+
+func (a *App) initEventPublisher() error {
+	conn, err := amqp.Dial(a.cfg.AMQPUrl)
+	if err != nil {
+		return err
+	}
+	a.closers = append(a.closers, conn)
+
+	ch, err := conn.Channel()
+	if err != nil {
+		return err
+	}
+	a.closers = append(a.closers, ch)
+
+	pub, err := NewAMQPEventPublisher(ch, a.logger, a.cfg.AMQPExchangeName)
+	if err != nil {
+		return err
+	}
+
+	a.eventsPublisher = pub
 
 	return nil
 }
@@ -110,11 +145,24 @@ func (d defaultEventPublisher) PublishEvent(_ context.Context, event events.Even
 }
 
 func (a *App) initApps() error {
-	a.eventsPublisher = defaultEventPublisher{logger: a.logger}
-
 	a.Documents = NewDocumentApp(a.documentsRepository, a.logger, a.eventsPublisher)
 	a.Elements = NewElementsApp(a.elementsRepository, a.logger, a.eventsPublisher)
 	a.Styles = NewStylesApp(a.stylesRepository, a.logger, a.eventsPublisher)
+
+	return nil
+}
+
+func (a *App) Close() error {
+	var errs []error
+	for _, c := range a.closers {
+		if err := c.Close(); err != nil {
+			errs = append(errs, err)
+		}
+	}
+
+	if len(errs) > 0 {
+		return errors.Join(errs...)
+	}
 
 	return nil
 }

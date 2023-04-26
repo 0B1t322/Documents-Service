@@ -4,6 +4,7 @@ import (
 	documentApp "github.com/0B1t322/Documents-Service/document/internal/app/documents"
 	elementsApp "github.com/0B1t322/Documents-Service/document/internal/app/elements"
 	stylesApp "github.com/0B1t322/Documents-Service/document/internal/app/styles"
+	"github.com/0B1t322/Documents-Service/internal/core/events/amqp"
 )
 
 // Alias apps
@@ -25,4 +26,9 @@ type (
 	DocumentsRepository = documentApp.Repository
 	ElementsRepository  = elementsApp.Repository
 	StylesRepository    = stylesApp.Repository
+)
+
+// Alias event publisher
+var (
+	NewAMQPEventPublisher = amqp.NewEventsPublisher
 )

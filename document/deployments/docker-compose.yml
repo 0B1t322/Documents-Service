@@ -8,6 +8,8 @@ services:
       - DOCUMENTS_DATABASE_URL=${DOCUMENTS_DATABASE_URL-postgres://postgres:password@postgres-db:5432/Documents}
       - DOCUMENTS_APP_PORT=${DOCUMENTS_APP_PORT-8080}
       - DOCUMENTS_DEVELOPMENT=${DOCUMENTS_DEVELOPMENT-true}
+      - DOCUMENT_AMQP_EXCHANGE_NAME=${DOCUMENT_AMQP_EXCHANGE_NAME-documents-service.events}
+      - DOCUMENTS_AMQP_URL=${DOCUMENTS_AMQP_URL-amqp://user:password@rabbitmq:5672/}
     ports:
       - ${DOCUMENTS_APP_PORT-8080}:${DOCUMENTS_APP_PORT-8080}
     restart: unless-stopped

@@ -60,5 +60,5 @@ func (a *HTTPApp) ToHandler(basePath string) (http.Handler, error) {
 }
 
 func (a HTTPApp) Shutdown() {
-	a.app.dbCloser.Close()
+	a.app.Close()
 }

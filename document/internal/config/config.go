@@ -7,9 +7,11 @@ import (
 )
 
 type Config struct {
-	DatabaseURL string `json:"databaseUrl" env:"DOCUMENTS_DATABASE_URL"`
-	AppPort     string `json:"appPort" env:"DOCUMENTS_APP_PORT"`
-	Development bool   `json:"development" env:"DOCUMENTS_DEVELOPMENT"`
+	DatabaseURL      string `json:"databaseUrl" env:"DOCUMENTS_DATABASE_URL"`
+	AppPort          string `json:"appPort" env:"DOCUMENTS_APP_PORT"`
+	Development      bool   `json:"development" env:"DOCUMENTS_DEVELOPMENT"`
+	AMQPUrl          string `json:"development" env:"DOCUMENTS_AMQP_URL"`
+	AMQPExchangeName string `json:"amqp_exchange_name" env:"DOCUMENT_AMQP_EXCHANGE_NAME"`
 }
 
 var (
@@ -18,9 +20,11 @@ var (
 
 func init() {
 	GlobalConfig = Config{
-		DatabaseURL: "postgres://postgres:password@localhost:5432/Documents?sslmode=disable",
-		AppPort:     "8080",
-		Development: true,
+		DatabaseURL:      "postgres://postgres:password@localhost:5432/Documents?sslmode=disable",
+		AppPort:          "8080",
+		Development:      true,
+		AMQPUrl:          "amqp://user:password@localhost:5672/",
+		AMQPExchangeName: "documents-service.events",
 	}
 }
 
