@@ -1,8 +1,10 @@
 package models
 
 type StructuralElement struct {
-	ID    int
-	Index int
+	ID         int
+	Index      int
+	StartIndex int
+	EndIndex   int
 
 	Paragraph    *Paragraph
 	SectionBreak *SectionBreak

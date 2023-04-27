@@ -1,8 +1,10 @@
 package models
 
 type ParagraphElement struct {
-	ID    int
-	Index int
+	ID         int
+	Index      int
+	StartIndex int
+	EndIndex   int
 
 	TextRune *TextRune
 }

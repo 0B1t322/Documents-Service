@@ -503,6 +503,7 @@ func (s ElementsService) UpdateParagraphElementWithBodyID(
 	if err := s.repository.UpdateParagraphElement(ctx, element); err == repository.ErrBadIndex {
 		return models.ParagraphElement{}, ErrParagraphElementBadIndex
 	} else if err != nil {
+		level.Error(s.logger).Log("err", err)
 		return models.ParagraphElement{}, err
 	}
 

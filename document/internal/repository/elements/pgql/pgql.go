@@ -509,7 +509,7 @@ func storeTextRun(ctx context.Context, tx pgx.Tx, element *models.ParagraphEleme
 			    ("Content", "TextStyleId") 
 			VALUES ($1,$2)
 			RETURNING "Id"`,
-		element.TextRune.Content,
+		[]byte(element.TextRune.Content),
 		element.TextRune.TextStyleID,
 	)
 
@@ -531,20 +531,20 @@ func storeParagraphElement(
 	// get max index and counts of elements
 	var (
 		// Can be nil
-		maxIndex      = new(int)
+		maxIndex      int
 		elementsCount int
 	)
 	{
 		if err := tx.QueryRow(
 			ctx,
-			`SELECT max("Index"), count(1) FROM "ParagraphElements" WHERE "ParagraphId" = $1`,
+			`SELECT coalesce(max("Index"), 0), count(1) FROM "ParagraphElements" WHERE "ParagraphId" = $1`,
 			paragraphID,
-		).Scan(maxIndex, &elementsCount); err != nil {
+		).Scan(&maxIndex, &elementsCount); err != nil {
 			return err
 		}
 	}
 
-	needReindex, err := isNeedReindex(element.Index, lo.FromPtr(maxIndex), elementsCount)
+	needReindex, err := isNeedReindex(element.Index, maxIndex, elementsCount)
 	if err != nil {
 		return err
 	}
@@ -852,7 +852,7 @@ func updateParagraphElementChild(ctx context.Context, tx pgx.Tx, element models.
 				    "Content" = $1, 
 				    "TextStyleId" = $2 
 				WHERE "Id" = $3`,
-			element.TextRune.Content,
+			[]byte(element.TextRune.Content),
 			element.TextRune.TextStyleID,
 			element.TextRune.ID,
 		); err != nil {
