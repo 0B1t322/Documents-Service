@@ -864,3 +864,66 @@ func updateParagraphElementChild(ctx context.Context, tx pgx.Tx, element models.
 
 	return nil
 }
+
+func (r Repository) FindParagraphElementByIndexes(
+	ctx context.Context,
+	bodyId uuid.UUID,
+	seId,
+	peId int,
+) (models.ParagraphElement, error) {
+	var (
+		id             int
+		elementId      int
+		elementType    models.PEType
+		index          int
+		textStyleId    int
+		content        string
+		inlineObjectID uuid.UUID
+	)
+
+	if err := r.conn.QueryRow(
+		ctx,
+		`
+			SELECT
+				PE."Id",
+				coalesce("TextRunId", "InlineObjectElementId", "PageBreakId", "EquationId") "ElementId",
+				CASE
+					WHEN "TextRunId" IS NOT NULL THEN 1
+					WHEN "InlineObjectElementId" IS NOT NULL THEN 2
+					WHEN "PageBreakId" IS NOT NULL THEN 3
+					WHEN "EquationId" IS NOT NULL THEN 4
+					ELSE 0
+				END "ElementType",
+				PE."Index",
+				coalesce(TR."TextStyleId", IOE."TextStyleId", PB."TextStyleId", E."TextStyleId", 0) "TextStyleId",
+				coalesce(TR."Content", E."Content", '') "Content",
+				coalesce("InlineObjectId", '00000000-0000-0000-0000-000000000000') "InlineObjectId"
+			FROM "ParagraphElements" PE
+			LEFT OUTER JOIN "TextRun" TR on PE."TextRunId" = TR."Id"
+			LEFT OUTER JOIN "InlineObjectsElements" IOE on PE."InlineObjectElementId" = IOE."Id"
+			LEFT OUTER JOIN "PageBreak" PB on PB."Id" = PE."PageBreakId"
+			LEFT OUTER JOIN "Equation" E on E."Id" = PE."EquationId"
+			LEFT OUTER JOIN "StructuralElements" SE on PE."ParagraphId" = SE."ParagraphId"
+			WHERE 
+				SE."BodyId" = $1 AND
+				SE."Index" = $2 AND
+				PE."Index" = $3`,
+		bodyId,
+		seId,
+		peId,
+	).Scan(
+		&id, &elementId, &elementType, &index, &textStyleId, &content,
+		&inlineObjectID,
+	); err == pgx.ErrNoRows {
+		return models.ParagraphElement{}, repository.ErrParagraphElementNotFound
+	} else if err != nil {
+		return models.ParagraphElement{}, repository.ErrParagraphElementNotFound
+	}
+
+	element, err := scanParagraphElement(id, elementId, elementType, index, textStyleId, content, inlineObjectID)
+	if err != nil {
+		return models.ParagraphElement{}, err
+	}
+
+	return element, nil
+}

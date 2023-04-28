@@ -69,4 +69,11 @@ type Repository interface {
 		cursor int,
 		limit uint,
 	) ([]models.ParagraphElement, int, error)
+
+	FindParagraphElementByIndexes(
+		ctx context.Context,
+		bodyId uuid.UUID,
+		seId,
+		peId int,
+	) (models.ParagraphElement, error)
 }

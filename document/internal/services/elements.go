@@ -77,6 +77,13 @@ type (
 			cursor int,
 			limit uint,
 		) ([]models.ParagraphElement, int, error)
+
+		FindParagraphElementByIndexes(
+			ctx context.Context,
+			bodyId uuid.UUID,
+			seId,
+			peId int,
+		) (models.ParagraphElement, error)
 	}
 )
 
@@ -505,6 +512,29 @@ func (s ElementsService) UpdateParagraphElementWithBodyID(
 	} else if err != nil {
 		level.Error(s.logger).Log("err", err)
 		return models.ParagraphElement{}, err
+	}
+
+	return element, nil
+}
+
+func (s ElementsService) GetParagraphElementByIndexes(
+	ctx context.Context,
+	bodyId uuid.UUID,
+	structuralElementIndex,
+	paragraphElementIndex int,
+) (models.ParagraphElement, error) {
+	element, err := s.repository.FindParagraphElementByIndexes(
+		ctx, bodyId, structuralElementIndex,
+		paragraphElementIndex,
+	)
+	if err == repository.ErrParagraphElementNotFound {
+		return element, ErrParagraphElementNotFound
+	} else if err != nil {
+		level.Error(s.logger).Log(
+			"description", "Failed to get paragraph element by indexes",
+			"err", err,
+		)
+		return element, nil
 	}
 
 	return element, nil
