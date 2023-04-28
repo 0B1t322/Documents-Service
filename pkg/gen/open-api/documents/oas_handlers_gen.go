@@ -1315,6 +1315,116 @@ func (s *Server) handleGetElementsRequest(args [1]string, argsEscaped bool, w ht
 	}
 }
 
+// handleGetParagraphElementByIndexesRequest handles getParagraphElementByIndexes operation.
+//
+// Get paragraphs elements by indexes.
+//
+// GET /documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
+func (s *Server) handleGetParagraphElementByIndexesRequest(args [3]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("getParagraphElementByIndexes"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}"),
+	}
+
+	// Start a span for this request.
+	ctx, span := s.cfg.Tracer.Start(r.Context(), "GetParagraphElementByIndexes",
+		trace.WithAttributes(otelAttrs...),
+		serverSpanKind,
+	)
+	defer span.End()
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		elapsedDuration := time.Since(startTime)
+		s.duration.Record(ctx, elapsedDuration.Microseconds(), otelAttrs...)
+	}()
+
+	// Increment request counter.
+	s.requests.Add(ctx, 1, otelAttrs...)
+
+	var (
+		recordError = func(stage string, err error) {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			s.errors.Add(ctx, 1, otelAttrs...)
+		}
+		err          error
+		opErrContext = ogenerrors.OperationContext{
+			Name: "GetParagraphElementByIndexes",
+			ID:   "getParagraphElementByIndexes",
+		}
+	)
+	params, err := decodeGetParagraphElementByIndexesParams(args, argsEscaped, r)
+	if err != nil {
+		err = &ogenerrors.DecodeParamsError{
+			OperationContext: opErrContext,
+			Err:              err,
+		}
+		recordError("DecodeParams", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+
+	var response GetParagraphElementByIndexesRes
+	if m := s.cfg.Middleware; m != nil {
+		mreq := middleware.Request{
+			Context:       ctx,
+			OperationName: "GetParagraphElementByIndexes",
+			OperationID:   "getParagraphElementByIndexes",
+			Body:          nil,
+			Params: middleware.Parameters{
+				{
+					Name: "id",
+					In:   "path",
+				}: params.ID,
+				{
+					Name: "structuralElementIndex",
+					In:   "path",
+				}: params.StructuralElementIndex,
+				{
+					Name: "paragraphElementIndex",
+					In:   "path",
+				}: params.ParagraphElementIndex,
+			},
+			Raw: r,
+		}
+
+		type (
+			Request  = struct{}
+			Params   = GetParagraphElementByIndexesParams
+			Response = GetParagraphElementByIndexesRes
+		)
+		response, err = middleware.HookMiddleware[
+			Request,
+			Params,
+			Response,
+		](
+			m,
+			mreq,
+			unpackGetParagraphElementByIndexesParams,
+			func(ctx context.Context, request Request, params Params) (response Response, err error) {
+				response, err = s.h.GetParagraphElementByIndexes(ctx, params)
+				return response, err
+			},
+		)
+	} else {
+		response, err = s.h.GetParagraphElementByIndexes(ctx, params)
+	}
+	if err != nil {
+		recordError("Internal", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+
+	if err := encodeGetParagraphElementByIndexesResponse(response, w, span); err != nil {
+		recordError("EncodeResponse", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+}
+
 // handleUpdateDocumentByIdRequest handles updateDocumentById operation.
 //
 // Update document by id.

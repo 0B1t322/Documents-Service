@@ -49,6 +49,10 @@ type GetElementsRes interface {
 	getElementsRes()
 }
 
+type GetParagraphElementByIndexesRes interface {
+	getParagraphElementByIndexesRes()
+}
+
 type UpdateDocumentByIdRes interface {
 	updateDocumentByIdRes()
 }

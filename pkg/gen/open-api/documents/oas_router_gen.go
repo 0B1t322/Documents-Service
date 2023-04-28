@@ -172,35 +172,80 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 								return
 							}
 							switch elem[0] {
-							case '/': // Prefix: "/element/paragraphs"
-								if l := len("/element/paragraphs"); len(elem) >= l && elem[0:l] == "/element/paragraphs" {
+							case '/': // Prefix: "/"
+								if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 									elem = elem[l:]
 								} else {
 									break
 								}
 
 								if len(elem) == 0 {
-									switch r.Method {
-									case "POST":
-										s.handleCreateParagraphElementRequest([2]string{
-											args[0],
-											args[1],
-										}, elemIsEscaped, w, r)
-									default:
-										s.notAllowed(w, r, "POST")
-									}
-
-									return
+									break
 								}
 								switch elem[0] {
-								case '/': // Prefix: "/"
-									if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+								case 'e': // Prefix: "element/paragraphs"
+									if l := len("element/paragraphs"); len(elem) >= l && elem[0:l] == "element/paragraphs" {
 										elem = elem[l:]
 									} else {
 										break
 									}
 
-									// Param: "elementId"
+									if len(elem) == 0 {
+										switch r.Method {
+										case "POST":
+											s.handleCreateParagraphElementRequest([2]string{
+												args[0],
+												args[1],
+											}, elemIsEscaped, w, r)
+										default:
+											s.notAllowed(w, r, "POST")
+										}
+
+										return
+									}
+									switch elem[0] {
+									case '/': // Prefix: "/"
+										if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+											elem = elem[l:]
+										} else {
+											break
+										}
+
+										// Param: "elementId"
+										// Leaf parameter
+										args[2] = elem
+										elem = ""
+
+										if len(elem) == 0 {
+											// Leaf node.
+											switch r.Method {
+											case "DELETE":
+												s.handleDeleteParagraphElementRequest([3]string{
+													args[0],
+													args[1],
+													args[2],
+												}, elemIsEscaped, w, r)
+											case "PUT":
+												s.handleUpdateParagraphElementRequest([3]string{
+													args[0],
+													args[1],
+													args[2],
+												}, elemIsEscaped, w, r)
+											default:
+												s.notAllowed(w, r, "DELETE,PUT")
+											}
+
+											return
+										}
+									}
+								case 'p': // Prefix: "paragraphs/elements/"
+									if l := len("paragraphs/elements/"); len(elem) >= l && elem[0:l] == "paragraphs/elements/" {
+										elem = elem[l:]
+									} else {
+										break
+									}
+
+									// Param: "paragraphElementIndex"
 									// Leaf parameter
 									args[2] = elem
 									elem = ""
@@ -208,20 +253,14 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 									if len(elem) == 0 {
 										// Leaf node.
 										switch r.Method {
-										case "DELETE":
-											s.handleDeleteParagraphElementRequest([3]string{
-												args[0],
-												args[1],
-												args[2],
-											}, elemIsEscaped, w, r)
-										case "PUT":
-											s.handleUpdateParagraphElementRequest([3]string{
+										case "GET":
+											s.handleGetParagraphElementByIndexesRequest([3]string{
 												args[0],
 												args[1],
 												args[2],
 											}, elemIsEscaped, w, r)
 										default:
-											s.notAllowed(w, r, "DELETE,PUT")
+											s.notAllowed(w, r, "GET")
 										}
 
 										return
@@ -505,54 +544,92 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 								}
 							}
 							switch elem[0] {
-							case '/': // Prefix: "/element/paragraphs"
-								if l := len("/element/paragraphs"); len(elem) >= l && elem[0:l] == "/element/paragraphs" {
+							case '/': // Prefix: "/"
+								if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
 									elem = elem[l:]
 								} else {
 									break
 								}
 
 								if len(elem) == 0 {
-									switch method {
-									case "POST":
-										r.name = "CreateParagraphElement"
-										r.operationID = "createParagraphElement"
-										r.pathPattern = "/documents/{id}/elements/{seId}/element/paragraphs"
-										r.args = args
-										r.count = 2
-										return r, true
-									default:
-										return
-									}
+									break
 								}
 								switch elem[0] {
-								case '/': // Prefix: "/"
-									if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+								case 'e': // Prefix: "element/paragraphs"
+									if l := len("element/paragraphs"); len(elem) >= l && elem[0:l] == "element/paragraphs" {
 										elem = elem[l:]
 									} else {
 										break
 									}
 
-									// Param: "elementId"
+									if len(elem) == 0 {
+										switch method {
+										case "POST":
+											r.name = "CreateParagraphElement"
+											r.operationID = "createParagraphElement"
+											r.pathPattern = "/documents/{id}/elements/{seId}/element/paragraphs"
+											r.args = args
+											r.count = 2
+											return r, true
+										default:
+											return
+										}
+									}
+									switch elem[0] {
+									case '/': // Prefix: "/"
+										if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+											elem = elem[l:]
+										} else {
+											break
+										}
+
+										// Param: "elementId"
+										// Leaf parameter
+										args[2] = elem
+										elem = ""
+
+										if len(elem) == 0 {
+											switch method {
+											case "DELETE":
+												// Leaf: DeleteParagraphElement
+												r.name = "DeleteParagraphElement"
+												r.operationID = "deleteParagraphElement"
+												r.pathPattern = "/documents/{id}/elements/{seId}/element/paragraphs/{elementId}"
+												r.args = args
+												r.count = 3
+												return r, true
+											case "PUT":
+												// Leaf: UpdateParagraphElement
+												r.name = "UpdateParagraphElement"
+												r.operationID = "updateParagraphElement"
+												r.pathPattern = "/documents/{id}/elements/{seId}/element/paragraphs/{elementId}"
+												r.args = args
+												r.count = 3
+												return r, true
+											default:
+												return
+											}
+										}
+									}
+								case 'p': // Prefix: "paragraphs/elements/"
+									if l := len("paragraphs/elements/"); len(elem) >= l && elem[0:l] == "paragraphs/elements/" {
+										elem = elem[l:]
+									} else {
+										break
+									}
+
+									// Param: "paragraphElementIndex"
 									// Leaf parameter
 									args[2] = elem
 									elem = ""
 
 									if len(elem) == 0 {
 										switch method {
-										case "DELETE":
-											// Leaf: DeleteParagraphElement
-											r.name = "DeleteParagraphElement"
-											r.operationID = "deleteParagraphElement"
-											r.pathPattern = "/documents/{id}/elements/{seId}/element/paragraphs/{elementId}"
-											r.args = args
-											r.count = 3
-											return r, true
-										case "PUT":
-											// Leaf: UpdateParagraphElement
-											r.name = "UpdateParagraphElement"
-											r.operationID = "updateParagraphElement"
-											r.pathPattern = "/documents/{id}/elements/{seId}/element/paragraphs/{elementId}"
+										case "GET":
+											// Leaf: GetParagraphElementByIndexes
+											r.name = "GetParagraphElementByIndexes"
+											r.operationID = "getParagraphElementByIndexes"
+											r.pathPattern = "/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}"
 											r.args = args
 											r.count = 3
 											return r, true

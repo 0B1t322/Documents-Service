@@ -80,6 +80,12 @@ type Handler interface {
 	//
 	// GET /documents/{id}/elements
 	GetElements(ctx context.Context, params GetElementsParams) (GetElementsRes, error)
+	// GetParagraphElementByIndexes implements getParagraphElementByIndexes operation.
+	//
+	// Get paragraphs elements by indexes.
+	//
+	// GET /documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
+	GetParagraphElementByIndexes(ctx context.Context, params GetParagraphElementByIndexesParams) (GetParagraphElementByIndexesRes, error)
 	// UpdateDocumentById implements updateDocumentById operation.
 	//
 	// Update document by id.

@@ -1342,6 +1342,180 @@ func decodeGetElementsParams(args [1]string, argsEscaped bool, r *http.Request) 
 	return params, nil
 }
 
+// GetParagraphElementByIndexesParams is parameters of getParagraphElementByIndexes operation.
+type GetParagraphElementByIndexesParams struct {
+	// Document id.
+	ID uuid.UUID
+	// Structural element index.
+	StructuralElementIndex int
+	// Paragraph element index.
+	ParagraphElementIndex int
+}
+
+func unpackGetParagraphElementByIndexesParams(packed middleware.Parameters) (params GetParagraphElementByIndexesParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "id",
+			In:   "path",
+		}
+		params.ID = packed[key].(uuid.UUID)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "structuralElementIndex",
+			In:   "path",
+		}
+		params.StructuralElementIndex = packed[key].(int)
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "paragraphElementIndex",
+			In:   "path",
+		}
+		params.ParagraphElementIndex = packed[key].(int)
+	}
+	return params
+}
+
+func decodeGetParagraphElementByIndexesParams(args [3]string, argsEscaped bool, r *http.Request) (params GetParagraphElementByIndexesParams, _ error) {
+	// Decode path: id.
+	if err := func() error {
+		param := args[0]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[0])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "id",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToUUID(val)
+				if err != nil {
+					return err
+				}
+
+				params.ID = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "id",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode path: structuralElementIndex.
+	if err := func() error {
+		param := args[1]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[1])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "structuralElementIndex",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToInt(val)
+				if err != nil {
+					return err
+				}
+
+				params.StructuralElementIndex = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "structuralElementIndex",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	// Decode path: paragraphElementIndex.
+	if err := func() error {
+		param := args[2]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[2])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "paragraphElementIndex",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToInt(val)
+				if err != nil {
+					return err
+				}
+
+				params.ParagraphElementIndex = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "paragraphElementIndex",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
+
 // UpdateDocumentByIdParams is parameters of updateDocumentById operation.
 type UpdateDocumentByIdParams struct {
 	// Document id.

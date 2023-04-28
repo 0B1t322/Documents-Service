@@ -121,6 +121,15 @@ func (UnimplementedHandler) GetElements(ctx context.Context, params GetElementsP
 	return r, ht.ErrNotImplemented
 }
 
+// GetParagraphElementByIndexes implements getParagraphElementByIndexes operation.
+//
+// Get paragraphs elements by indexes.
+//
+// GET /documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
+func (UnimplementedHandler) GetParagraphElementByIndexes(ctx context.Context, params GetParagraphElementByIndexesParams) (r GetParagraphElementByIndexesRes, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
 // UpdateDocumentById implements updateDocumentById operation.
 //
 // Update document by id.

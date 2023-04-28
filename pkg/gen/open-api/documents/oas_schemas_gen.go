@@ -742,22 +742,23 @@ func (s *ErrorStatusCode) SetResponse(val Error) {
 	s.Response = val
 }
 
-func (*ErrorStatusCode) createDocumentRes()              {}
-func (*ErrorStatusCode) createDocumentStyleRes()         {}
-func (*ErrorStatusCode) createElementRes()               {}
-func (*ErrorStatusCode) createParagraphElementRes()      {}
-func (*ErrorStatusCode) deleteParagraphElementRes()      {}
-func (*ErrorStatusCode) deleteStructuralElementByIDRes() {}
-func (*ErrorStatusCode) deleteStyleByIdRes()             {}
-func (*ErrorStatusCode) documentsGetRes()                {}
-func (*ErrorStatusCode) documentsIDElementsSeIdGetRes()  {}
-func (*ErrorStatusCode) documentsIDStylesGetRes()        {}
-func (*ErrorStatusCode) getDocumentByIdRes()             {}
-func (*ErrorStatusCode) getElementsRes()                 {}
-func (*ErrorStatusCode) updateDocumentByIdRes()          {}
-func (*ErrorStatusCode) updateParagraphElementRes()      {}
-func (*ErrorStatusCode) updateStructuralElementRes()     {}
-func (*ErrorStatusCode) updateStyleByIdRes()             {}
+func (*ErrorStatusCode) createDocumentRes()               {}
+func (*ErrorStatusCode) createDocumentStyleRes()          {}
+func (*ErrorStatusCode) createElementRes()                {}
+func (*ErrorStatusCode) createParagraphElementRes()       {}
+func (*ErrorStatusCode) deleteParagraphElementRes()       {}
+func (*ErrorStatusCode) deleteStructuralElementByIDRes()  {}
+func (*ErrorStatusCode) deleteStyleByIdRes()              {}
+func (*ErrorStatusCode) documentsGetRes()                 {}
+func (*ErrorStatusCode) documentsIDElementsSeIdGetRes()   {}
+func (*ErrorStatusCode) documentsIDStylesGetRes()         {}
+func (*ErrorStatusCode) getDocumentByIdRes()              {}
+func (*ErrorStatusCode) getElementsRes()                  {}
+func (*ErrorStatusCode) getParagraphElementByIndexesRes() {}
+func (*ErrorStatusCode) updateDocumentByIdRes()           {}
+func (*ErrorStatusCode) updateParagraphElementRes()       {}
+func (*ErrorStatusCode) updateStructuralElementRes()      {}
+func (*ErrorStatusCode) updateStyleByIdRes()              {}
 
 // Ref: #/components/schemas/InlineObjectElement
 type InlineObjectElement struct {
@@ -1152,8 +1153,9 @@ func (s *ParagraphElement) SetElement(val ParagraphElementElement) {
 	s.Element = val
 }
 
-func (*ParagraphElement) createParagraphElementRes() {}
-func (*ParagraphElement) updateParagraphElementRes() {}
+func (*ParagraphElement) createParagraphElementRes()       {}
+func (*ParagraphElement) getParagraphElementByIndexesRes() {}
+func (*ParagraphElement) updateParagraphElementRes()       {}
 
 // ParagraphElementElement represents sum type.
 type ParagraphElementElement struct {

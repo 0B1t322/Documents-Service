@@ -224,6 +224,39 @@ paths:
             application/json:
               schema:
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
+  /documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}:
+    get:
+      description: Get paragraphs elements by indexes
+      operationId: getParagraphElementByIndexes
+      parameters:
+        - $ref: "./parameters/documents.yml#/components/parameters/DocumentId"
+        - name: structuralElementIndex
+          in: path
+          required: true
+          description: Structural element index
+          schema:
+            type: integer
+            format: int
+        - name: paragraphElementIndex
+          in: path
+          required: true
+          description: Paragraph element index
+          schema:
+            type: integer
+            format: int
+      tags:
+        - elements
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/paragraph.yml#/components/schemas/ParagraphElement"
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
   /documents/{id}/elements/{seId}/element/paragraphs/{elementId}:
     put:
       operationId: updateParagraphElement
