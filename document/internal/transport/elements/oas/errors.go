@@ -71,3 +71,7 @@ func FailedToUpdateParagraphElement() (*documents.ErrorStatusCode, error) {
 func FailedToGetParagraphElements() (*documents.ErrorStatusCode, error) {
 	return Status(http.StatusInternalServerError, "Failed to get paragraph elements"), nil
 }
+
+func FailedToGetParagraphElementByIndexes() (*documents.ErrorStatusCode, error) {
+	return Status(http.StatusInternalServerError, "Failed to get paragraph element by indexes"), nil
+}

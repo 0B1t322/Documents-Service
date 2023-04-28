@@ -59,6 +59,13 @@ type (
 			req dto.GetParagraphsElementDto,
 		) (dto.GetParagraphsElementResponse, error)
 
+		GetParagraphElementByIndexes(
+			ctx context.Context,
+			bodyId uuid.UUID,
+			structuralElementIndex,
+			paragraphElementIndex int,
+		) (models.ParagraphElement, error)
+
 		IsParametersNotValid(err error) bool
 		IsNotFound(err error) bool
 		IsValidation(err error) bool
@@ -289,4 +296,32 @@ func (e ElementsController) UpdateStructuralElement(
 	}
 
 	return lo.ToPtr(e.mapper.StructuralElement(element)), nil
+}
+
+func (e ElementsController) GetParagraphElementByIndexes(
+	ctx context.Context,
+	params documents.GetParagraphElementByIndexesParams,
+) (documents.GetParagraphElementByIndexesRes, error) {
+	document, err := e.documentService.GetDocument(ctx, params.ID)
+	switch {
+	case e.service.IsNotFound(err):
+		return DocumentNotFound(params.ID)
+	case err != nil:
+		return FailedToGetParagraphElementByIndexes()
+	}
+
+	element, err := e.service.GetParagraphElementByIndexes(
+		ctx,
+		document.Body.ID,
+		params.StructuralElementIndex,
+		params.ParagraphElementIndex,
+	)
+	switch {
+	case e.service.IsNotFound(err):
+		return NotFound(err)
+	case err != nil:
+		return FailedToGetParagraphElementByIndexes()
+	}
+
+	return lo.ToPtr(e.mapper.ParagraphElement(element)), nil
 }
