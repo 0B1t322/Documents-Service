@@ -4,7 +4,8 @@ info:
   description: Document service API
   version: 1.0.0
 servers:
-  - url: http://localhost:8080/api/documents/v1
+    - url: http://localhost:8080/api/documents/v1
+      description: local
 paths:
   /documents:
     post:
@@ -246,6 +247,44 @@ paths:
             format: int
       tags:
         - elements
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/paragraph.yml#/components/schemas/ParagraphElement"
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
+    put:
+      description: Update paragraph element by indexes
+      operationId: updateParagraphElementByIndexes
+      parameters:
+        - $ref: "./parameters/documents.yml#/components/parameters/DocumentId"
+        - name: structuralElementIndex
+          in: path
+          required: true
+          description: Structural element index
+          schema:
+            type: integer
+            format: int
+        - name: paragraphElementIndex
+          in: path
+          required: true
+          description: Paragraph element index
+          schema:
+            type: integer
+            format: int
+      tags:
+        - elements
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/paragraph.yml#/components/schemas/UpdateParagraphElement"
       responses:
         '200':
           content:

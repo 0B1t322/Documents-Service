@@ -475,6 +475,7 @@ func (s ElementsService) UpdateParagraphElementWithBodyID(
 	ctx context.Context,
 	seId int,
 	bodyId uuid.UUID,
+	id int,
 	req dto.UpdateParagraphElementDto,
 ) (models.ParagraphElement, error) {
 	structuralElement, err := s.repository.FindStructuralElementByIDAndBodyID(ctx, seId, bodyId)
@@ -488,15 +489,26 @@ func (s ElementsService) UpdateParagraphElementWithBodyID(
 		return models.ParagraphElement{}, ErrSEChildIsNotParagraph
 	}
 
-	element, err := s.repository.GetParagraphElement(ctx, structuralElement.Paragraph.ID, req.ID)
+	element, err := s.repository.GetParagraphElement(ctx, structuralElement.Paragraph.ID, id)
 	if err == repository.ErrParagraphElementNotFound {
 		return models.ParagraphElement{}, ErrParagraphElementNotFound
 	} else if err != nil {
 		return models.ParagraphElement{}, err
 	}
 
-	level.Info(s.logger).Log("paragraph", element, "req", req)
+	element, err = s.updateParagraphElement(ctx, req, element)
+	if err != nil {
+		return models.ParagraphElement{}, err
+	}
 
+	return element, nil
+}
+
+func (s ElementsService) updateParagraphElement(
+	ctx context.Context,
+	req dto.UpdateParagraphElementDto,
+	element models.ParagraphElement,
+) (models.ParagraphElement, error) {
 	if err := paragraphElementTypesIsEqual(req.ElementType, element.GetType()); err != nil {
 		return models.ParagraphElement{}, err
 	}
@@ -535,6 +547,26 @@ func (s ElementsService) GetParagraphElementByIndexes(
 			"err", err,
 		)
 		return element, nil
+	}
+
+	return element, nil
+}
+
+func (s ElementsService) UpdateParagraphElementByIndexes(
+	ctx context.Context,
+	bodyId uuid.UUID,
+	structuralElementIndex,
+	paragraphElementIndex int,
+	req dto.UpdateParagraphElementDto,
+) (models.ParagraphElement, error) {
+	element, err := s.GetParagraphElementByIndexes(ctx, bodyId, structuralElementIndex, paragraphElementIndex)
+	if err != nil {
+		return models.ParagraphElement{}, err
+	}
+
+	element, err = s.updateParagraphElement(ctx, req, element)
+	if err != nil {
+		return models.ParagraphElement{}, err
 	}
 
 	return element, nil

@@ -1,0 +1,20 @@
+openapi: 3.0.8
+info:
+paths:
+components:
+  parameters:
+    DocumentId:
+      name: id
+      in: path
+      description: Document id
+      required: true
+      schema:
+        type: string
+        format: uuid
+    RevisionId:
+      name: revId
+      in: query
+      description: Revision id of document
+      required: true
+      schema:
+        type: integer

@@ -2,7 +2,6 @@ package dto
 
 type (
 	UpdateParagraphElementDto struct {
-		ID          int
 		ElementType ParagraphElementType
 
 		TextRun UpdateTextRun

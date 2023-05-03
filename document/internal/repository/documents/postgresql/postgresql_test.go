@@ -2,9 +2,9 @@ package postgresql_test
 
 import (
 	"context"
-	"github.com/0B1t322/Online-Document-Redactor/document/internal/core/models"
-	"github.com/0B1t322/Online-Document-Redactor/document/internal/repository/postgresql"
-	"github.com/0B1t322/Online-Document-Redactor/internal/datebase/pgql"
+	"github.com/0B1t322/Documents-Service/document/internal/core/models"
+	"github.com/0B1t322/Documents-Service/document/internal/repository/documents/postgresql"
+	"github.com/0B1t322/Documents-Service/internal/database/pgql"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 	"os"

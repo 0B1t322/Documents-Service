@@ -1,0 +1,58 @@
+openapi: 3.0.3
+info:
+paths:
+components:
+  schemas:
+#    DocumentOperationType:
+#      type: string
+#      enum:
+#        - insertText
+#        - deleteText
+    DocumentOperation:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          insertText: "#/components/schemas/InsertText"
+          deleteText: "#/components/schemas/DeleteText"
+      oneOf:
+        - $ref: "#/components/schemas/InsertText"
+        - $ref: "#/components/schemas/DeleteText"
+    InsertText:
+      type: object
+      properties:
+        type:
+          type: string
+        structuralElementIndex:
+          type: integer
+        paragraphElementIndex:
+          type: integer
+        insertBefore:
+          type: integer
+        content:
+          type: string
+      required:
+        - operationType
+        - content
+        - structuralElementIndex
+        - paragraphElementIndex
+        - insertBefore
+    DeleteText:
+      type: object
+      properties:
+        type:
+          type: string
+        structuralElementIndex:
+          type: integer
+        paragraphElementIndex:
+          type: integer
+        deleteAfter:
+          type: integer
+        content:
+          type: string
+      required:
+        - operationType
+        - structuralElementIndex
+        - paragraphElementIndex
+        - deleteAfter
+        - content

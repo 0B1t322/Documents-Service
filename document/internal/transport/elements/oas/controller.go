@@ -51,6 +51,7 @@ type (
 			ctx context.Context,
 			seId int,
 			bodyId uuid.UUID,
+			id int,
 			req dto.UpdateParagraphElementDto,
 		) (models.ParagraphElement, error)
 
@@ -64,6 +65,14 @@ type (
 			bodyId uuid.UUID,
 			structuralElementIndex,
 			paragraphElementIndex int,
+		) (models.ParagraphElement, error)
+
+		UpdateParagraphElementByIndexes(
+			ctx context.Context,
+			bodyId uuid.UUID,
+			structuralElementIndex,
+			paragraphElementIndex int,
+			req dto.UpdateParagraphElementDto,
 		) (models.ParagraphElement, error)
 
 		IsParametersNotValid(err error) bool
@@ -258,8 +267,8 @@ func (e ElementsController) UpdateParagraphElement(
 	}
 
 	element, err := e.service.UpdateParagraphElementWithBodyID(
-		ctx, params.SeId, document.Body.ID,
-		e.mapper.UpdateParagraphElementReq(params.ElementId, req),
+		ctx, params.SeId, document.Body.ID, params.ElementId,
+		e.mapper.UpdateParagraphElementReq(req),
 	)
 	switch {
 	case e.service.IsNotFound(err):
@@ -321,6 +330,34 @@ func (e ElementsController) GetParagraphElementByIndexes(
 		return NotFound(err)
 	case err != nil:
 		return FailedToGetParagraphElementByIndexes()
+	}
+
+	return lo.ToPtr(e.mapper.ParagraphElement(element)), nil
+}
+
+func (e ElementsController) UpdateParagraphElementByIndexes(
+	ctx context.Context, req *documents.UpdateParagraphElement,
+	params documents.UpdateParagraphElementByIndexesParams,
+) (documents.UpdateParagraphElementByIndexesRes, error) {
+	document, err := e.documentService.GetDocument(ctx, params.ID)
+	switch {
+	case e.service.IsNotFound(err):
+		return DocumentNotFound(params.ID)
+	case err != nil:
+		return FailedToUpdateParagraphElementByIndexes()
+	}
+
+	element, err := e.service.UpdateParagraphElementByIndexes(
+		ctx, document.Body.ID, params.StructuralElementIndex,
+		params.ParagraphElementIndex, e.mapper.UpdateParagraphElementReq(req),
+	)
+	switch {
+	case e.service.IsNotFound(err):
+		return NotFound(err)
+	case e.service.IsValidation(err):
+		return BadRequest(err)
+	case err != nil:
+		return FailedToUpdateParagraphElementByIndexes()
 	}
 
 	return lo.ToPtr(e.mapper.ParagraphElement(element)), nil

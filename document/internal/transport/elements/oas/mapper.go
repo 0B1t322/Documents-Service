@@ -88,12 +88,9 @@ func (m mapper) CreateParagraphElementReq(
 }
 
 func (m mapper) UpdateParagraphElementReq(
-	elementId int,
 	req *documents.UpdateParagraphElement,
 ) dto.UpdateParagraphElementDto {
-	r := dto.UpdateParagraphElementDto{
-		ID: elementId,
-	}
+	r := dto.UpdateParagraphElementDto{}
 
 	switch req.Element.Type {
 	case documents.CreateUpdateTextRunUpdateParagraphElementElement:

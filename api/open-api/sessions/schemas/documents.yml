@@ -1,0 +1,35 @@
+openapi: 3.0.3
+info:
+paths:
+components:
+  schemas:
+    Document:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        revisionId:
+          type: integer
+      required:
+        - id
+        - revisionId
+    SaveDocumentRequest:
+      type: object
+      properties:
+        commands:
+          type: array
+          items:
+            $ref: "./operations.yml#/components/schemas/DocumentOperation"
+    DocumentRevision:
+      type: object
+      properties:
+        revisionId:
+          type: integer
+        commands:
+          type: array
+          items:
+            $ref: "./operations.yml#/components/schemas/DocumentOperation"
+      required:
+        - revisionId
+        - commands
