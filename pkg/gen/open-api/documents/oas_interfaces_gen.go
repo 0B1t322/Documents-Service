@@ -57,6 +57,10 @@ type UpdateDocumentByIdRes interface {
 	updateDocumentByIdRes()
 }
 
+type UpdateParagraphElementByIndexesRes interface {
+	updateParagraphElementByIndexesRes()
+}
+
 type UpdateParagraphElementRes interface {
 	updateParagraphElementRes()
 }

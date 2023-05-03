@@ -259,8 +259,14 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 												args[1],
 												args[2],
 											}, elemIsEscaped, w, r)
+										case "PUT":
+											s.handleUpdateParagraphElementByIndexesRequest([3]string{
+												args[0],
+												args[1],
+												args[2],
+											}, elemIsEscaped, w, r)
 										default:
-											s.notAllowed(w, r, "GET")
+											s.notAllowed(w, r, "GET,PUT")
 										}
 
 										return
@@ -629,6 +635,14 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 											// Leaf: GetParagraphElementByIndexes
 											r.name = "GetParagraphElementByIndexes"
 											r.operationID = "getParagraphElementByIndexes"
+											r.pathPattern = "/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}"
+											r.args = args
+											r.count = 3
+											return r, true
+										case "PUT":
+											// Leaf: UpdateParagraphElementByIndexes
+											r.name = "UpdateParagraphElementByIndexes"
+											r.operationID = "updateParagraphElementByIndexes"
 											r.pathPattern = "/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}"
 											r.args = args
 											r.count = 3

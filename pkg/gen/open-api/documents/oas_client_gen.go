@@ -1696,6 +1696,135 @@ func (c *Client) sendUpdateParagraphElement(ctx context.Context, request *Update
 	return result, nil
 }
 
+// UpdateParagraphElementByIndexes invokes updateParagraphElementByIndexes operation.
+//
+// Update paragraph element by indexes.
+//
+// PUT /documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
+func (c *Client) UpdateParagraphElementByIndexes(ctx context.Context, request *UpdateParagraphElement, params UpdateParagraphElementByIndexesParams) (UpdateParagraphElementByIndexesRes, error) {
+	res, err := c.sendUpdateParagraphElementByIndexes(ctx, request, params)
+	_ = res
+	return res, err
+}
+
+func (c *Client) sendUpdateParagraphElementByIndexes(ctx context.Context, request *UpdateParagraphElement, params UpdateParagraphElementByIndexesParams) (res UpdateParagraphElementByIndexesRes, err error) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("updateParagraphElementByIndexes"),
+	}
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, elapsedDuration.Microseconds(), otelAttrs...)
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, otelAttrs...)
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, "UpdateParagraphElementByIndexes",
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, otelAttrs...)
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [6]string
+	pathParts[0] = "/documents/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/elements/"
+	{
+		// Encode "structuralElementIndex" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "structuralElementIndex",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.IntToString(params.StructuralElementIndex))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/paragraphs/elements/"
+	{
+		// Encode "paragraphElementIndex" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "paragraphElementIndex",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.IntToString(params.ParagraphElementIndex))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[5] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "PUT", u, nil)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateParagraphElementByIndexesRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	stage = "DecodeResponse"
+	result, err := decodeUpdateParagraphElementByIndexesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // UpdateStructuralElement invokes updateStructuralElement operation.
 //
 // Update structural element.

@@ -148,6 +148,15 @@ func (UnimplementedHandler) UpdateParagraphElement(ctx context.Context, req *Upd
 	return r, ht.ErrNotImplemented
 }
 
+// UpdateParagraphElementByIndexes implements updateParagraphElementByIndexes operation.
+//
+// Update paragraph element by indexes.
+//
+// PUT /documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
+func (UnimplementedHandler) UpdateParagraphElementByIndexes(ctx context.Context, req *UpdateParagraphElement, params UpdateParagraphElementByIndexesParams) (r UpdateParagraphElementByIndexesRes, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
 // UpdateStructuralElement implements updateStructuralElement operation.
 //
 // Update structural element.

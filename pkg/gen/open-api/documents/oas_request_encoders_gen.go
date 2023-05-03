@@ -95,6 +95,20 @@ func encodeUpdateParagraphElementRequest(
 	return nil
 }
 
+func encodeUpdateParagraphElementByIndexesRequest(
+	req *UpdateParagraphElement,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := jx.GetEncoder()
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeUpdateStructuralElementRequest(
 	req *UpdateStyleOfStructuralElement,
 	r *http.Request,

@@ -98,6 +98,12 @@ type Handler interface {
 	//
 	// PUT /documents/{id}/elements/{seId}/element/paragraphs/{elementId}
 	UpdateParagraphElement(ctx context.Context, req *UpdateParagraphElement, params UpdateParagraphElementParams) (UpdateParagraphElementRes, error)
+	// UpdateParagraphElementByIndexes implements updateParagraphElementByIndexes operation.
+	//
+	// Update paragraph element by indexes.
+	//
+	// PUT /documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
+	UpdateParagraphElementByIndexes(ctx context.Context, req *UpdateParagraphElement, params UpdateParagraphElementByIndexesParams) (UpdateParagraphElementByIndexesRes, error)
 	// UpdateStructuralElement implements updateStructuralElement operation.
 	//
 	// Update structural element.
