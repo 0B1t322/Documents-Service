@@ -1,0 +1,15 @@
+server {
+    listen ${NGINX_PORT};
+
+    location /api/documents {
+        proxy_pass http://${NGINX_DOCUMENT_HOST};
+    }
+
+    location /api/sessions {
+        proxy_pass http://${NGINX_SESSIONS_HOST};
+    }
+
+    location /api/swagger {
+        proxy_pass http://${NGINX_SWAGGER_HOST};
+    }
+}
