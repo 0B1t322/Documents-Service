@@ -27,7 +27,7 @@ func init() {
 		Development:               true,
 		AMQPUrl:                   "amqp://user:password@localhost:5672/",
 		DocumentsAMQPExchangeName: "documents-service.events",
-		DocumentsRestBaseURL:      "http://localhost:8080/api/documents/v1",
+		DocumentsRestBaseURL:      "http://localhost:8080/",
 		InfluxDBUrl:               "http://localhost:8086",
 		InfluxToken:               "some_token",
 	}

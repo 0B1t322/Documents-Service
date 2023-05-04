@@ -1,4 +1,4 @@
-openapi: 3.0.8
+openapi: 3.0.3
 info:
   title: Document service API
   description: Document service API
@@ -12,17 +12,20 @@ paths:
         content:
           application/json:
             schema:
-             $ref: "./schemas/documents.yml#/components/schemas/CreateUpdateDocumentView"
+              type: object
+              $ref: "./schemas/documents.yml#/components/schemas/CreateUpdateDocumentView"
       responses:
         '201':
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/documents.yml#/components/schemas/Document"
         default:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
       tags:
         - documents
@@ -41,11 +44,13 @@ paths:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/documents.yml#/components/schemas/PaginatedDocuments"
         default:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
   /api/documents/v1/documents/{id}:
     get:
@@ -60,11 +65,13 @@ paths:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/documents.yml#/components/schemas/Document"
         default:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
     put:
       summary: Update document by id
@@ -78,17 +85,20 @@ paths:
         content:
           application/json:
             schema:
+              type: object
               $ref: "./schemas/documents.yml#/components/schemas/CreateUpdateDocumentView"
       responses:
         '200':
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/documents.yml#/components/schemas/Document"
         default:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
   /api/documents/v1/documents/{id}/elements:
     post:
@@ -103,17 +113,20 @@ paths:
         content:
           application/json:
             schema:
+              type: object
               $ref: "./schemas/elements.yml#/components/schemas/CreateUpdateStructuralElement"
       responses:
         '201':
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/elements.yml#/components/schemas/StructuralElement"
         default:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
     get:
       summary: Get structural elements in document
@@ -129,11 +142,13 @@ paths:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/elements.yml#/components/schemas/PaginatedStructuralElements"
         default:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
   /api/documents/v1/documents/{id}/elements/{seId}:
     delete:
@@ -151,6 +166,7 @@ paths:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
     put:
       summary: Update structural element
@@ -165,17 +181,20 @@ paths:
         content:
           application/json:
             schema:
+              type: object
               $ref: "./schemas/elements.yml#/components/schemas/UpdateStyleOfStructuralElement"
       responses:
         '200':
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/elements.yml#/components/schemas/StructuralElement"
         default:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
     get:
       summary: Get elements
@@ -192,11 +211,13 @@ paths:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/paragraph.yml#/components/schemas/PaginatedParagrahElements"
         default:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
   /api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs:
     post:
@@ -212,17 +233,20 @@ paths:
         content:
           application/json:
             schema:
+              type: object
               $ref: "./schemas/paragraph.yml#/components/schemas/CreateUpdateParagraphElement"
       responses:
         '201':
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/paragraph.yml#/components/schemas/ParagraphElement"
         default:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
   /api/documents/v1/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}:
     get:
@@ -251,11 +275,13 @@ paths:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/paragraph.yml#/components/schemas/ParagraphElement"
         default:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
     put:
       description: Update paragraph element by indexes
@@ -283,17 +309,20 @@ paths:
         content:
           application/json:
             schema:
+              type: object
               $ref: "./schemas/paragraph.yml#/components/schemas/UpdateParagraphElement"
       responses:
         '200':
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/paragraph.yml#/components/schemas/ParagraphElement"
         default:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
   /api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs/{elementId}:
     put:
@@ -310,17 +339,20 @@ paths:
         content:
           application/json:
             schema:
+              type: object
               $ref: "./schemas/paragraph.yml#/components/schemas/UpdateParagraphElement"
       responses:
         '200':
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/paragraph.yml#/components/schemas/ParagraphElement"
         default:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
     delete:
       operationId: deleteParagraphElement
@@ -338,6 +370,7 @@ paths:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
   /api/documents/v1/documents/{id}/styles:
     get:
@@ -359,6 +392,7 @@ paths:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
     post:
       summary: Create document style
@@ -372,17 +406,20 @@ paths:
         content:
           application/json:
             schema:
+              type: object
               $ref: "./schemas/styles.yml#/components/schemas/CreateUpdateStyle"
       responses:
         '201':
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/styles.yml#/components/schemas/Style"
         default:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
   /api/documents/v1/documents/{id}/styles/{styleId}:
     put:
@@ -398,17 +435,20 @@ paths:
         content:
           application/json:
             schema:
+              type: object
               $ref: "./schemas/styles.yml#/components/schemas/CreateUpdateStyle"
       responses:
         '200':
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/styles.yml#/components/schemas/Style"
         default:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
     delete:
       summary: Delete style by id
@@ -425,4 +465,5 @@ paths:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"

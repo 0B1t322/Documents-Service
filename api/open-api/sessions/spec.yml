@@ -1,4 +1,4 @@
-openapi: 3.0.8
+openapi: 3.0.3
 info:
   title: Sessions service API
   description: Service to handle sessions in documents redactor
@@ -17,11 +17,13 @@ paths:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/documents.yml#/components/schemas/Document"
         default:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
   /api/sessions/v1/documents/{id}/sync:
     get:
@@ -44,6 +46,7 @@ paths:
           content:
             application/json:
               schema:
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
   /api/sessions/v1/documents/{id}/save:
     post:
@@ -58,6 +61,7 @@ paths:
         content:
           application/json:
             schema:
+              type: object
               $ref: "./schemas/documents.yml#/components/schemas/SaveDocumentRequest"
       responses:
         '204':
@@ -66,7 +70,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
   /api/sessions/v1/document/{id}/history:
     get:
@@ -88,5 +92,5 @@ paths:
           content:
             application/json:
               schema:
-                type: array
+                type: object
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
