@@ -64,10 +64,10 @@ func (s StylesController) DeleteStyleById(
 	return &documents.DeleteStyleByIdNoContent{}, nil
 }
 
-func (s StylesController) DocumentsIDStylesGet(
+func (s StylesController) GetDocumentStyles(
 	ctx context.Context,
-	params documents.DocumentsIDStylesGetParams,
-) (documents.DocumentsIDStylesGetRes, error) {
+	params documents.GetDocumentStylesParams,
+) (documents.GetDocumentStylesRes, error) {
 	styles, err := s.service.GetStylesInDocument(ctx, params.ID)
 	if s.service.IsNotFound(err) {
 		return NotFound(err)

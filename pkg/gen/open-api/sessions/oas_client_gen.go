@@ -71,7 +71,7 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 //
 // Get history of operations.
 //
-// GET /document/{id}/history
+// GET /api/sessions/v1/document/{id}/history
 func (c *Client) GetDocumentHistory(ctx context.Context, params GetDocumentHistoryParams) (GetDocumentHistoryRes, error) {
 	res, err := c.sendGetDocumentHistory(ctx, params)
 	_ = res
@@ -112,7 +112,7 @@ func (c *Client) sendGetDocumentHistory(ctx context.Context, params GetDocumentH
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
-	pathParts[0] = "/document/"
+	pathParts[0] = "/api/sessions/v1/document/"
 	{
 		// Encode "id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -160,7 +160,7 @@ func (c *Client) sendGetDocumentHistory(ctx context.Context, params GetDocumentH
 //
 // Return current document revision id.
 //
-// GET /documents/{id}/revisionId
+// GET /api/sessions/v1/documents/{id}/revisionId
 func (c *Client) GetDocumentRevisionId(ctx context.Context, params GetDocumentRevisionIdParams) (GetDocumentRevisionIdRes, error) {
 	res, err := c.sendGetDocumentRevisionId(ctx, params)
 	_ = res
@@ -201,7 +201,7 @@ func (c *Client) sendGetDocumentRevisionId(ctx context.Context, params GetDocume
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
-	pathParts[0] = "/documents/"
+	pathParts[0] = "/api/sessions/v1/documents/"
 	{
 		// Encode "id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -249,7 +249,7 @@ func (c *Client) sendGetDocumentRevisionId(ctx context.Context, params GetDocume
 //
 // Push operation to document.
 //
-// POST /documents/{id}/save
+// POST /api/sessions/v1/documents/{id}/save
 func (c *Client) PushOperationToDocument(ctx context.Context, request *SaveDocumentRequest, params PushOperationToDocumentParams) (PushOperationToDocumentRes, error) {
 	res, err := c.sendPushOperationToDocument(ctx, request, params)
 	_ = res
@@ -290,7 +290,7 @@ func (c *Client) sendPushOperationToDocument(ctx context.Context, request *SaveD
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
-	pathParts[0] = "/documents/"
+	pathParts[0] = "/api/sessions/v1/documents/"
 	{
 		// Encode "id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -341,7 +341,7 @@ func (c *Client) sendPushOperationToDocument(ctx context.Context, request *SaveD
 //
 // Return all operation that need to apply.
 //
-// GET /documents/{id}/sync
+// GET /api/sessions/v1/documents/{id}/sync
 func (c *Client) SyncDocumentsById(ctx context.Context, params SyncDocumentsByIdParams) (SyncDocumentsByIdRes, error) {
 	res, err := c.sendSyncDocumentsById(ctx, params)
 	_ = res
@@ -382,7 +382,7 @@ func (c *Client) sendSyncDocumentsById(ctx context.Context, params SyncDocuments
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
-	pathParts[0] = "/documents/"
+	pathParts[0] = "/api/sessions/v1/documents/"
 	{
 		// Encode "id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{

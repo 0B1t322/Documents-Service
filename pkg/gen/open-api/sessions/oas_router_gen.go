@@ -44,8 +44,8 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 		switch elem[0] {
-		case '/': // Prefix: "/document"
-			if l := len("/document"); len(elem) >= l && elem[0:l] == "/document" {
+		case '/': // Prefix: "/api/sessions/v1/document"
+			if l := len("/api/sessions/v1/document"); len(elem) >= l && elem[0:l] == "/api/sessions/v1/document" {
 				elem = elem[l:]
 			} else {
 				break
@@ -271,8 +271,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 			break
 		}
 		switch elem[0] {
-		case '/': // Prefix: "/document"
-			if l := len("/document"); len(elem) >= l && elem[0:l] == "/document" {
+		case '/': // Prefix: "/api/sessions/v1/document"
+			if l := len("/api/sessions/v1/document"); len(elem) >= l && elem[0:l] == "/api/sessions/v1/document" {
 				elem = elem[l:]
 			} else {
 				break
@@ -315,7 +315,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							// Leaf: GetDocumentHistory
 							r.name = "GetDocumentHistory"
 							r.operationID = "getDocumentHistory"
-							r.pathPattern = "/document/{id}/history"
+							r.pathPattern = "/api/sessions/v1/document/{id}/history"
 							r.args = args
 							r.count = 1
 							return r, true
@@ -368,7 +368,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 								// Leaf: GetDocumentRevisionId
 								r.name = "GetDocumentRevisionId"
 								r.operationID = "getDocumentRevisionId"
-								r.pathPattern = "/documents/{id}/revisionId"
+								r.pathPattern = "/api/sessions/v1/documents/{id}/revisionId"
 								r.args = args
 								r.count = 1
 								return r, true
@@ -400,7 +400,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 									// Leaf: PushOperationToDocument
 									r.name = "PushOperationToDocument"
 									r.operationID = "pushOperationToDocument"
-									r.pathPattern = "/documents/{id}/save"
+									r.pathPattern = "/api/sessions/v1/documents/{id}/save"
 									r.args = args
 									r.count = 1
 									return r, true
@@ -421,7 +421,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 									// Leaf: SyncDocumentsById
 									r.name = "SyncDocumentsById"
 									r.operationID = "syncDocumentsById"
-									r.pathPattern = "/documents/{id}/sync"
+									r.pathPattern = "/api/sessions/v1/documents/{id}/sync"
 									r.args = args
 									r.count = 1
 									return r, true

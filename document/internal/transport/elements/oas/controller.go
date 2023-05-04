@@ -198,10 +198,10 @@ func (e ElementsController) DeleteStructuralElementByID(
 	return &documents.DeleteStructuralElementByIDNoContent{}, nil
 }
 
-func (e ElementsController) DocumentsIDElementsSeIdGet(
+func (e ElementsController) GetParagraphElements(
 	ctx context.Context,
-	params documents.DocumentsIDElementsSeIdGetParams,
-) (documents.DocumentsIDElementsSeIdGetRes, error) {
+	params documents.GetParagraphElementsParams,
+) (documents.GetParagraphElementsRes, error) {
 	document, err := e.documentService.GetDocument(ctx, params.ID)
 	if e.documentService.IsNotFound(err) {
 		return DocumentNotFound(params.ID)

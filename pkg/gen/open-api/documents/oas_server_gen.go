@@ -12,109 +12,109 @@ type Handler interface {
 	//
 	// Create document.
 	//
-	// POST /documents
+	// POST /api/documents/v1/documents
 	CreateDocument(ctx context.Context, req *CreateUpdateDocumentView) (CreateDocumentRes, error)
 	// CreateDocumentStyle implements createDocumentStyle operation.
 	//
 	// Create document style.
 	//
-	// POST /documents/{id}/styles
+	// POST /api/documents/v1/documents/{id}/styles
 	CreateDocumentStyle(ctx context.Context, req *CreateUpdateStyle, params CreateDocumentStyleParams) (CreateDocumentStyleRes, error)
 	// CreateElement implements createElement operation.
 	//
 	// Create structural element in document.
 	//
-	// POST /documents/{id}/elements
+	// POST /api/documents/v1/documents/{id}/elements
 	CreateElement(ctx context.Context, req *CreateUpdateStructuralElement, params CreateElementParams) (CreateElementRes, error)
 	// CreateParagraphElement implements createParagraphElement operation.
 	//
 	// Create paragraph element.
 	//
-	// POST /documents/{id}/elements/{seId}/element/paragraphs
+	// POST /api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs
 	CreateParagraphElement(ctx context.Context, req *CreateUpdateParagraphElement, params CreateParagraphElementParams) (CreateParagraphElementRes, error)
 	// DeleteParagraphElement implements deleteParagraphElement operation.
 	//
 	// Delete paragraph element.
 	//
-	// DELETE /documents/{id}/elements/{seId}/element/paragraphs/{elementId}
+	// DELETE /api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs/{elementId}
 	DeleteParagraphElement(ctx context.Context, params DeleteParagraphElementParams) (DeleteParagraphElementRes, error)
 	// DeleteStructuralElementByID implements deleteStructuralElementByID operation.
 	//
 	// Delete structural element.
 	//
-	// DELETE /documents/{id}/elements/{seId}
+	// DELETE /api/documents/v1/documents/{id}/elements/{seId}
 	DeleteStructuralElementByID(ctx context.Context, params DeleteStructuralElementByIDParams) (DeleteStructuralElementByIDRes, error)
 	// DeleteStyleById implements deleteStyleById operation.
 	//
 	// Delete style by id.
 	//
-	// DELETE /documents/{id}/styles/{styleId}
+	// DELETE /api/documents/v1/documents/{id}/styles/{styleId}
 	DeleteStyleById(ctx context.Context, params DeleteStyleByIdParams) (DeleteStyleByIdRes, error)
-	// DocumentsGet implements GET /documents operation.
-	//
-	// Return paginated dto.
-	//
-	// GET /documents
-	DocumentsGet(ctx context.Context, params DocumentsGetParams) (DocumentsGetRes, error)
-	// DocumentsIDElementsSeIdGet implements GET /documents/{id}/elements/{seId} operation.
-	//
-	// Get elements.
-	//
-	// GET /documents/{id}/elements/{seId}
-	DocumentsIDElementsSeIdGet(ctx context.Context, params DocumentsIDElementsSeIdGetParams) (DocumentsIDElementsSeIdGetRes, error)
-	// DocumentsIDStylesGet implements GET /documents/{id}/styles operation.
-	//
-	// Get document styles.
-	//
-	// GET /documents/{id}/styles
-	DocumentsIDStylesGet(ctx context.Context, params DocumentsIDStylesGetParams) (DocumentsIDStylesGetRes, error)
 	// GetDocumentById implements getDocumentById operation.
 	//
 	// Get document by id.
 	//
-	// GET /documents/{id}
+	// GET /api/documents/v1/documents/{id}
 	GetDocumentById(ctx context.Context, params GetDocumentByIdParams) (GetDocumentByIdRes, error)
+	// GetDocumentStyles implements getDocumentStyles operation.
+	//
+	// Get document styles.
+	//
+	// GET /api/documents/v1/documents/{id}/styles
+	GetDocumentStyles(ctx context.Context, params GetDocumentStylesParams) (GetDocumentStylesRes, error)
+	// GetDocuments implements getDocuments operation.
+	//
+	// Return paginated dto.
+	//
+	// GET /api/documents/v1/documents
+	GetDocuments(ctx context.Context, params GetDocumentsParams) (GetDocumentsRes, error)
 	// GetElements implements getElements operation.
 	//
 	// Get structural elements in document.
 	//
-	// GET /documents/{id}/elements
+	// GET /api/documents/v1/documents/{id}/elements
 	GetElements(ctx context.Context, params GetElementsParams) (GetElementsRes, error)
 	// GetParagraphElementByIndexes implements getParagraphElementByIndexes operation.
 	//
 	// Get paragraphs elements by indexes.
 	//
-	// GET /documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
+	// GET /api/documents/v1/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
 	GetParagraphElementByIndexes(ctx context.Context, params GetParagraphElementByIndexesParams) (GetParagraphElementByIndexesRes, error)
+	// GetParagraphElements implements getParagraphElements operation.
+	//
+	// Get elements.
+	//
+	// GET /api/documents/v1/documents/{id}/elements/{seId}
+	GetParagraphElements(ctx context.Context, params GetParagraphElementsParams) (GetParagraphElementsRes, error)
 	// UpdateDocumentById implements updateDocumentById operation.
 	//
 	// Update document by id.
 	//
-	// PUT /documents/{id}
+	// PUT /api/documents/v1/documents/{id}
 	UpdateDocumentById(ctx context.Context, req *CreateUpdateDocumentView, params UpdateDocumentByIdParams) (UpdateDocumentByIdRes, error)
 	// UpdateParagraphElement implements updateParagraphElement operation.
 	//
 	// Update paragraph element.
 	//
-	// PUT /documents/{id}/elements/{seId}/element/paragraphs/{elementId}
+	// PUT /api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs/{elementId}
 	UpdateParagraphElement(ctx context.Context, req *UpdateParagraphElement, params UpdateParagraphElementParams) (UpdateParagraphElementRes, error)
 	// UpdateParagraphElementByIndexes implements updateParagraphElementByIndexes operation.
 	//
 	// Update paragraph element by indexes.
 	//
-	// PUT /documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
+	// PUT /api/documents/v1/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
 	UpdateParagraphElementByIndexes(ctx context.Context, req *UpdateParagraphElement, params UpdateParagraphElementByIndexesParams) (UpdateParagraphElementByIndexesRes, error)
 	// UpdateStructuralElement implements updateStructuralElement operation.
 	//
 	// Update structural element.
 	//
-	// PUT /documents/{id}/elements/{seId}
+	// PUT /api/documents/v1/documents/{id}/elements/{seId}
 	UpdateStructuralElement(ctx context.Context, req *UpdateStyleOfStructuralElement, params UpdateStructuralElementParams) (UpdateStructuralElementRes, error)
 	// UpdateStyleById implements updateStyleById operation.
 	//
 	// Update style by id.
 	//
-	// PUT /documents/{id}/styles/{styleId}
+	// PUT /api/documents/v1/documents/{id}/styles/{styleId}
 	UpdateStyleById(ctx context.Context, req *CreateUpdateStyle, params UpdateStyleByIdParams) (UpdateStyleByIdRes, error)
 }
 

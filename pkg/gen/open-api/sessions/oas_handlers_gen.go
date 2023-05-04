@@ -21,12 +21,12 @@ import (
 //
 // Get history of operations.
 //
-// GET /document/{id}/history
+// GET /api/sessions/v1/document/{id}/history
 func (s *Server) handleGetDocumentHistoryRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getDocumentHistory"),
 		semconv.HTTPMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/document/{id}/history"),
+		semconv.HTTPRouteKey.String("/api/sessions/v1/document/{id}/history"),
 	}
 
 	// Start a span for this request.
@@ -123,12 +123,12 @@ func (s *Server) handleGetDocumentHistoryRequest(args [1]string, argsEscaped boo
 //
 // Return current document revision id.
 //
-// GET /documents/{id}/revisionId
+// GET /api/sessions/v1/documents/{id}/revisionId
 func (s *Server) handleGetDocumentRevisionIdRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getDocumentRevisionId"),
 		semconv.HTTPMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/documents/{id}/revisionId"),
+		semconv.HTTPRouteKey.String("/api/sessions/v1/documents/{id}/revisionId"),
 	}
 
 	// Start a span for this request.
@@ -225,12 +225,12 @@ func (s *Server) handleGetDocumentRevisionIdRequest(args [1]string, argsEscaped 
 //
 // Push operation to document.
 //
-// POST /documents/{id}/save
+// POST /api/sessions/v1/documents/{id}/save
 func (s *Server) handlePushOperationToDocumentRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("pushOperationToDocument"),
 		semconv.HTTPMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/documents/{id}/save"),
+		semconv.HTTPRouteKey.String("/api/sessions/v1/documents/{id}/save"),
 	}
 
 	// Start a span for this request.
@@ -342,12 +342,12 @@ func (s *Server) handlePushOperationToDocumentRequest(args [1]string, argsEscape
 //
 // Return all operation that need to apply.
 //
-// GET /documents/{id}/sync
+// GET /api/sessions/v1/documents/{id}/sync
 func (s *Server) handleSyncDocumentsByIdRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("syncDocumentsById"),
 		semconv.HTTPMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/documents/{id}/sync"),
+		semconv.HTTPRouteKey.String("/api/sessions/v1/documents/{id}/sync"),
 	}
 
 	// Start a span for this request.

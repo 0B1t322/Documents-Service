@@ -42,11 +42,11 @@ func main() {
 	api := eng.Group("/api")
 	{
 		api.Use(CORSMiddleware())
-		sessions := api.Group("sessions")
+		sessions := api.Group("/sessions")
 		{
 			v1 := sessions.Group("/v1")
 			{
-				appHandler, err := app.ToHandler(v1.BasePath())
+				appHandler, err := app.ToHandler()
 				if err != nil {
 					panic(err)
 				}
@@ -60,7 +60,7 @@ func main() {
 
 			swagger := sessions.Group("/swagger")
 			{
-				swagger.Static("", "./api/open-api")
+				swagger.Static("", "./api/open-api/sessions")
 			}
 		}
 	}

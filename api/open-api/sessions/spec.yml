@@ -3,11 +3,8 @@ info:
   title: Sessions service API
   description: Service to handle sessions in documents redactor
   version: 1.0.0
-servers:
-  - url: http://localhost:8082/api/sessions/v1
-    description: local
 paths:
-  /documents/{id}/revisionId:
+  /api/sessions/v1/documents/{id}/revisionId:
     get:
       description: return current document revision id
       operationId: getDocumentRevisionId
@@ -25,8 +22,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "../documents/schemas/shared.yml#/components/schemas/Error"
-  /documents/{id}/sync:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
+  /api/sessions/v1/documents/{id}/sync:
     get:
       description: return all operation that need to apply
       operationId: syncDocumentsById
@@ -47,8 +44,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "../documents/schemas/shared.yml#/components/schemas/Error"
-  /documents/{id}/save:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
+  /api/sessions/v1/documents/{id}/save:
     post:
       description: Push operation to document
       operationId: pushOperationToDocument
@@ -70,8 +67,8 @@ paths:
             application/json:
               schema:
                 type: array
-                $ref: "../documents/schemas/shared.yml#/components/schemas/Error"
-  /document/{id}/history:
+                $ref: "./schemas/shared.yml#/components/schemas/Error"
+  /api/sessions/v1/document/{id}/history:
     get:
       description: Get history of operations
       operationId: getDocumentHistory
@@ -92,4 +89,4 @@ paths:
             application/json:
               schema:
                 type: array
-                $ref: "../documents/schemas/shared.yml#/components/schemas/Error"
+                $ref: "./schemas/shared.yml#/components/schemas/Error"

@@ -56,14 +56,14 @@ func (mapper) DtoAlignment(alignment documents.Alignment) dto.Alignment {
 	}
 }
 
-func (m mapper) Styles(styles []models.Style) *documents.DocumentsIDStylesGetOKApplicationJSON {
+func (m mapper) Styles(styles []models.Style) *documents.GetDocumentStylesOKApplicationJSON {
 	s := lo.Map(
 		styles, func(item models.Style, index int) documents.Style {
 			return m.Style(item)
 		},
 	)
 
-	mapped := documents.DocumentsIDStylesGetOKApplicationJSON(s)
+	mapped := documents.GetDocumentStylesOKApplicationJSON(s)
 
 	return lo.ToPtr(mapped)
 }

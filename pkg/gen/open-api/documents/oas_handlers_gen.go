@@ -21,12 +21,12 @@ import (
 //
 // Create document.
 //
-// POST /documents
+// POST /api/documents/v1/documents
 func (s *Server) handleCreateDocumentRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createDocument"),
 		semconv.HTTPMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/documents"),
+		semconv.HTTPRouteKey.String("/api/documents/v1/documents"),
 	}
 
 	// Start a span for this request.
@@ -123,12 +123,12 @@ func (s *Server) handleCreateDocumentRequest(args [0]string, argsEscaped bool, w
 //
 // Create document style.
 //
-// POST /documents/{id}/styles
+// POST /api/documents/v1/documents/{id}/styles
 func (s *Server) handleCreateDocumentStyleRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createDocumentStyle"),
 		semconv.HTTPMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/documents/{id}/styles"),
+		semconv.HTTPRouteKey.String("/api/documents/v1/documents/{id}/styles"),
 	}
 
 	// Start a span for this request.
@@ -240,12 +240,12 @@ func (s *Server) handleCreateDocumentStyleRequest(args [1]string, argsEscaped bo
 //
 // Create structural element in document.
 //
-// POST /documents/{id}/elements
+// POST /api/documents/v1/documents/{id}/elements
 func (s *Server) handleCreateElementRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createElement"),
 		semconv.HTTPMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/documents/{id}/elements"),
+		semconv.HTTPRouteKey.String("/api/documents/v1/documents/{id}/elements"),
 	}
 
 	// Start a span for this request.
@@ -357,12 +357,12 @@ func (s *Server) handleCreateElementRequest(args [1]string, argsEscaped bool, w 
 //
 // Create paragraph element.
 //
-// POST /documents/{id}/elements/{seId}/element/paragraphs
+// POST /api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs
 func (s *Server) handleCreateParagraphElementRequest(args [2]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createParagraphElement"),
 		semconv.HTTPMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/documents/{id}/elements/{seId}/element/paragraphs"),
+		semconv.HTTPRouteKey.String("/api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs"),
 	}
 
 	// Start a span for this request.
@@ -478,12 +478,12 @@ func (s *Server) handleCreateParagraphElementRequest(args [2]string, argsEscaped
 //
 // Delete paragraph element.
 //
-// DELETE /documents/{id}/elements/{seId}/element/paragraphs/{elementId}
+// DELETE /api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs/{elementId}
 func (s *Server) handleDeleteParagraphElementRequest(args [3]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("deleteParagraphElement"),
 		semconv.HTTPMethodKey.String("DELETE"),
-		semconv.HTTPRouteKey.String("/documents/{id}/elements/{seId}/element/paragraphs/{elementId}"),
+		semconv.HTTPRouteKey.String("/api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs/{elementId}"),
 	}
 
 	// Start a span for this request.
@@ -588,12 +588,12 @@ func (s *Server) handleDeleteParagraphElementRequest(args [3]string, argsEscaped
 //
 // Delete structural element.
 //
-// DELETE /documents/{id}/elements/{seId}
+// DELETE /api/documents/v1/documents/{id}/elements/{seId}
 func (s *Server) handleDeleteStructuralElementByIDRequest(args [2]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("deleteStructuralElementByID"),
 		semconv.HTTPMethodKey.String("DELETE"),
-		semconv.HTTPRouteKey.String("/documents/{id}/elements/{seId}"),
+		semconv.HTTPRouteKey.String("/api/documents/v1/documents/{id}/elements/{seId}"),
 	}
 
 	// Start a span for this request.
@@ -694,12 +694,12 @@ func (s *Server) handleDeleteStructuralElementByIDRequest(args [2]string, argsEs
 //
 // Delete style by id.
 //
-// DELETE /documents/{id}/styles/{styleId}
+// DELETE /api/documents/v1/documents/{id}/styles/{styleId}
 func (s *Server) handleDeleteStyleByIdRequest(args [2]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("deleteStyleById"),
 		semconv.HTTPMethodKey.String("DELETE"),
-		semconv.HTTPRouteKey.String("/documents/{id}/styles/{styleId}"),
+		semconv.HTTPRouteKey.String("/api/documents/v1/documents/{id}/styles/{styleId}"),
 	}
 
 	// Start a span for this request.
@@ -796,323 +796,16 @@ func (s *Server) handleDeleteStyleByIdRequest(args [2]string, argsEscaped bool, 
 	}
 }
 
-// handleDocumentsGetRequest handles GET /documents operation.
-//
-// Return paginated dto.
-//
-// GET /documents
-func (s *Server) handleDocumentsGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
-	var otelAttrs []attribute.KeyValue
-
-	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "DocumentsGet",
-		serverSpanKind,
-	)
-	defer span.End()
-
-	// Run stopwatch.
-	startTime := time.Now()
-	defer func() {
-		elapsedDuration := time.Since(startTime)
-		s.duration.Record(ctx, elapsedDuration.Microseconds(), otelAttrs...)
-	}()
-
-	// Increment request counter.
-	s.requests.Add(ctx, 1, otelAttrs...)
-
-	var (
-		recordError = func(stage string, err error) {
-			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, otelAttrs...)
-		}
-		err          error
-		opErrContext = ogenerrors.OperationContext{
-			Name: "DocumentsGet",
-			ID:   "",
-		}
-	)
-	params, err := decodeDocumentsGetParams(args, argsEscaped, r)
-	if err != nil {
-		err = &ogenerrors.DecodeParamsError{
-			OperationContext: opErrContext,
-			Err:              err,
-		}
-		recordError("DecodeParams", err)
-		s.cfg.ErrorHandler(ctx, w, r, err)
-		return
-	}
-
-	var response DocumentsGetRes
-	if m := s.cfg.Middleware; m != nil {
-		mreq := middleware.Request{
-			Context:       ctx,
-			OperationName: "DocumentsGet",
-			OperationID:   "",
-			Body:          nil,
-			Params: middleware.Parameters{
-				{
-					Name: "cursor",
-					In:   "query",
-				}: params.Cursor,
-				{
-					Name: "limit",
-					In:   "query",
-				}: params.Limit,
-			},
-			Raw: r,
-		}
-
-		type (
-			Request  = struct{}
-			Params   = DocumentsGetParams
-			Response = DocumentsGetRes
-		)
-		response, err = middleware.HookMiddleware[
-			Request,
-			Params,
-			Response,
-		](
-			m,
-			mreq,
-			unpackDocumentsGetParams,
-			func(ctx context.Context, request Request, params Params) (response Response, err error) {
-				response, err = s.h.DocumentsGet(ctx, params)
-				return response, err
-			},
-		)
-	} else {
-		response, err = s.h.DocumentsGet(ctx, params)
-	}
-	if err != nil {
-		recordError("Internal", err)
-		s.cfg.ErrorHandler(ctx, w, r, err)
-		return
-	}
-
-	if err := encodeDocumentsGetResponse(response, w, span); err != nil {
-		recordError("EncodeResponse", err)
-		s.cfg.ErrorHandler(ctx, w, r, err)
-		return
-	}
-}
-
-// handleDocumentsIDElementsSeIdGetRequest handles GET /documents/{id}/elements/{seId} operation.
-//
-// Get elements.
-//
-// GET /documents/{id}/elements/{seId}
-func (s *Server) handleDocumentsIDElementsSeIdGetRequest(args [2]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
-	var otelAttrs []attribute.KeyValue
-
-	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "DocumentsIDElementsSeIdGet",
-		serverSpanKind,
-	)
-	defer span.End()
-
-	// Run stopwatch.
-	startTime := time.Now()
-	defer func() {
-		elapsedDuration := time.Since(startTime)
-		s.duration.Record(ctx, elapsedDuration.Microseconds(), otelAttrs...)
-	}()
-
-	// Increment request counter.
-	s.requests.Add(ctx, 1, otelAttrs...)
-
-	var (
-		recordError = func(stage string, err error) {
-			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, otelAttrs...)
-		}
-		err          error
-		opErrContext = ogenerrors.OperationContext{
-			Name: "DocumentsIDElementsSeIdGet",
-			ID:   "",
-		}
-	)
-	params, err := decodeDocumentsIDElementsSeIdGetParams(args, argsEscaped, r)
-	if err != nil {
-		err = &ogenerrors.DecodeParamsError{
-			OperationContext: opErrContext,
-			Err:              err,
-		}
-		recordError("DecodeParams", err)
-		s.cfg.ErrorHandler(ctx, w, r, err)
-		return
-	}
-
-	var response DocumentsIDElementsSeIdGetRes
-	if m := s.cfg.Middleware; m != nil {
-		mreq := middleware.Request{
-			Context:       ctx,
-			OperationName: "DocumentsIDElementsSeIdGet",
-			OperationID:   "",
-			Body:          nil,
-			Params: middleware.Parameters{
-				{
-					Name: "id",
-					In:   "path",
-				}: params.ID,
-				{
-					Name: "seId",
-					In:   "path",
-				}: params.SeId,
-				{
-					Name: "limit",
-					In:   "query",
-				}: params.Limit,
-				{
-					Name: "cursor",
-					In:   "query",
-				}: params.Cursor,
-			},
-			Raw: r,
-		}
-
-		type (
-			Request  = struct{}
-			Params   = DocumentsIDElementsSeIdGetParams
-			Response = DocumentsIDElementsSeIdGetRes
-		)
-		response, err = middleware.HookMiddleware[
-			Request,
-			Params,
-			Response,
-		](
-			m,
-			mreq,
-			unpackDocumentsIDElementsSeIdGetParams,
-			func(ctx context.Context, request Request, params Params) (response Response, err error) {
-				response, err = s.h.DocumentsIDElementsSeIdGet(ctx, params)
-				return response, err
-			},
-		)
-	} else {
-		response, err = s.h.DocumentsIDElementsSeIdGet(ctx, params)
-	}
-	if err != nil {
-		recordError("Internal", err)
-		s.cfg.ErrorHandler(ctx, w, r, err)
-		return
-	}
-
-	if err := encodeDocumentsIDElementsSeIdGetResponse(response, w, span); err != nil {
-		recordError("EncodeResponse", err)
-		s.cfg.ErrorHandler(ctx, w, r, err)
-		return
-	}
-}
-
-// handleDocumentsIDStylesGetRequest handles GET /documents/{id}/styles operation.
-//
-// Get document styles.
-//
-// GET /documents/{id}/styles
-func (s *Server) handleDocumentsIDStylesGetRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
-	var otelAttrs []attribute.KeyValue
-
-	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), "DocumentsIDStylesGet",
-		serverSpanKind,
-	)
-	defer span.End()
-
-	// Run stopwatch.
-	startTime := time.Now()
-	defer func() {
-		elapsedDuration := time.Since(startTime)
-		s.duration.Record(ctx, elapsedDuration.Microseconds(), otelAttrs...)
-	}()
-
-	// Increment request counter.
-	s.requests.Add(ctx, 1, otelAttrs...)
-
-	var (
-		recordError = func(stage string, err error) {
-			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			s.errors.Add(ctx, 1, otelAttrs...)
-		}
-		err          error
-		opErrContext = ogenerrors.OperationContext{
-			Name: "DocumentsIDStylesGet",
-			ID:   "",
-		}
-	)
-	params, err := decodeDocumentsIDStylesGetParams(args, argsEscaped, r)
-	if err != nil {
-		err = &ogenerrors.DecodeParamsError{
-			OperationContext: opErrContext,
-			Err:              err,
-		}
-		recordError("DecodeParams", err)
-		s.cfg.ErrorHandler(ctx, w, r, err)
-		return
-	}
-
-	var response DocumentsIDStylesGetRes
-	if m := s.cfg.Middleware; m != nil {
-		mreq := middleware.Request{
-			Context:       ctx,
-			OperationName: "DocumentsIDStylesGet",
-			OperationID:   "",
-			Body:          nil,
-			Params: middleware.Parameters{
-				{
-					Name: "id",
-					In:   "path",
-				}: params.ID,
-			},
-			Raw: r,
-		}
-
-		type (
-			Request  = struct{}
-			Params   = DocumentsIDStylesGetParams
-			Response = DocumentsIDStylesGetRes
-		)
-		response, err = middleware.HookMiddleware[
-			Request,
-			Params,
-			Response,
-		](
-			m,
-			mreq,
-			unpackDocumentsIDStylesGetParams,
-			func(ctx context.Context, request Request, params Params) (response Response, err error) {
-				response, err = s.h.DocumentsIDStylesGet(ctx, params)
-				return response, err
-			},
-		)
-	} else {
-		response, err = s.h.DocumentsIDStylesGet(ctx, params)
-	}
-	if err != nil {
-		recordError("Internal", err)
-		s.cfg.ErrorHandler(ctx, w, r, err)
-		return
-	}
-
-	if err := encodeDocumentsIDStylesGetResponse(response, w, span); err != nil {
-		recordError("EncodeResponse", err)
-		s.cfg.ErrorHandler(ctx, w, r, err)
-		return
-	}
-}
-
 // handleGetDocumentByIdRequest handles getDocumentById operation.
 //
 // Get document by id.
 //
-// GET /documents/{id}
+// GET /api/documents/v1/documents/{id}
 func (s *Server) handleGetDocumentByIdRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getDocumentById"),
 		semconv.HTTPMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/documents/{id}"),
+		semconv.HTTPRouteKey.String("/api/documents/v1/documents/{id}"),
 	}
 
 	// Start a span for this request.
@@ -1205,16 +898,224 @@ func (s *Server) handleGetDocumentByIdRequest(args [1]string, argsEscaped bool, 
 	}
 }
 
+// handleGetDocumentStylesRequest handles getDocumentStyles operation.
+//
+// Get document styles.
+//
+// GET /api/documents/v1/documents/{id}/styles
+func (s *Server) handleGetDocumentStylesRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("getDocumentStyles"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/api/documents/v1/documents/{id}/styles"),
+	}
+
+	// Start a span for this request.
+	ctx, span := s.cfg.Tracer.Start(r.Context(), "GetDocumentStyles",
+		trace.WithAttributes(otelAttrs...),
+		serverSpanKind,
+	)
+	defer span.End()
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		elapsedDuration := time.Since(startTime)
+		s.duration.Record(ctx, elapsedDuration.Microseconds(), otelAttrs...)
+	}()
+
+	// Increment request counter.
+	s.requests.Add(ctx, 1, otelAttrs...)
+
+	var (
+		recordError = func(stage string, err error) {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			s.errors.Add(ctx, 1, otelAttrs...)
+		}
+		err          error
+		opErrContext = ogenerrors.OperationContext{
+			Name: "GetDocumentStyles",
+			ID:   "getDocumentStyles",
+		}
+	)
+	params, err := decodeGetDocumentStylesParams(args, argsEscaped, r)
+	if err != nil {
+		err = &ogenerrors.DecodeParamsError{
+			OperationContext: opErrContext,
+			Err:              err,
+		}
+		recordError("DecodeParams", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+
+	var response GetDocumentStylesRes
+	if m := s.cfg.Middleware; m != nil {
+		mreq := middleware.Request{
+			Context:       ctx,
+			OperationName: "GetDocumentStyles",
+			OperationID:   "getDocumentStyles",
+			Body:          nil,
+			Params: middleware.Parameters{
+				{
+					Name: "id",
+					In:   "path",
+				}: params.ID,
+			},
+			Raw: r,
+		}
+
+		type (
+			Request  = struct{}
+			Params   = GetDocumentStylesParams
+			Response = GetDocumentStylesRes
+		)
+		response, err = middleware.HookMiddleware[
+			Request,
+			Params,
+			Response,
+		](
+			m,
+			mreq,
+			unpackGetDocumentStylesParams,
+			func(ctx context.Context, request Request, params Params) (response Response, err error) {
+				response, err = s.h.GetDocumentStyles(ctx, params)
+				return response, err
+			},
+		)
+	} else {
+		response, err = s.h.GetDocumentStyles(ctx, params)
+	}
+	if err != nil {
+		recordError("Internal", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+
+	if err := encodeGetDocumentStylesResponse(response, w, span); err != nil {
+		recordError("EncodeResponse", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+}
+
+// handleGetDocumentsRequest handles getDocuments operation.
+//
+// Return paginated dto.
+//
+// GET /api/documents/v1/documents
+func (s *Server) handleGetDocumentsRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("getDocuments"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/api/documents/v1/documents"),
+	}
+
+	// Start a span for this request.
+	ctx, span := s.cfg.Tracer.Start(r.Context(), "GetDocuments",
+		trace.WithAttributes(otelAttrs...),
+		serverSpanKind,
+	)
+	defer span.End()
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		elapsedDuration := time.Since(startTime)
+		s.duration.Record(ctx, elapsedDuration.Microseconds(), otelAttrs...)
+	}()
+
+	// Increment request counter.
+	s.requests.Add(ctx, 1, otelAttrs...)
+
+	var (
+		recordError = func(stage string, err error) {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			s.errors.Add(ctx, 1, otelAttrs...)
+		}
+		err          error
+		opErrContext = ogenerrors.OperationContext{
+			Name: "GetDocuments",
+			ID:   "getDocuments",
+		}
+	)
+	params, err := decodeGetDocumentsParams(args, argsEscaped, r)
+	if err != nil {
+		err = &ogenerrors.DecodeParamsError{
+			OperationContext: opErrContext,
+			Err:              err,
+		}
+		recordError("DecodeParams", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+
+	var response GetDocumentsRes
+	if m := s.cfg.Middleware; m != nil {
+		mreq := middleware.Request{
+			Context:       ctx,
+			OperationName: "GetDocuments",
+			OperationID:   "getDocuments",
+			Body:          nil,
+			Params: middleware.Parameters{
+				{
+					Name: "cursor",
+					In:   "query",
+				}: params.Cursor,
+				{
+					Name: "limit",
+					In:   "query",
+				}: params.Limit,
+			},
+			Raw: r,
+		}
+
+		type (
+			Request  = struct{}
+			Params   = GetDocumentsParams
+			Response = GetDocumentsRes
+		)
+		response, err = middleware.HookMiddleware[
+			Request,
+			Params,
+			Response,
+		](
+			m,
+			mreq,
+			unpackGetDocumentsParams,
+			func(ctx context.Context, request Request, params Params) (response Response, err error) {
+				response, err = s.h.GetDocuments(ctx, params)
+				return response, err
+			},
+		)
+	} else {
+		response, err = s.h.GetDocuments(ctx, params)
+	}
+	if err != nil {
+		recordError("Internal", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+
+	if err := encodeGetDocumentsResponse(response, w, span); err != nil {
+		recordError("EncodeResponse", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+}
+
 // handleGetElementsRequest handles getElements operation.
 //
 // Get structural elements in document.
 //
-// GET /documents/{id}/elements
+// GET /api/documents/v1/documents/{id}/elements
 func (s *Server) handleGetElementsRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getElements"),
 		semconv.HTTPMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/documents/{id}/elements"),
+		semconv.HTTPRouteKey.String("/api/documents/v1/documents/{id}/elements"),
 	}
 
 	// Start a span for this request.
@@ -1319,12 +1220,12 @@ func (s *Server) handleGetElementsRequest(args [1]string, argsEscaped bool, w ht
 //
 // Get paragraphs elements by indexes.
 //
-// GET /documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
+// GET /api/documents/v1/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
 func (s *Server) handleGetParagraphElementByIndexesRequest(args [3]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getParagraphElementByIndexes"),
 		semconv.HTTPMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}"),
+		semconv.HTTPRouteKey.String("/api/documents/v1/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}"),
 	}
 
 	// Start a span for this request.
@@ -1425,16 +1326,130 @@ func (s *Server) handleGetParagraphElementByIndexesRequest(args [3]string, argsE
 	}
 }
 
+// handleGetParagraphElementsRequest handles getParagraphElements operation.
+//
+// Get elements.
+//
+// GET /api/documents/v1/documents/{id}/elements/{seId}
+func (s *Server) handleGetParagraphElementsRequest(args [2]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("getParagraphElements"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/api/documents/v1/documents/{id}/elements/{seId}"),
+	}
+
+	// Start a span for this request.
+	ctx, span := s.cfg.Tracer.Start(r.Context(), "GetParagraphElements",
+		trace.WithAttributes(otelAttrs...),
+		serverSpanKind,
+	)
+	defer span.End()
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		elapsedDuration := time.Since(startTime)
+		s.duration.Record(ctx, elapsedDuration.Microseconds(), otelAttrs...)
+	}()
+
+	// Increment request counter.
+	s.requests.Add(ctx, 1, otelAttrs...)
+
+	var (
+		recordError = func(stage string, err error) {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			s.errors.Add(ctx, 1, otelAttrs...)
+		}
+		err          error
+		opErrContext = ogenerrors.OperationContext{
+			Name: "GetParagraphElements",
+			ID:   "getParagraphElements",
+		}
+	)
+	params, err := decodeGetParagraphElementsParams(args, argsEscaped, r)
+	if err != nil {
+		err = &ogenerrors.DecodeParamsError{
+			OperationContext: opErrContext,
+			Err:              err,
+		}
+		recordError("DecodeParams", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+
+	var response GetParagraphElementsRes
+	if m := s.cfg.Middleware; m != nil {
+		mreq := middleware.Request{
+			Context:       ctx,
+			OperationName: "GetParagraphElements",
+			OperationID:   "getParagraphElements",
+			Body:          nil,
+			Params: middleware.Parameters{
+				{
+					Name: "id",
+					In:   "path",
+				}: params.ID,
+				{
+					Name: "seId",
+					In:   "path",
+				}: params.SeId,
+				{
+					Name: "limit",
+					In:   "query",
+				}: params.Limit,
+				{
+					Name: "cursor",
+					In:   "query",
+				}: params.Cursor,
+			},
+			Raw: r,
+		}
+
+		type (
+			Request  = struct{}
+			Params   = GetParagraphElementsParams
+			Response = GetParagraphElementsRes
+		)
+		response, err = middleware.HookMiddleware[
+			Request,
+			Params,
+			Response,
+		](
+			m,
+			mreq,
+			unpackGetParagraphElementsParams,
+			func(ctx context.Context, request Request, params Params) (response Response, err error) {
+				response, err = s.h.GetParagraphElements(ctx, params)
+				return response, err
+			},
+		)
+	} else {
+		response, err = s.h.GetParagraphElements(ctx, params)
+	}
+	if err != nil {
+		recordError("Internal", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+
+	if err := encodeGetParagraphElementsResponse(response, w, span); err != nil {
+		recordError("EncodeResponse", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+}
+
 // handleUpdateDocumentByIdRequest handles updateDocumentById operation.
 //
 // Update document by id.
 //
-// PUT /documents/{id}
+// PUT /api/documents/v1/documents/{id}
 func (s *Server) handleUpdateDocumentByIdRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateDocumentById"),
 		semconv.HTTPMethodKey.String("PUT"),
-		semconv.HTTPRouteKey.String("/documents/{id}"),
+		semconv.HTTPRouteKey.String("/api/documents/v1/documents/{id}"),
 	}
 
 	// Start a span for this request.
@@ -1546,12 +1561,12 @@ func (s *Server) handleUpdateDocumentByIdRequest(args [1]string, argsEscaped boo
 //
 // Update paragraph element.
 //
-// PUT /documents/{id}/elements/{seId}/element/paragraphs/{elementId}
+// PUT /api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs/{elementId}
 func (s *Server) handleUpdateParagraphElementRequest(args [3]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateParagraphElement"),
 		semconv.HTTPMethodKey.String("PUT"),
-		semconv.HTTPRouteKey.String("/documents/{id}/elements/{seId}/element/paragraphs/{elementId}"),
+		semconv.HTTPRouteKey.String("/api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs/{elementId}"),
 	}
 
 	// Start a span for this request.
@@ -1671,12 +1686,12 @@ func (s *Server) handleUpdateParagraphElementRequest(args [3]string, argsEscaped
 //
 // Update paragraph element by indexes.
 //
-// PUT /documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
+// PUT /api/documents/v1/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
 func (s *Server) handleUpdateParagraphElementByIndexesRequest(args [3]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateParagraphElementByIndexes"),
 		semconv.HTTPMethodKey.String("PUT"),
-		semconv.HTTPRouteKey.String("/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}"),
+		semconv.HTTPRouteKey.String("/api/documents/v1/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}"),
 	}
 
 	// Start a span for this request.
@@ -1796,12 +1811,12 @@ func (s *Server) handleUpdateParagraphElementByIndexesRequest(args [3]string, ar
 //
 // Update structural element.
 //
-// PUT /documents/{id}/elements/{seId}
+// PUT /api/documents/v1/documents/{id}/elements/{seId}
 func (s *Server) handleUpdateStructuralElementRequest(args [2]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateStructuralElement"),
 		semconv.HTTPMethodKey.String("PUT"),
-		semconv.HTTPRouteKey.String("/documents/{id}/elements/{seId}"),
+		semconv.HTTPRouteKey.String("/api/documents/v1/documents/{id}/elements/{seId}"),
 	}
 
 	// Start a span for this request.
@@ -1917,12 +1932,12 @@ func (s *Server) handleUpdateStructuralElementRequest(args [2]string, argsEscape
 //
 // Update style by id.
 //
-// PUT /documents/{id}/styles/{styleId}
+// PUT /api/documents/v1/documents/{id}/styles/{styleId}
 func (s *Server) handleUpdateStyleByIdRequest(args [2]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateStyleById"),
 		semconv.HTTPMethodKey.String("PUT"),
-		semconv.HTTPRouteKey.String("/documents/{id}/styles/{styleId}"),
+		semconv.HTTPRouteKey.String("/api/documents/v1/documents/{id}/styles/{styleId}"),
 	}
 
 	// Start a span for this request.

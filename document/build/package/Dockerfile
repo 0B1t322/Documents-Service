@@ -21,5 +21,6 @@ ENV DOCUMENTS_APP_MIGRATIONS_DIR="migrations"
 COPY --from=builder /app/documents /build/documents
 COPY --from=builder /app/migrate /build/migrate
 COPY --from=builder /app/document/internal/migrations/pgql /build/migrations
+COPY --from=builder /app/api /build/api
 
 CMD ["./documents"]

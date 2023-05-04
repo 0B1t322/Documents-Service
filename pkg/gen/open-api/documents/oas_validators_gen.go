@@ -293,7 +293,7 @@ func (s *DocumentStyle) Validate() error {
 	}
 	return nil
 }
-func (s DocumentsIDStylesGetOKApplicationJSON) Validate() error {
+func (s GetDocumentStylesOKApplicationJSON) Validate() error {
 	if s == nil {
 		return errors.New("nil is invalid value")
 	}

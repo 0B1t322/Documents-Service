@@ -12,25 +12,25 @@ type Handler interface {
 	//
 	// Get history of operations.
 	//
-	// GET /document/{id}/history
+	// GET /api/sessions/v1/document/{id}/history
 	GetDocumentHistory(ctx context.Context, params GetDocumentHistoryParams) (GetDocumentHistoryRes, error)
 	// GetDocumentRevisionId implements getDocumentRevisionId operation.
 	//
 	// Return current document revision id.
 	//
-	// GET /documents/{id}/revisionId
+	// GET /api/sessions/v1/documents/{id}/revisionId
 	GetDocumentRevisionId(ctx context.Context, params GetDocumentRevisionIdParams) (GetDocumentRevisionIdRes, error)
 	// PushOperationToDocument implements pushOperationToDocument operation.
 	//
 	// Push operation to document.
 	//
-	// POST /documents/{id}/save
+	// POST /api/sessions/v1/documents/{id}/save
 	PushOperationToDocument(ctx context.Context, req *SaveDocumentRequest, params PushOperationToDocumentParams) (PushOperationToDocumentRes, error)
 	// SyncDocumentsById implements syncDocumentsById operation.
 	//
 	// Return all operation that need to apply.
 	//
-	// GET /documents/{id}/sync
+	// GET /api/sessions/v1/documents/{id}/sync
 	SyncDocumentsById(ctx context.Context, params SyncDocumentsByIdParams) (SyncDocumentsByIdRes, error)
 }
 

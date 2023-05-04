@@ -647,10 +647,6 @@ func (s *DocumentStyle) SetSize(val Size) {
 	s.Size = val
 }
 
-type DocumentsIDStylesGetOKApplicationJSON []Style
-
-func (*DocumentsIDStylesGetOKApplicationJSON) documentsIDStylesGetRes() {}
-
 // Ref: #/components/schemas/Equation
 type Equation struct {
 	ID          int    `json:"id"`
@@ -749,17 +745,21 @@ func (*ErrorStatusCode) createParagraphElementRes()          {}
 func (*ErrorStatusCode) deleteParagraphElementRes()          {}
 func (*ErrorStatusCode) deleteStructuralElementByIDRes()     {}
 func (*ErrorStatusCode) deleteStyleByIdRes()                 {}
-func (*ErrorStatusCode) documentsGetRes()                    {}
-func (*ErrorStatusCode) documentsIDElementsSeIdGetRes()      {}
-func (*ErrorStatusCode) documentsIDStylesGetRes()            {}
 func (*ErrorStatusCode) getDocumentByIdRes()                 {}
+func (*ErrorStatusCode) getDocumentStylesRes()               {}
+func (*ErrorStatusCode) getDocumentsRes()                    {}
 func (*ErrorStatusCode) getElementsRes()                     {}
 func (*ErrorStatusCode) getParagraphElementByIndexesRes()    {}
+func (*ErrorStatusCode) getParagraphElementsRes()            {}
 func (*ErrorStatusCode) updateDocumentByIdRes()              {}
 func (*ErrorStatusCode) updateParagraphElementByIndexesRes() {}
 func (*ErrorStatusCode) updateParagraphElementRes()          {}
 func (*ErrorStatusCode) updateStructuralElementRes()         {}
 func (*ErrorStatusCode) updateStyleByIdRes()                 {}
+
+type GetDocumentStylesOKApplicationJSON []Style
+
+func (*GetDocumentStylesOKApplicationJSON) getDocumentStylesRes() {}
 
 // Ref: #/components/schemas/InlineObjectElement
 type InlineObjectElement struct {
@@ -1033,7 +1033,7 @@ func (s *PaginatedDocuments) SetCursor(val string) {
 	s.Cursor = val
 }
 
-func (*PaginatedDocuments) documentsGetRes() {}
+func (*PaginatedDocuments) getDocumentsRes() {}
 
 // Ref: #/components/schemas/PaginatedParagrahElements
 type PaginatedParagrahElements struct {
@@ -1061,7 +1061,7 @@ func (s *PaginatedParagrahElements) SetCursor(val string) {
 	s.Cursor = val
 }
 
-func (*PaginatedParagrahElements) documentsIDElementsSeIdGetRes() {}
+func (*PaginatedParagrahElements) getParagraphElementsRes() {}
 
 // Ref: #/components/schemas/PaginatedStructuralElements
 type PaginatedStructuralElements struct {

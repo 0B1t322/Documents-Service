@@ -50,10 +50,10 @@ func (d DocumentsController) CreateDocument(
 	return d.mapper.Document(document), nil
 }
 
-func (d DocumentsController) DocumentsGet(
+func (d DocumentsController) GetDocuments(
 	ctx context.Context,
-	params documents.DocumentsGetParams,
-) (documents.DocumentsGetRes, error) {
+	params documents.GetDocumentsParams,
+) (documents.GetDocumentsRes, error) {
 	res, err := d.service.GetDocuments(ctx, d.mapper.GetDocumentsReq(params))
 	if d.service.IsParametersNotValid(err) {
 		return BadRequest(err)

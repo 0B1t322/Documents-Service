@@ -17,7 +17,7 @@ var _ Handler = UnimplementedHandler{}
 //
 // Get history of operations.
 //
-// GET /document/{id}/history
+// GET /api/sessions/v1/document/{id}/history
 func (UnimplementedHandler) GetDocumentHistory(ctx context.Context, params GetDocumentHistoryParams) (r GetDocumentHistoryRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
@@ -26,7 +26,7 @@ func (UnimplementedHandler) GetDocumentHistory(ctx context.Context, params GetDo
 //
 // Return current document revision id.
 //
-// GET /documents/{id}/revisionId
+// GET /api/sessions/v1/documents/{id}/revisionId
 func (UnimplementedHandler) GetDocumentRevisionId(ctx context.Context, params GetDocumentRevisionIdParams) (r GetDocumentRevisionIdRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
@@ -35,7 +35,7 @@ func (UnimplementedHandler) GetDocumentRevisionId(ctx context.Context, params Ge
 //
 // Push operation to document.
 //
-// POST /documents/{id}/save
+// POST /api/sessions/v1/documents/{id}/save
 func (UnimplementedHandler) PushOperationToDocument(ctx context.Context, req *SaveDocumentRequest, params PushOperationToDocumentParams) (r PushOperationToDocumentRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
@@ -44,7 +44,7 @@ func (UnimplementedHandler) PushOperationToDocument(ctx context.Context, req *Sa
 //
 // Return all operation that need to apply.
 //
-// GET /documents/{id}/sync
+// GET /api/sessions/v1/documents/{id}/sync
 func (UnimplementedHandler) SyncDocumentsById(ctx context.Context, params SyncDocumentsByIdParams) (r SyncDocumentsByIdRes, _ error) {
 	return r, ht.ErrNotImplemented
 }

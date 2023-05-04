@@ -2041,56 +2041,6 @@ func (s *DocumentStyle) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
-// Encode encodes DocumentsIDStylesGetOKApplicationJSON as json.
-func (s DocumentsIDStylesGetOKApplicationJSON) Encode(e *jx.Encoder) {
-	unwrapped := []Style(s)
-
-	e.ArrStart()
-	for _, elem := range unwrapped {
-		elem.Encode(e)
-	}
-	e.ArrEnd()
-}
-
-// Decode decodes DocumentsIDStylesGetOKApplicationJSON from json.
-func (s *DocumentsIDStylesGetOKApplicationJSON) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DocumentsIDStylesGetOKApplicationJSON to nil")
-	}
-	var unwrapped []Style
-	if err := func() error {
-		unwrapped = make([]Style, 0)
-		if err := d.Arr(func(d *jx.Decoder) error {
-			var elem Style
-			if err := elem.Decode(d); err != nil {
-				return err
-			}
-			unwrapped = append(unwrapped, elem)
-			return nil
-		}); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = DocumentsIDStylesGetOKApplicationJSON(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s DocumentsIDStylesGetOKApplicationJSON) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DocumentsIDStylesGetOKApplicationJSON) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
 // Encode implements json.Marshaler.
 func (s *Equation) Encode(e *jx.Encoder) {
 	e.ObjStart()
@@ -2335,6 +2285,56 @@ func (s *Error) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *Error) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes GetDocumentStylesOKApplicationJSON as json.
+func (s GetDocumentStylesOKApplicationJSON) Encode(e *jx.Encoder) {
+	unwrapped := []Style(s)
+
+	e.ArrStart()
+	for _, elem := range unwrapped {
+		elem.Encode(e)
+	}
+	e.ArrEnd()
+}
+
+// Decode decodes GetDocumentStylesOKApplicationJSON from json.
+func (s *GetDocumentStylesOKApplicationJSON) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetDocumentStylesOKApplicationJSON to nil")
+	}
+	var unwrapped []Style
+	if err := func() error {
+		unwrapped = make([]Style, 0)
+		if err := d.Arr(func(d *jx.Decoder) error {
+			var elem Style
+			if err := elem.Decode(d); err != nil {
+				return err
+			}
+			unwrapped = append(unwrapped, elem)
+			return nil
+		}); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return errors.Wrap(err, "alias")
+	}
+	*s = GetDocumentStylesOKApplicationJSON(unwrapped)
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s GetDocumentStylesOKApplicationJSON) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *GetDocumentStylesOKApplicationJSON) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }

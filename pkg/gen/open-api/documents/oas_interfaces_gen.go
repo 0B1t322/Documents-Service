@@ -29,20 +29,16 @@ type DeleteStyleByIdRes interface {
 	deleteStyleByIdRes()
 }
 
-type DocumentsGetRes interface {
-	documentsGetRes()
-}
-
-type DocumentsIDElementsSeIdGetRes interface {
-	documentsIDElementsSeIdGetRes()
-}
-
-type DocumentsIDStylesGetRes interface {
-	documentsIDStylesGetRes()
-}
-
 type GetDocumentByIdRes interface {
 	getDocumentByIdRes()
+}
+
+type GetDocumentStylesRes interface {
+	getDocumentStylesRes()
+}
+
+type GetDocumentsRes interface {
+	getDocumentsRes()
 }
 
 type GetElementsRes interface {
@@ -51,6 +47,10 @@ type GetElementsRes interface {
 
 type GetParagraphElementByIndexesRes interface {
 	getParagraphElementByIndexesRes()
+}
+
+type GetParagraphElementsRes interface {
+	getParagraphElementsRes()
 }
 
 type UpdateDocumentByIdRes interface {

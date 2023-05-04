@@ -50,8 +50,8 @@ func NewHTTPAppFromConfig(cfg config.Config) (*HTTPApp, error) {
 	}, nil
 }
 
-func (a *HTTPApp) ToHandler(basePath string) (http.Handler, error) {
-	s, err := documents.NewServer(a, documents.WithPathPrefix(basePath))
+func (a *HTTPApp) ToHandler() (http.Handler, error) {
+	s, err := documents.NewServer(a)
 	if err != nil {
 		return nil, err
 	}

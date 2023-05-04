@@ -17,7 +17,7 @@ var _ Handler = UnimplementedHandler{}
 //
 // Create document.
 //
-// POST /documents
+// POST /api/documents/v1/documents
 func (UnimplementedHandler) CreateDocument(ctx context.Context, req *CreateUpdateDocumentView) (r CreateDocumentRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
@@ -26,7 +26,7 @@ func (UnimplementedHandler) CreateDocument(ctx context.Context, req *CreateUpdat
 //
 // Create document style.
 //
-// POST /documents/{id}/styles
+// POST /api/documents/v1/documents/{id}/styles
 func (UnimplementedHandler) CreateDocumentStyle(ctx context.Context, req *CreateUpdateStyle, params CreateDocumentStyleParams) (r CreateDocumentStyleRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
@@ -35,7 +35,7 @@ func (UnimplementedHandler) CreateDocumentStyle(ctx context.Context, req *Create
 //
 // Create structural element in document.
 //
-// POST /documents/{id}/elements
+// POST /api/documents/v1/documents/{id}/elements
 func (UnimplementedHandler) CreateElement(ctx context.Context, req *CreateUpdateStructuralElement, params CreateElementParams) (r CreateElementRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
@@ -44,7 +44,7 @@ func (UnimplementedHandler) CreateElement(ctx context.Context, req *CreateUpdate
 //
 // Create paragraph element.
 //
-// POST /documents/{id}/elements/{seId}/element/paragraphs
+// POST /api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs
 func (UnimplementedHandler) CreateParagraphElement(ctx context.Context, req *CreateUpdateParagraphElement, params CreateParagraphElementParams) (r CreateParagraphElementRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
@@ -53,7 +53,7 @@ func (UnimplementedHandler) CreateParagraphElement(ctx context.Context, req *Cre
 //
 // Delete paragraph element.
 //
-// DELETE /documents/{id}/elements/{seId}/element/paragraphs/{elementId}
+// DELETE /api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs/{elementId}
 func (UnimplementedHandler) DeleteParagraphElement(ctx context.Context, params DeleteParagraphElementParams) (r DeleteParagraphElementRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
@@ -62,7 +62,7 @@ func (UnimplementedHandler) DeleteParagraphElement(ctx context.Context, params D
 //
 // Delete structural element.
 //
-// DELETE /documents/{id}/elements/{seId}
+// DELETE /api/documents/v1/documents/{id}/elements/{seId}
 func (UnimplementedHandler) DeleteStructuralElementByID(ctx context.Context, params DeleteStructuralElementByIDParams) (r DeleteStructuralElementByIDRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
@@ -71,35 +71,8 @@ func (UnimplementedHandler) DeleteStructuralElementByID(ctx context.Context, par
 //
 // Delete style by id.
 //
-// DELETE /documents/{id}/styles/{styleId}
+// DELETE /api/documents/v1/documents/{id}/styles/{styleId}
 func (UnimplementedHandler) DeleteStyleById(ctx context.Context, params DeleteStyleByIdParams) (r DeleteStyleByIdRes, _ error) {
-	return r, ht.ErrNotImplemented
-}
-
-// DocumentsGet implements GET /documents operation.
-//
-// Return paginated dto.
-//
-// GET /documents
-func (UnimplementedHandler) DocumentsGet(ctx context.Context, params DocumentsGetParams) (r DocumentsGetRes, _ error) {
-	return r, ht.ErrNotImplemented
-}
-
-// DocumentsIDElementsSeIdGet implements GET /documents/{id}/elements/{seId} operation.
-//
-// Get elements.
-//
-// GET /documents/{id}/elements/{seId}
-func (UnimplementedHandler) DocumentsIDElementsSeIdGet(ctx context.Context, params DocumentsIDElementsSeIdGetParams) (r DocumentsIDElementsSeIdGetRes, _ error) {
-	return r, ht.ErrNotImplemented
-}
-
-// DocumentsIDStylesGet implements GET /documents/{id}/styles operation.
-//
-// Get document styles.
-//
-// GET /documents/{id}/styles
-func (UnimplementedHandler) DocumentsIDStylesGet(ctx context.Context, params DocumentsIDStylesGetParams) (r DocumentsIDStylesGetRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
 
@@ -107,8 +80,26 @@ func (UnimplementedHandler) DocumentsIDStylesGet(ctx context.Context, params Doc
 //
 // Get document by id.
 //
-// GET /documents/{id}
+// GET /api/documents/v1/documents/{id}
 func (UnimplementedHandler) GetDocumentById(ctx context.Context, params GetDocumentByIdParams) (r GetDocumentByIdRes, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// GetDocumentStyles implements getDocumentStyles operation.
+//
+// Get document styles.
+//
+// GET /api/documents/v1/documents/{id}/styles
+func (UnimplementedHandler) GetDocumentStyles(ctx context.Context, params GetDocumentStylesParams) (r GetDocumentStylesRes, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// GetDocuments implements getDocuments operation.
+//
+// Return paginated dto.
+//
+// GET /api/documents/v1/documents
+func (UnimplementedHandler) GetDocuments(ctx context.Context, params GetDocumentsParams) (r GetDocumentsRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
 
@@ -116,7 +107,7 @@ func (UnimplementedHandler) GetDocumentById(ctx context.Context, params GetDocum
 //
 // Get structural elements in document.
 //
-// GET /documents/{id}/elements
+// GET /api/documents/v1/documents/{id}/elements
 func (UnimplementedHandler) GetElements(ctx context.Context, params GetElementsParams) (r GetElementsRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
@@ -125,8 +116,17 @@ func (UnimplementedHandler) GetElements(ctx context.Context, params GetElementsP
 //
 // Get paragraphs elements by indexes.
 //
-// GET /documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
+// GET /api/documents/v1/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
 func (UnimplementedHandler) GetParagraphElementByIndexes(ctx context.Context, params GetParagraphElementByIndexesParams) (r GetParagraphElementByIndexesRes, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// GetParagraphElements implements getParagraphElements operation.
+//
+// Get elements.
+//
+// GET /api/documents/v1/documents/{id}/elements/{seId}
+func (UnimplementedHandler) GetParagraphElements(ctx context.Context, params GetParagraphElementsParams) (r GetParagraphElementsRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
 
@@ -134,7 +134,7 @@ func (UnimplementedHandler) GetParagraphElementByIndexes(ctx context.Context, pa
 //
 // Update document by id.
 //
-// PUT /documents/{id}
+// PUT /api/documents/v1/documents/{id}
 func (UnimplementedHandler) UpdateDocumentById(ctx context.Context, req *CreateUpdateDocumentView, params UpdateDocumentByIdParams) (r UpdateDocumentByIdRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
@@ -143,7 +143,7 @@ func (UnimplementedHandler) UpdateDocumentById(ctx context.Context, req *CreateU
 //
 // Update paragraph element.
 //
-// PUT /documents/{id}/elements/{seId}/element/paragraphs/{elementId}
+// PUT /api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs/{elementId}
 func (UnimplementedHandler) UpdateParagraphElement(ctx context.Context, req *UpdateParagraphElement, params UpdateParagraphElementParams) (r UpdateParagraphElementRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
@@ -152,7 +152,7 @@ func (UnimplementedHandler) UpdateParagraphElement(ctx context.Context, req *Upd
 //
 // Update paragraph element by indexes.
 //
-// PUT /documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
+// PUT /api/documents/v1/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
 func (UnimplementedHandler) UpdateParagraphElementByIndexes(ctx context.Context, req *UpdateParagraphElement, params UpdateParagraphElementByIndexesParams) (r UpdateParagraphElementByIndexesRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
@@ -161,7 +161,7 @@ func (UnimplementedHandler) UpdateParagraphElementByIndexes(ctx context.Context,
 //
 // Update structural element.
 //
-// PUT /documents/{id}/elements/{seId}
+// PUT /api/documents/v1/documents/{id}/elements/{seId}
 func (UnimplementedHandler) UpdateStructuralElement(ctx context.Context, req *UpdateStyleOfStructuralElement, params UpdateStructuralElementParams) (r UpdateStructuralElementRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
@@ -170,7 +170,7 @@ func (UnimplementedHandler) UpdateStructuralElement(ctx context.Context, req *Up
 //
 // Update style by id.
 //
-// PUT /documents/{id}/styles/{styleId}
+// PUT /api/documents/v1/documents/{id}/styles/{styleId}
 func (UnimplementedHandler) UpdateStyleById(ctx context.Context, req *CreateUpdateStyle, params UpdateStyleByIdParams) (r UpdateStyleByIdRes, _ error) {
 	return r, ht.ErrNotImplemented
 }

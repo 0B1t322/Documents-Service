@@ -42,11 +42,11 @@ func main() {
 	api := eng.Group("/api")
 	{
 		api.Use(CORSMiddleware())
-		documents := api.Group("documents")
+		documents := api.Group("/documents")
 		{
 			v1 := documents.Group("/v1")
 			{
-				appHandler, err := app.ToHandler(v1.BasePath())
+				appHandler, err := app.ToHandler()
 				if err != nil {
 					panic(err)
 				}
@@ -60,7 +60,7 @@ func main() {
 
 			swagger := documents.Group("/swagger")
 			{
-				swagger.Static("", "./api/open-api")
+				swagger.Static("", "./api/open-api/documents")
 			}
 		}
 	}

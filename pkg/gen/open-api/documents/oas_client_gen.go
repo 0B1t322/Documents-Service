@@ -71,7 +71,7 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 //
 // Create document.
 //
-// POST /documents
+// POST /api/documents/v1/documents
 func (c *Client) CreateDocument(ctx context.Context, request *CreateUpdateDocumentView) (CreateDocumentRes, error) {
 	res, err := c.sendCreateDocument(ctx, request)
 	_ = res
@@ -121,7 +121,7 @@ func (c *Client) sendCreateDocument(ctx context.Context, request *CreateUpdateDo
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
-	pathParts[0] = "/documents"
+	pathParts[0] = "/api/documents/v1/documents"
 	uri.AddPathParts(u, pathParts[:]...)
 
 	stage = "EncodeRequest"
@@ -153,7 +153,7 @@ func (c *Client) sendCreateDocument(ctx context.Context, request *CreateUpdateDo
 //
 // Create document style.
 //
-// POST /documents/{id}/styles
+// POST /api/documents/v1/documents/{id}/styles
 func (c *Client) CreateDocumentStyle(ctx context.Context, request *CreateUpdateStyle, params CreateDocumentStyleParams) (CreateDocumentStyleRes, error) {
 	res, err := c.sendCreateDocumentStyle(ctx, request, params)
 	_ = res
@@ -203,7 +203,7 @@ func (c *Client) sendCreateDocumentStyle(ctx context.Context, request *CreateUpd
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
-	pathParts[0] = "/documents/"
+	pathParts[0] = "/api/documents/v1/documents/"
 	{
 		// Encode "id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -254,7 +254,7 @@ func (c *Client) sendCreateDocumentStyle(ctx context.Context, request *CreateUpd
 //
 // Create structural element in document.
 //
-// POST /documents/{id}/elements
+// POST /api/documents/v1/documents/{id}/elements
 func (c *Client) CreateElement(ctx context.Context, request *CreateUpdateStructuralElement, params CreateElementParams) (CreateElementRes, error) {
 	res, err := c.sendCreateElement(ctx, request, params)
 	_ = res
@@ -295,7 +295,7 @@ func (c *Client) sendCreateElement(ctx context.Context, request *CreateUpdateStr
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
-	pathParts[0] = "/documents/"
+	pathParts[0] = "/api/documents/v1/documents/"
 	{
 		// Encode "id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -346,7 +346,7 @@ func (c *Client) sendCreateElement(ctx context.Context, request *CreateUpdateStr
 //
 // Create paragraph element.
 //
-// POST /documents/{id}/elements/{seId}/element/paragraphs
+// POST /api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs
 func (c *Client) CreateParagraphElement(ctx context.Context, request *CreateUpdateParagraphElement, params CreateParagraphElementParams) (CreateParagraphElementRes, error) {
 	res, err := c.sendCreateParagraphElement(ctx, request, params)
 	_ = res
@@ -387,7 +387,7 @@ func (c *Client) sendCreateParagraphElement(ctx context.Context, request *Create
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [5]string
-	pathParts[0] = "/documents/"
+	pathParts[0] = "/api/documents/v1/documents/"
 	{
 		// Encode "id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -457,7 +457,7 @@ func (c *Client) sendCreateParagraphElement(ctx context.Context, request *Create
 //
 // Delete paragraph element.
 //
-// DELETE /documents/{id}/elements/{seId}/element/paragraphs/{elementId}
+// DELETE /api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs/{elementId}
 func (c *Client) DeleteParagraphElement(ctx context.Context, params DeleteParagraphElementParams) (DeleteParagraphElementRes, error) {
 	res, err := c.sendDeleteParagraphElement(ctx, params)
 	_ = res
@@ -498,7 +498,7 @@ func (c *Client) sendDeleteParagraphElement(ctx context.Context, params DeletePa
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [6]string
-	pathParts[0] = "/documents/"
+	pathParts[0] = "/api/documents/v1/documents/"
 	{
 		// Encode "id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -583,7 +583,7 @@ func (c *Client) sendDeleteParagraphElement(ctx context.Context, params DeletePa
 //
 // Delete structural element.
 //
-// DELETE /documents/{id}/elements/{seId}
+// DELETE /api/documents/v1/documents/{id}/elements/{seId}
 func (c *Client) DeleteStructuralElementByID(ctx context.Context, params DeleteStructuralElementByIDParams) (DeleteStructuralElementByIDRes, error) {
 	res, err := c.sendDeleteStructuralElementByID(ctx, params)
 	_ = res
@@ -624,7 +624,7 @@ func (c *Client) sendDeleteStructuralElementByID(ctx context.Context, params Del
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [4]string
-	pathParts[0] = "/documents/"
+	pathParts[0] = "/api/documents/v1/documents/"
 	{
 		// Encode "id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -690,7 +690,7 @@ func (c *Client) sendDeleteStructuralElementByID(ctx context.Context, params Del
 //
 // Delete style by id.
 //
-// DELETE /documents/{id}/styles/{styleId}
+// DELETE /api/documents/v1/documents/{id}/styles/{styleId}
 func (c *Client) DeleteStyleById(ctx context.Context, params DeleteStyleByIdParams) (DeleteStyleByIdRes, error) {
 	res, err := c.sendDeleteStyleById(ctx, params)
 	_ = res
@@ -731,7 +731,7 @@ func (c *Client) sendDeleteStyleById(ctx context.Context, params DeleteStyleById
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [4]string
-	pathParts[0] = "/documents/"
+	pathParts[0] = "/api/documents/v1/documents/"
 	{
 		// Encode "id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -793,344 +793,11 @@ func (c *Client) sendDeleteStyleById(ctx context.Context, params DeleteStyleById
 	return result, nil
 }
 
-// DocumentsGet invokes GET /documents operation.
-//
-// Return paginated dto.
-//
-// GET /documents
-func (c *Client) DocumentsGet(ctx context.Context, params DocumentsGetParams) (DocumentsGetRes, error) {
-	res, err := c.sendDocumentsGet(ctx, params)
-	_ = res
-	return res, err
-}
-
-func (c *Client) sendDocumentsGet(ctx context.Context, params DocumentsGetParams) (res DocumentsGetRes, err error) {
-	var otelAttrs []attribute.KeyValue
-
-	// Run stopwatch.
-	startTime := time.Now()
-	defer func() {
-		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, elapsedDuration.Microseconds(), otelAttrs...)
-	}()
-
-	// Increment request counter.
-	c.requests.Add(ctx, 1, otelAttrs...)
-
-	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "DocumentsGet",
-		clientSpanKind,
-	)
-	// Track stage for error reporting.
-	var stage string
-	defer func() {
-		if err != nil {
-			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			c.errors.Add(ctx, 1, otelAttrs...)
-		}
-		span.End()
-	}()
-
-	stage = "BuildURL"
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/documents"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	stage = "EncodeQueryParams"
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "cursor" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "cursor",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Cursor.Get(); ok {
-				return e.EncodeValue(conv.StringToString(val))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "limit" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "limit",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Limit.Get(); ok {
-				return e.EncodeValue(conv.UintToString(val))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	stage = "EncodeRequest"
-	r, err := ht.NewRequest(ctx, "GET", u, nil)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	stage = "SendRequest"
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	stage = "DecodeResponse"
-	result, err := decodeDocumentsGetResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DocumentsIDElementsSeIdGet invokes GET /documents/{id}/elements/{seId} operation.
-//
-// Get elements.
-//
-// GET /documents/{id}/elements/{seId}
-func (c *Client) DocumentsIDElementsSeIdGet(ctx context.Context, params DocumentsIDElementsSeIdGetParams) (DocumentsIDElementsSeIdGetRes, error) {
-	res, err := c.sendDocumentsIDElementsSeIdGet(ctx, params)
-	_ = res
-	return res, err
-}
-
-func (c *Client) sendDocumentsIDElementsSeIdGet(ctx context.Context, params DocumentsIDElementsSeIdGetParams) (res DocumentsIDElementsSeIdGetRes, err error) {
-	var otelAttrs []attribute.KeyValue
-
-	// Run stopwatch.
-	startTime := time.Now()
-	defer func() {
-		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, elapsedDuration.Microseconds(), otelAttrs...)
-	}()
-
-	// Increment request counter.
-	c.requests.Add(ctx, 1, otelAttrs...)
-
-	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "DocumentsIDElementsSeIdGet",
-		clientSpanKind,
-	)
-	// Track stage for error reporting.
-	var stage string
-	defer func() {
-		if err != nil {
-			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			c.errors.Add(ctx, 1, otelAttrs...)
-		}
-		span.End()
-	}()
-
-	stage = "BuildURL"
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/documents/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/elements/"
-	{
-		// Encode "seId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "seId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.SeId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	stage = "EncodeQueryParams"
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "limit" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "limit",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Limit.Get(); ok {
-				return e.EncodeValue(conv.UintToString(val))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "cursor" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "cursor",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Cursor.Get(); ok {
-				return e.EncodeValue(conv.StringToString(val))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	stage = "EncodeRequest"
-	r, err := ht.NewRequest(ctx, "GET", u, nil)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	stage = "SendRequest"
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	stage = "DecodeResponse"
-	result, err := decodeDocumentsIDElementsSeIdGetResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DocumentsIDStylesGet invokes GET /documents/{id}/styles operation.
-//
-// Get document styles.
-//
-// GET /documents/{id}/styles
-func (c *Client) DocumentsIDStylesGet(ctx context.Context, params DocumentsIDStylesGetParams) (DocumentsIDStylesGetRes, error) {
-	res, err := c.sendDocumentsIDStylesGet(ctx, params)
-	_ = res
-	return res, err
-}
-
-func (c *Client) sendDocumentsIDStylesGet(ctx context.Context, params DocumentsIDStylesGetParams) (res DocumentsIDStylesGetRes, err error) {
-	var otelAttrs []attribute.KeyValue
-
-	// Run stopwatch.
-	startTime := time.Now()
-	defer func() {
-		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, elapsedDuration.Microseconds(), otelAttrs...)
-	}()
-
-	// Increment request counter.
-	c.requests.Add(ctx, 1, otelAttrs...)
-
-	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "DocumentsIDStylesGet",
-		clientSpanKind,
-	)
-	// Track stage for error reporting.
-	var stage string
-	defer func() {
-		if err != nil {
-			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			c.errors.Add(ctx, 1, otelAttrs...)
-		}
-		span.End()
-	}()
-
-	stage = "BuildURL"
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/documents/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/styles"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	stage = "EncodeRequest"
-	r, err := ht.NewRequest(ctx, "GET", u, nil)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	stage = "SendRequest"
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	stage = "DecodeResponse"
-	result, err := decodeDocumentsIDStylesGetResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
 // GetDocumentById invokes getDocumentById operation.
 //
 // Get document by id.
 //
-// GET /documents/{id}
+// GET /api/documents/v1/documents/{id}
 func (c *Client) GetDocumentById(ctx context.Context, params GetDocumentByIdParams) (GetDocumentByIdRes, error) {
 	res, err := c.sendGetDocumentById(ctx, params)
 	_ = res
@@ -1171,7 +838,7 @@ func (c *Client) sendGetDocumentById(ctx context.Context, params GetDocumentById
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [2]string
-	pathParts[0] = "/documents/"
+	pathParts[0] = "/api/documents/v1/documents/"
 	{
 		// Encode "id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -1214,11 +881,208 @@ func (c *Client) sendGetDocumentById(ctx context.Context, params GetDocumentById
 	return result, nil
 }
 
+// GetDocumentStyles invokes getDocumentStyles operation.
+//
+// Get document styles.
+//
+// GET /api/documents/v1/documents/{id}/styles
+func (c *Client) GetDocumentStyles(ctx context.Context, params GetDocumentStylesParams) (GetDocumentStylesRes, error) {
+	res, err := c.sendGetDocumentStyles(ctx, params)
+	_ = res
+	return res, err
+}
+
+func (c *Client) sendGetDocumentStyles(ctx context.Context, params GetDocumentStylesParams) (res GetDocumentStylesRes, err error) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("getDocumentStyles"),
+	}
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, elapsedDuration.Microseconds(), otelAttrs...)
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, otelAttrs...)
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, "GetDocumentStyles",
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, otelAttrs...)
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/api/documents/v1/documents/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/styles"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "GET", u, nil)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	stage = "DecodeResponse"
+	result, err := decodeGetDocumentStylesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetDocuments invokes getDocuments operation.
+//
+// Return paginated dto.
+//
+// GET /api/documents/v1/documents
+func (c *Client) GetDocuments(ctx context.Context, params GetDocumentsParams) (GetDocumentsRes, error) {
+	res, err := c.sendGetDocuments(ctx, params)
+	_ = res
+	return res, err
+}
+
+func (c *Client) sendGetDocuments(ctx context.Context, params GetDocumentsParams) (res GetDocumentsRes, err error) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("getDocuments"),
+	}
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, elapsedDuration.Microseconds(), otelAttrs...)
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, otelAttrs...)
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, "GetDocuments",
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, otelAttrs...)
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/api/documents/v1/documents"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeQueryParams"
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "cursor" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "cursor",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Cursor.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "limit" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "limit",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Limit.Get(); ok {
+				return e.EncodeValue(conv.UintToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "GET", u, nil)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	stage = "DecodeResponse"
+	result, err := decodeGetDocumentsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GetElements invokes getElements operation.
 //
 // Get structural elements in document.
 //
-// GET /documents/{id}/elements
+// GET /api/documents/v1/documents/{id}/elements
 func (c *Client) GetElements(ctx context.Context, params GetElementsParams) (GetElementsRes, error) {
 	res, err := c.sendGetElements(ctx, params)
 	_ = res
@@ -1259,7 +1123,7 @@ func (c *Client) sendGetElements(ctx context.Context, params GetElementsParams) 
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
-	pathParts[0] = "/documents/"
+	pathParts[0] = "/api/documents/v1/documents/"
 	{
 		// Encode "id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -1345,7 +1209,7 @@ func (c *Client) sendGetElements(ctx context.Context, params GetElementsParams) 
 //
 // Get paragraphs elements by indexes.
 //
-// GET /documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
+// GET /api/documents/v1/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
 func (c *Client) GetParagraphElementByIndexes(ctx context.Context, params GetParagraphElementByIndexesParams) (GetParagraphElementByIndexesRes, error) {
 	res, err := c.sendGetParagraphElementByIndexes(ctx, params)
 	_ = res
@@ -1386,7 +1250,7 @@ func (c *Client) sendGetParagraphElementByIndexes(ctx context.Context, params Ge
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [6]string
-	pathParts[0] = "/documents/"
+	pathParts[0] = "/api/documents/v1/documents/"
 	{
 		// Encode "id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -1467,11 +1331,156 @@ func (c *Client) sendGetParagraphElementByIndexes(ctx context.Context, params Ge
 	return result, nil
 }
 
+// GetParagraphElements invokes getParagraphElements operation.
+//
+// Get elements.
+//
+// GET /api/documents/v1/documents/{id}/elements/{seId}
+func (c *Client) GetParagraphElements(ctx context.Context, params GetParagraphElementsParams) (GetParagraphElementsRes, error) {
+	res, err := c.sendGetParagraphElements(ctx, params)
+	_ = res
+	return res, err
+}
+
+func (c *Client) sendGetParagraphElements(ctx context.Context, params GetParagraphElementsParams) (res GetParagraphElementsRes, err error) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("getParagraphElements"),
+	}
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, elapsedDuration.Microseconds(), otelAttrs...)
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, otelAttrs...)
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, "GetParagraphElements",
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, otelAttrs...)
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/api/documents/v1/documents/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/elements/"
+	{
+		// Encode "seId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "seId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.IntToString(params.SeId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeQueryParams"
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "limit" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "limit",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Limit.Get(); ok {
+				return e.EncodeValue(conv.UintToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "cursor" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "cursor",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Cursor.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "GET", u, nil)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	stage = "DecodeResponse"
+	result, err := decodeGetParagraphElementsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // UpdateDocumentById invokes updateDocumentById operation.
 //
 // Update document by id.
 //
-// PUT /documents/{id}
+// PUT /api/documents/v1/documents/{id}
 func (c *Client) UpdateDocumentById(ctx context.Context, request *CreateUpdateDocumentView, params UpdateDocumentByIdParams) (UpdateDocumentByIdRes, error) {
 	res, err := c.sendUpdateDocumentById(ctx, request, params)
 	_ = res
@@ -1521,7 +1530,7 @@ func (c *Client) sendUpdateDocumentById(ctx context.Context, request *CreateUpda
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [2]string
-	pathParts[0] = "/documents/"
+	pathParts[0] = "/api/documents/v1/documents/"
 	{
 		// Encode "id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -1571,7 +1580,7 @@ func (c *Client) sendUpdateDocumentById(ctx context.Context, request *CreateUpda
 //
 // Update paragraph element.
 //
-// PUT /documents/{id}/elements/{seId}/element/paragraphs/{elementId}
+// PUT /api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs/{elementId}
 func (c *Client) UpdateParagraphElement(ctx context.Context, request *UpdateParagraphElement, params UpdateParagraphElementParams) (UpdateParagraphElementRes, error) {
 	res, err := c.sendUpdateParagraphElement(ctx, request, params)
 	_ = res
@@ -1612,7 +1621,7 @@ func (c *Client) sendUpdateParagraphElement(ctx context.Context, request *Update
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [6]string
-	pathParts[0] = "/documents/"
+	pathParts[0] = "/api/documents/v1/documents/"
 	{
 		// Encode "id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -1700,7 +1709,7 @@ func (c *Client) sendUpdateParagraphElement(ctx context.Context, request *Update
 //
 // Update paragraph element by indexes.
 //
-// PUT /documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
+// PUT /api/documents/v1/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}
 func (c *Client) UpdateParagraphElementByIndexes(ctx context.Context, request *UpdateParagraphElement, params UpdateParagraphElementByIndexesParams) (UpdateParagraphElementByIndexesRes, error) {
 	res, err := c.sendUpdateParagraphElementByIndexes(ctx, request, params)
 	_ = res
@@ -1741,7 +1750,7 @@ func (c *Client) sendUpdateParagraphElementByIndexes(ctx context.Context, reques
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [6]string
-	pathParts[0] = "/documents/"
+	pathParts[0] = "/api/documents/v1/documents/"
 	{
 		// Encode "id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -1829,7 +1838,7 @@ func (c *Client) sendUpdateParagraphElementByIndexes(ctx context.Context, reques
 //
 // Update structural element.
 //
-// PUT /documents/{id}/elements/{seId}
+// PUT /api/documents/v1/documents/{id}/elements/{seId}
 func (c *Client) UpdateStructuralElement(ctx context.Context, request *UpdateStyleOfStructuralElement, params UpdateStructuralElementParams) (UpdateStructuralElementRes, error) {
 	res, err := c.sendUpdateStructuralElement(ctx, request, params)
 	_ = res
@@ -1870,7 +1879,7 @@ func (c *Client) sendUpdateStructuralElement(ctx context.Context, request *Updat
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [4]string
-	pathParts[0] = "/documents/"
+	pathParts[0] = "/api/documents/v1/documents/"
 	{
 		// Encode "id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -1939,7 +1948,7 @@ func (c *Client) sendUpdateStructuralElement(ctx context.Context, request *Updat
 //
 // Update style by id.
 //
-// PUT /documents/{id}/styles/{styleId}
+// PUT /api/documents/v1/documents/{id}/styles/{styleId}
 func (c *Client) UpdateStyleById(ctx context.Context, request *CreateUpdateStyle, params UpdateStyleByIdParams) (UpdateStyleByIdRes, error) {
 	res, err := c.sendUpdateStyleById(ctx, request, params)
 	_ = res
@@ -1989,7 +1998,7 @@ func (c *Client) sendUpdateStyleById(ctx context.Context, request *CreateUpdateS
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [4]string
-	pathParts[0] = "/documents/"
+	pathParts[0] = "/api/documents/v1/documents/"
 	{
 		// Encode "id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{

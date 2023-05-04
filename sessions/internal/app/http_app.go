@@ -39,8 +39,8 @@ func NewHTTPFromConfig(cfg config.Config) (*HTTPApp, error) {
 	}, nil
 }
 
-func (a *HTTPApp) ToHandler(basePath string) (http.Handler, error) {
-	s, err := sessions.NewServer(a, sessions.WithPathPrefix(basePath))
+func (a *HTTPApp) ToHandler() (http.Handler, error) {
+	s, err := sessions.NewServer(a)
 	if err != nil {
 		return nil, err
 	}

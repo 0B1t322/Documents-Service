@@ -44,8 +44,8 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 		switch elem[0] {
-		case '/': // Prefix: "/documents"
-			if l := len("/documents"); len(elem) >= l && elem[0:l] == "/documents" {
+		case '/': // Prefix: "/api/documents/v1/documents"
+			if l := len("/api/documents/v1/documents"); len(elem) >= l && elem[0:l] == "/api/documents/v1/documents" {
 				elem = elem[l:]
 			} else {
 				break
@@ -54,7 +54,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			if len(elem) == 0 {
 				switch r.Method {
 				case "GET":
-					s.handleDocumentsGetRequest([0]string{}, elemIsEscaped, w, r)
+					s.handleGetDocumentsRequest([0]string{}, elemIsEscaped, w, r)
 				case "POST":
 					s.handleCreateDocumentRequest([0]string{}, elemIsEscaped, w, r)
 				default:
@@ -156,7 +156,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 										args[1],
 									}, elemIsEscaped, w, r)
 								case "GET":
-									s.handleDocumentsIDElementsSeIdGetRequest([2]string{
+									s.handleGetParagraphElementsRequest([2]string{
 										args[0],
 										args[1],
 									}, elemIsEscaped, w, r)
@@ -284,7 +284,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						if len(elem) == 0 {
 							switch r.Method {
 							case "GET":
-								s.handleDocumentsIDStylesGetRequest([1]string{
+								s.handleGetDocumentStylesRequest([1]string{
 									args[0],
 								}, elemIsEscaped, w, r)
 							case "POST":
@@ -402,8 +402,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 			break
 		}
 		switch elem[0] {
-		case '/': // Prefix: "/documents"
-			if l := len("/documents"); len(elem) >= l && elem[0:l] == "/documents" {
+		case '/': // Prefix: "/api/documents/v1/documents"
+			if l := len("/api/documents/v1/documents"); len(elem) >= l && elem[0:l] == "/api/documents/v1/documents" {
 				elem = elem[l:]
 			} else {
 				break
@@ -412,16 +412,16 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 			if len(elem) == 0 {
 				switch method {
 				case "GET":
-					r.name = "DocumentsGet"
-					r.operationID = ""
-					r.pathPattern = "/documents"
+					r.name = "GetDocuments"
+					r.operationID = "getDocuments"
+					r.pathPattern = "/api/documents/v1/documents"
 					r.args = args
 					r.count = 0
 					return r, true
 				case "POST":
 					r.name = "CreateDocument"
 					r.operationID = "createDocument"
-					r.pathPattern = "/documents"
+					r.pathPattern = "/api/documents/v1/documents"
 					r.args = args
 					r.count = 0
 					return r, true
@@ -451,14 +451,14 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					case "GET":
 						r.name = "GetDocumentById"
 						r.operationID = "getDocumentById"
-						r.pathPattern = "/documents/{id}"
+						r.pathPattern = "/api/documents/v1/documents/{id}"
 						r.args = args
 						r.count = 1
 						return r, true
 					case "PUT":
 						r.name = "UpdateDocumentById"
 						r.operationID = "updateDocumentById"
-						r.pathPattern = "/documents/{id}"
+						r.pathPattern = "/api/documents/v1/documents/{id}"
 						r.args = args
 						r.count = 1
 						return r, true
@@ -490,14 +490,14 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							case "GET":
 								r.name = "GetElements"
 								r.operationID = "getElements"
-								r.pathPattern = "/documents/{id}/elements"
+								r.pathPattern = "/api/documents/v1/documents/{id}/elements"
 								r.args = args
 								r.count = 1
 								return r, true
 							case "POST":
 								r.name = "CreateElement"
 								r.operationID = "createElement"
-								r.pathPattern = "/documents/{id}/elements"
+								r.pathPattern = "/api/documents/v1/documents/{id}/elements"
 								r.args = args
 								r.count = 1
 								return r, true
@@ -527,21 +527,21 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 								case "DELETE":
 									r.name = "DeleteStructuralElementByID"
 									r.operationID = "deleteStructuralElementByID"
-									r.pathPattern = "/documents/{id}/elements/{seId}"
+									r.pathPattern = "/api/documents/v1/documents/{id}/elements/{seId}"
 									r.args = args
 									r.count = 2
 									return r, true
 								case "GET":
-									r.name = "DocumentsIDElementsSeIdGet"
-									r.operationID = ""
-									r.pathPattern = "/documents/{id}/elements/{seId}"
+									r.name = "GetParagraphElements"
+									r.operationID = "getParagraphElements"
+									r.pathPattern = "/api/documents/v1/documents/{id}/elements/{seId}"
 									r.args = args
 									r.count = 2
 									return r, true
 								case "PUT":
 									r.name = "UpdateStructuralElement"
 									r.operationID = "updateStructuralElement"
-									r.pathPattern = "/documents/{id}/elements/{seId}"
+									r.pathPattern = "/api/documents/v1/documents/{id}/elements/{seId}"
 									r.args = args
 									r.count = 2
 									return r, true
@@ -573,7 +573,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 										case "POST":
 											r.name = "CreateParagraphElement"
 											r.operationID = "createParagraphElement"
-											r.pathPattern = "/documents/{id}/elements/{seId}/element/paragraphs"
+											r.pathPattern = "/api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs"
 											r.args = args
 											r.count = 2
 											return r, true
@@ -600,7 +600,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 												// Leaf: DeleteParagraphElement
 												r.name = "DeleteParagraphElement"
 												r.operationID = "deleteParagraphElement"
-												r.pathPattern = "/documents/{id}/elements/{seId}/element/paragraphs/{elementId}"
+												r.pathPattern = "/api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs/{elementId}"
 												r.args = args
 												r.count = 3
 												return r, true
@@ -608,7 +608,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 												// Leaf: UpdateParagraphElement
 												r.name = "UpdateParagraphElement"
 												r.operationID = "updateParagraphElement"
-												r.pathPattern = "/documents/{id}/elements/{seId}/element/paragraphs/{elementId}"
+												r.pathPattern = "/api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs/{elementId}"
 												r.args = args
 												r.count = 3
 												return r, true
@@ -635,7 +635,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 											// Leaf: GetParagraphElementByIndexes
 											r.name = "GetParagraphElementByIndexes"
 											r.operationID = "getParagraphElementByIndexes"
-											r.pathPattern = "/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}"
+											r.pathPattern = "/api/documents/v1/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}"
 											r.args = args
 											r.count = 3
 											return r, true
@@ -643,7 +643,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 											// Leaf: UpdateParagraphElementByIndexes
 											r.name = "UpdateParagraphElementByIndexes"
 											r.operationID = "updateParagraphElementByIndexes"
-											r.pathPattern = "/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}"
+											r.pathPattern = "/api/documents/v1/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}"
 											r.args = args
 											r.count = 3
 											return r, true
@@ -664,16 +664,16 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						if len(elem) == 0 {
 							switch method {
 							case "GET":
-								r.name = "DocumentsIDStylesGet"
-								r.operationID = ""
-								r.pathPattern = "/documents/{id}/styles"
+								r.name = "GetDocumentStyles"
+								r.operationID = "getDocumentStyles"
+								r.pathPattern = "/api/documents/v1/documents/{id}/styles"
 								r.args = args
 								r.count = 1
 								return r, true
 							case "POST":
 								r.name = "CreateDocumentStyle"
 								r.operationID = "createDocumentStyle"
-								r.pathPattern = "/documents/{id}/styles"
+								r.pathPattern = "/api/documents/v1/documents/{id}/styles"
 								r.args = args
 								r.count = 1
 								return r, true
@@ -700,7 +700,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 									// Leaf: DeleteStyleById
 									r.name = "DeleteStyleById"
 									r.operationID = "deleteStyleById"
-									r.pathPattern = "/documents/{id}/styles/{styleId}"
+									r.pathPattern = "/api/documents/v1/documents/{id}/styles/{styleId}"
 									r.args = args
 									r.count = 2
 									return r, true
@@ -708,7 +708,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 									// Leaf: UpdateStyleById
 									r.name = "UpdateStyleById"
 									r.operationID = "updateStyleById"
-									r.pathPattern = "/documents/{id}/styles/{styleId}"
+									r.pathPattern = "/api/documents/v1/documents/{id}/styles/{styleId}"
 									r.args = args
 									r.count = 2
 									return r, true

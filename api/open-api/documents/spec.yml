@@ -3,11 +3,8 @@ info:
   title: Document service API
   description: Document service API
   version: 1.0.0
-servers:
-    - url: http://localhost:8080/api/documents/v1
-      description: local
 paths:
-  /documents:
+  /api/documents/v1/documents:
     post:
       operationId: createDocument
       requestBody:
@@ -31,6 +28,7 @@ paths:
         - documents
       summary: "Create document"
     get:
+      operationId: getDocuments
       summary: Get documents
       description: Return paginated dto
       tags:
@@ -49,7 +47,7 @@ paths:
             application/json:
               schema:
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
-  /documents/{id}:
+  /api/documents/v1/documents/{id}:
     get:
       summary: Get document by id
       operationId: getDocumentById
@@ -92,7 +90,7 @@ paths:
             application/json:
               schema:
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
-  /documents/{id}/elements:
+  /api/documents/v1/documents/{id}/elements:
     post:
       summary: Create structural element in document
       operationId: createElement
@@ -137,7 +135,7 @@ paths:
             application/json:
               schema:
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
-  /documents/{id}/elements/{seId}:
+  /api/documents/v1/documents/{id}/elements/{seId}:
     delete:
       summary: Delete structural element
       operationId: deleteStructuralElementByID
@@ -181,6 +179,7 @@ paths:
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
     get:
       summary: Get elements
+      operationId: getParagraphElements
       tags:
         - elements
       parameters:
@@ -199,7 +198,7 @@ paths:
             application/json:
               schema:
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
-  /documents/{id}/elements/{seId}/element/paragraphs:
+  /api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs:
     post:
       operationId: createParagraphElement
       summary: Create paragraph element
@@ -225,7 +224,7 @@ paths:
             application/json:
               schema:
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
-  /documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}:
+  /api/documents/v1/documents/{id}/elements/{structuralElementIndex}/paragraphs/elements/{paragraphElementIndex}:
     get:
       description: Get paragraphs elements by indexes
       operationId: getParagraphElementByIndexes
@@ -296,7 +295,7 @@ paths:
             application/json:
               schema:
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
-  /documents/{id}/elements/{seId}/element/paragraphs/{elementId}:
+  /api/documents/v1/documents/{id}/elements/{seId}/element/paragraphs/{elementId}:
     put:
       operationId: updateParagraphElement
       summary: Update paragraph element
@@ -340,8 +339,9 @@ paths:
             application/json:
               schema:
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
-  /documents/{id}/styles:
+  /api/documents/v1/documents/{id}/styles:
     get:
+      operationId: getDocumentStyles
       summary: Get document styles
       tags:
         - styles
@@ -384,7 +384,7 @@ paths:
             application/json:
               schema:
                 $ref: "./schemas/shared.yml#/components/schemas/Error"
-  /documents/{id}/styles/{styleId}:
+  /api/documents/v1/documents/{id}/styles/{styleId}:
     put:
       summary: Update style by id
       operationId: updateStyleById
