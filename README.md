@@ -35,7 +35,7 @@ This service contains methods to store data about documents.
 
 #### Configurations
 
-```shell
+```.env
 # URL to postgresql database
 DOCUMENTS_DATABASE_URL=postgres://user:password@example:5432/Documents?sslmode=disable
 # Port on which will be listened HTTP server
@@ -52,7 +52,7 @@ This service contains methods to update elements of documents and store history 
 
 #### Configurations
 
-```shell
+```.env
 # URL to postgresql database
 DOCUMENTS_DATABASE_URL=postgres://user:password@example:5432/Documents?sslmode=disable
 # Port on which will be listened HTTP server
